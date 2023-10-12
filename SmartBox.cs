@@ -8,7 +8,8 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace SmartBox {
-	internal class SmartBox : IDisposable {
+	
+	public class SmartBox : IDisposable {
 
 		enum Command : byte {
 			Blank = 0,

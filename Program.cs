@@ -11,7 +11,7 @@ namespace SmartBox {
 	internal class Program {
 
 		static void Main(string[] args) {
-			using (var albertLink = new AlbertLink("COM2", new AlbertLinkConsoleHost())) {
+			using (var albertLink = new AlbertLink("COM2", new AlbertLinkWindowsHost())) {
 				albertLink.Run();
 			}
 		}

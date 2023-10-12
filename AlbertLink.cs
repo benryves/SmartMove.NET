@@ -16,7 +16,7 @@ namespace SmartBox {
 		public byte ID;
 	};
 
-	internal struct AlbertLinkPortState {
+	public struct AlbertLinkPortState {
 		public bool RunMode;
 		public byte Inputs;
 		public byte Outputs;
@@ -31,10 +31,11 @@ namespace SmartBox {
 		public byte ClockCentiseconds;
 	};
 
-	internal class AlbertLink : SmartBox {
+	public class AlbertLink : SmartBox {
 
 		private IAlbertLinkHost host;
-		private bool inCommand = false;
+
+		private bool running = false;
 
 		private TimeSpan samplePortsInterval = TimeSpan.FromMilliseconds(50);
 		private TimeSpan updateSensorsInterval = TimeSpan.FromMilliseconds(1000);
@@ -52,6 +53,9 @@ namespace SmartBox {
 		}
 
 		public void Run() {
+
+			// Initialise the host
+			this.host.Initialize(this);
 
 			// Is AlbertLink installed?
 			var albertLinkCall = this.GetNameCode("AlbertLink");
@@ -104,16 +108,12 @@ namespace SmartBox {
 
 			var freeMemory = this.reader.ReadUInt16();
 
-			Console.WriteLine("SmartMove {0}, {1} bytes free", version, freeMemory);
-
-			bool running = true;
-			StringBuilder commandLine = new StringBuilder(80);
+			running = true;
 
 			while (running) {
 				var now = DateTime.Now;
 				UpdateEvent evt = UpdateEvent.None;
 				if (this.port.BytesToRead > 0) {
-					this.inCommand = false;
 					switch (evt = (UpdateEvent)this.reader.ReadByte()) {
 						case UpdateEvent.Print: {
 								this.writer.Write((byte)0);
@@ -150,9 +150,7 @@ namespace SmartBox {
 							break;
 						case UpdateEvent.Cmd:
 							this.writer.Write((byte)0);
-							this.host.Print(':');
-							this.host.Print(' ');
-							inCommand = true;
+							this.host.EnableCommandMode();
 							break;
 						case UpdateEvent.Build:
 							this.writer.Write((byte)0);
@@ -175,28 +173,8 @@ namespace SmartBox {
 							this.writer.Write((byte)(now.Millisecond / 10));
 							break;
 						case UpdateEvent.Inkey:
-							char c;
 							this.writer.Write((byte)0);
-							switch (this.host.GetKey(out c)) {
-								case GetKeyResult.None:
-									this.writer.Write((byte)0);
-									break;
-								case GetKeyResult.Success:
-									this.writer.Write((byte)c);
-									break;
-								case GetKeyResult.Disconnect:
-									this.writer.Write((byte)0);
-									running = false;
-									break;
-								case GetKeyResult.Quit:
-									this.writer.Write((byte)0);
-									running = false;
-									break;
-								case GetKeyResult.Escape:
-									this.writer.Write((byte)27);
-									this.Escape();
-									break;
-							}
+							this.writer.Write((byte)this.host.GetKey());
 							break;
 						case UpdateEvent.TraceFl:
 							this.writer.Write((byte)0);
@@ -216,44 +194,7 @@ namespace SmartBox {
 					}
 					nextSampleTime = now + samplePortsInterval;
 				} else {
-					switch (this.host.CheckKeyAvailable()) {
-						case GetKeyResult.None:
-							break;
-						case GetKeyResult.Success:
-							if (inCommand && this.host.GetKey(out char c) == GetKeyResult.Success) {
-								if (c < 32) {
-									switch (c) {
-										case '\b':
-											if (commandLine.Length > 0) {
-												commandLine.Remove(commandLine.Length - 1, 1);
-												this.host.Print(c);
-											}
-											break;
-										case '\r':
-											this.host.Print(c);
-											this.SendCmd(commandLine.ToString());
-											commandLine.Clear();
-											break;
-									}
-								} else if (c < 128) {
-									commandLine.Append(c);
-									this.host.Print(c);
-								}
-							}
-							break;
-						case GetKeyResult.Disconnect:
-						case GetKeyResult.Quit:
-							this.host.Print('\r');
-							running = false;
-							break;
-						case GetKeyResult.Escape:
-							if (inCommand) {
-								this.host.Print('\r');
-								commandLine.Clear();
-							}
-							this.Escape();
-							break;
-					}
+					this.host.CheckEscapeCondition();
 				}
 			}
 		}
@@ -344,6 +285,7 @@ namespace SmartBox {
 
 		public void Sleep() {
 			this.SendRemoteEvent(RemoteEvent.Sleep);
+			this.running = false;
 		}
 
 		public AlbertLinkPortState GetPortState(bool updateSensorIDs) {

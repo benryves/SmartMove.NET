@@ -6,15 +6,9 @@ using System.Threading.Tasks;
 
 namespace SmartBox {
 
-	internal enum GetKeyResult {
-		None,
-		Success,
-		Escape,
-		Disconnect,
-		Quit,
-	}
+	public interface IAlbertLinkHost {
 
-	internal interface IAlbertLinkHost {
+		void Initialize(AlbertLink link);
 
 		byte[] GetAlbertLinkProgram();
 
@@ -28,9 +22,11 @@ namespace SmartBox {
 
 		void SetTraceFlag(bool traceFlag);
 
-		GetKeyResult CheckKeyAvailable();
+		void CheckEscapeCondition();
 
-		GetKeyResult GetKey(out char key);
+		char GetKey();
+
+		void EnableCommandMode();
 
 	}
 }
