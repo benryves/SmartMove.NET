@@ -309,5 +309,23 @@ namespace SmartBox {
 				ClockCentiseconds = portState[11],
 			};
 		}
+
+		public string GetProcedure(string procedureName) {
+			this.SendRemoteEvent(RemoteEvent.Get);
+			this.writer.Write((byte)0xFF);
+			this.WriteString(procedureName);
+			string code = null;
+			if (this.reader.ReadByte() != 0) {
+				code = this.ReadString(0xFF);
+			}
+			return code;
+        }
+
+		public byte PutProcedure(string procedureName, string code) {
+			this.SendRemoteEvent(RemoteEvent.Put);
+			this.WriteString(procedureName);
+			this.WriteString(code.Trim() + "\r", 0xFF);
+			return this.reader.ReadByte();
+		}
 	}
 }

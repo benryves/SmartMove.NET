@@ -48,10 +48,10 @@ namespace SmartBox {
 			this.PrintOutput.ScrollToCaret();
 		}
 
-		public void EnableCommandMode() {
+		public void EnableCommandMode(bool focus = true) {
 			this.CommandPanel.Enabled = true;
 			this.CommandInput.Clear();
-			this.CommandInput.Focus();
+			if (focus) this.CommandInput.Focus();
 		}
 
 		private void SendCommand() {
@@ -77,6 +77,12 @@ namespace SmartBox {
 					e.Handled = true;
 					this.SendCommand();
 					break;
+			}
+		}
+
+		private void MainWindow_Activated(object sender, EventArgs e) {
+			if (this.CommandPanel.Enabled) {
+				this.CommandInput.Focus();
 			}
 		}
 	}

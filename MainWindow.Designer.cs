@@ -83,6 +83,7 @@
 			this.Controls.Add(this.PrintOutput);
 			this.Controls.Add(this.CommandPanel);
 			this.Name = "MainWindow";
+			this.Activated += new System.EventHandler(this.MainWindow_Activated);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
 			this.CommandPanel.ResumeLayout(false);
 			this.CommandPanel.PerformLayout();

@@ -116,6 +116,11 @@ namespace SmartBox {
 			return Encoding.ASCII.GetString(s.ToArray());
 		}
 
+		protected void WriteString(string s, byte terminator = 13) {
+			this.writer.Write(Encoding.ASCII.GetBytes(s));
+			this.writer.Write((byte)terminator);
+		}
+
 		/// <summary>
 		/// Read the operating system version number
 		/// </summary>
