@@ -1,4 +1,4 @@
-﻿namespace SmartBox {
+﻿namespace SmartMove {
 
 	public interface IAlbertLinkHost {
 

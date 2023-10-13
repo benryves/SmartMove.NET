@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{09998637-A163-407B-89FB-606F21DB96E3}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>SmartBox</RootNamespace>
-    <AssemblyName>SmartBox</AssemblyName>
+    <RootNamespace>SmartMove</RootNamespace>
+    <AssemblyName>Smart</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

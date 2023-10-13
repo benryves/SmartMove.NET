@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SmartBox {
+namespace SmartMove {
 
 	internal class Program {
 

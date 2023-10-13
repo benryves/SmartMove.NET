@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace SmartBox {
+namespace SmartMove {
 
 	public partial class MainWindow : Form {
 

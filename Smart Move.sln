@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartBox", "SmartBox.csproj", "{09998637-A163-407B-89FB-606F21DB96E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smart Move", "Smart Move.csproj", "{09998637-A163-407B-89FB-606F21DB96E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,4 @@
-﻿namespace SmartBox {
+﻿namespace SmartMove {
 	partial class ConnectionWindow {
 		/// <summary>
 		/// Required designer variable.

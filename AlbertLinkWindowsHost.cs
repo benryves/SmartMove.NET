@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
-namespace SmartBox {
+namespace SmartMove {
 	internal class AlbertLinkWindowsHost : IAlbertLinkHost {
 
 		private AlbertLink link;

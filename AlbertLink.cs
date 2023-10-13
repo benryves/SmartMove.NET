@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Text;
 
-namespace SmartBox {
+namespace SmartMove {
 
 	public struct AlbertLinkAnalogueSensor {
 		public byte ADC;

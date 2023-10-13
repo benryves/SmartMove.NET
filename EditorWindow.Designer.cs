@@ -1,4 +1,4 @@
-﻿namespace SmartBox {
+﻿namespace SmartMove {
 	partial class EditorWindow {
 		/// <summary>
 		/// Required designer variable.

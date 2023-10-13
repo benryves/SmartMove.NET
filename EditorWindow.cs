@@ -2,7 +2,7 @@
 using System.Text;
 using System.Windows.Forms;
 
-namespace SmartBox {
+namespace SmartMove {
 	public partial class EditorWindow : Form {
 		public EditorWindow() {
 			InitializeComponent();

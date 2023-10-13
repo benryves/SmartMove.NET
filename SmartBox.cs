@@ -4,7 +4,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Text;
 
-namespace SmartBox {
+namespace SmartMove {
 
 	public class SmartBox : IDisposable {
 

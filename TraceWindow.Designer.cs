@@ -1,4 +1,4 @@
-﻿namespace SmartBox {
+﻿namespace SmartMove {
 	partial class TraceWindow {
 		/// <summary>
 		/// Required designer variable.
