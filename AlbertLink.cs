@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO.Ports;
-using System.Linq;
-using System.Net;
-using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Xml;
 
 namespace SmartBox {
 
@@ -84,7 +77,19 @@ namespace SmartBox {
 					throw new OutOfMemoryException();
 				}
 
-				this.DownloadData(lomem, program);
+				// Replace this.DownloadData(lomem, program); with loop to allow for progress reports
+				int chunkSize = 128;
+				for (int offset = 0; offset < program.Length; offset += chunkSize) {
+					this.host.UpdateConnectionProgress(offset, program.Length);
+					this.host.Idle();
+					int length = Math.Min(chunkSize, program.Length - offset);
+					this.writer.Write((byte)SmartBox.Command.DownloadData);
+					this.writer.Write((ushort)(lomem + offset));
+					this.writer.Write((ushort)length);
+					this.port.Write(program, offset, length);
+				}
+				this.host.UpdateConnectionProgress(program.Length, program.Length);
+				this.host.Idle();
 
 				ushort entrypoint = (ushort)(lomem + program[0] + program[1] * 256);
 
@@ -203,7 +208,7 @@ namespace SmartBox {
 					this.host.UpdateState(state);
 					nextSampleTime = now + samplePortsInterval;
 				} else {
-					this.host.CheckEscapeCondition();
+					this.host.Idle();
 				}
 			}
 		}

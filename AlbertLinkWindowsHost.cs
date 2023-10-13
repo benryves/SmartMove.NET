@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SmartBox {
@@ -15,6 +11,7 @@ namespace SmartBox {
 		private MainWindow mainWindow;
 		private readonly Dictionary<string, EditorWindow> editorWindows = new Dictionary<string, EditorWindow>();
 		private TraceWindow traceWindow;
+		private ConnectionWindow connectionWindow;
 
 		private bool focusCommandLine = true;
 
@@ -29,7 +26,7 @@ namespace SmartBox {
 			this.mainWindow.Link = link;
 		}
 
-		public void CheckEscapeCondition() {
+		public void Idle() {
 			Application.DoEvents();
 		}
 
@@ -89,6 +86,24 @@ namespace SmartBox {
 			return File.ReadAllBytes("AL.COD");
 		}
 
+		public void UpdateConnectionProgress(int value, int maximum) {
+
+			// Create a progress window if need be.
+			if (connectionWindow == null || connectionWindow.IsDisposed) {
+				if (value >= maximum) return;
+				connectionWindow = new ConnectionWindow();
+				connectionWindow.Show(this.mainWindow);
+			}
+
+			this.connectionWindow.ProgressMaximum = maximum;
+			this.connectionWindow.ProgressValue = value;
+
+			if (value >= maximum) {
+				this.connectionWindow.Close();
+				this.connectionWindow.Dispose();
+			}
+		}
+
 		public char GetKey() {
 			return (char)0;
 		}
@@ -142,5 +157,6 @@ namespace SmartBox {
 		public void UpdateLabel(string sourceLabel, string newLabel, bool softLabel) {
 			this.mainWindow?.UpdateLabel(sourceLabel, newLabel, softLabel);
 		}
+
 	}
 }

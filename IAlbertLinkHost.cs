@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SmartBox {
+﻿namespace SmartBox {
 
 	public interface IAlbertLinkHost {
 
 		void Initialize(AlbertLink link);
 
 		byte[] GetAlbertLinkProgram();
+
+		void UpdateConnectionProgress(int value, int maximum);
 
 		void Print(char value);
 
@@ -24,7 +20,7 @@ namespace SmartBox {
 
 		void Trace(char value);
 
-		void CheckEscapeCondition();
+		void Idle();
 
 		char GetKey();
 

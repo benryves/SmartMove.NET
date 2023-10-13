@@ -1,22 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.AxHost;
 
 namespace SmartBox {
 
 	public partial class MainWindow : Form {
 
 		public MainWindow() {
-			this.Text = Application.ProductName;
 			InitializeComponent();
+			this.Text = Application.ProductName;
+			this.UpdateState(new AlbertLinkPortState());
 		}
 
 		public AlbertLink Link {
@@ -225,27 +217,29 @@ namespace SmartBox {
 		}
 
 		public void UpdateLabel(string sourceLabel, string newLabel, bool softLabel) {
-			switch (sourceLabel) {
-				case "SENSOR0": this.Sensor0.Text = newLabel; break;
-				case "SENSOR1": this.Sensor1.Text = newLabel; break;
-				case "SENSOR2": this.Sensor2.Text = newLabel; break;
-				case "SENSOR3": this.Sensor3.Text = newLabel; break;
-				case "SENSOR4": this.Sensor4.Text = newLabel; break;
-				case "SENSOR5": this.Sensor5.Text = newLabel; break;
-				case "SENSOR6": this.Sensor6.Text = newLabel; break;
-				case "SENSOR7": this.Sensor7.Text = newLabel; break;
-				case "OUTPUT0": this.Output0.Text = newLabel; break;
-				case "OUTPUT1": this.Output1.Text = newLabel; break;
-				case "OUTPUT2": this.Output2.Text = newLabel; break;
-				case "OUTPUT3": this.Output3.Text = newLabel; break;
-				case "OUTPUT4": this.Output4.Text = newLabel; break;
-				case "OUTPUT5": this.Output5.Text = newLabel; break;
-				case "OUTPUT6": this.Output6.Text = newLabel; break;
-				case "OUTPUT7": this.Output7.Text = newLabel; break;
-				case "MOTORA": this.MotorAName.Text = newLabel; break;
-				case "MOTORB": this.MotorBName.Text = newLabel; break;
-				case "MOTORC": this.MotorCName.Text = newLabel; break;
-				case "MOTORD": this.MotorDName.Text = newLabel; break;
+			if (!softLabel) {
+				switch (sourceLabel) {
+					case "SENSOR0": this.Sensor0.Text = newLabel; break;
+					case "SENSOR1": this.Sensor1.Text = newLabel; break;
+					case "SENSOR2": this.Sensor2.Text = newLabel; break;
+					case "SENSOR3": this.Sensor3.Text = newLabel; break;
+					case "SENSOR4": this.Sensor4.Text = newLabel; break;
+					case "SENSOR5": this.Sensor5.Text = newLabel; break;
+					case "SENSOR6": this.Sensor6.Text = newLabel; break;
+					case "SENSOR7": this.Sensor7.Text = newLabel; break;
+					case "OUTPUT0": this.Output0.Text = newLabel; break;
+					case "OUTPUT1": this.Output1.Text = newLabel; break;
+					case "OUTPUT2": this.Output2.Text = newLabel; break;
+					case "OUTPUT3": this.Output3.Text = newLabel; break;
+					case "OUTPUT4": this.Output4.Text = newLabel; break;
+					case "OUTPUT5": this.Output5.Text = newLabel; break;
+					case "OUTPUT6": this.Output6.Text = newLabel; break;
+					case "OUTPUT7": this.Output7.Text = newLabel; break;
+					case "MOTORA": this.MotorAName.Text = newLabel; break;
+					case "MOTORB": this.MotorBName.Text = newLabel; break;
+					case "MOTORC": this.MotorCName.Text = newLabel; break;
+					case "MOTORD": this.MotorDName.Text = newLabel; break;
+				}
 			}
 		}
 

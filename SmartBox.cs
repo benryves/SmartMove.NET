@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Ports;
-using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SmartBox {
-	
+
 	public class SmartBox : IDisposable {
 
-		enum Command : byte {
+		public enum Command : byte {
 			Blank = 0,
 			Version = 1,
 			Reset = 2,
