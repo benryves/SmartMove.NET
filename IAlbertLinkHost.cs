@@ -30,7 +30,11 @@ namespace SmartBox {
 
 		void EnableCommandMode();
 
-		void Update(AlbertLinkPortState state);
+		void UpdateState(AlbertLinkPortState state);
+
+		void ResetLabels();
+
+		void UpdateLabel(string sourceLabel, string newLabel, bool softLabel);
 
 	}
 }

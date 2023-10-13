@@ -200,5 +200,54 @@ namespace SmartBox {
 			this.MotorCValue.Text = motorDirections[(state.Motors >> 4) & 3];
 			this.MotorDValue.Text = motorDirections[(state.Motors >> 6) & 3];
 		}
+
+		public void ResetLabels() {
+			this.Sensor0.Text = "0";
+			this.Sensor1.Text = "1";
+			this.Sensor2.Text = "2";
+			this.Sensor3.Text = "3";
+			this.Sensor4.Text = "4";
+			this.Sensor5.Text = "5";
+			this.Sensor6.Text = "6";
+			this.Sensor7.Text = "7";
+			this.Output0.Text = "0";
+			this.Output1.Text = "1";
+			this.Output2.Text = "2";
+			this.Output3.Text = "3";
+			this.Output4.Text = "4";
+			this.Output5.Text = "5";
+			this.Output6.Text = "6";
+			this.Output7.Text = "7";
+			this.MotorAName.Text = "A";
+			this.MotorBName.Text = "B";
+			this.MotorCName.Text = "C";
+			this.MotorDName.Text = "D";
+		}
+
+		public void UpdateLabel(string sourceLabel, string newLabel, bool softLabel) {
+			switch (sourceLabel) {
+				case "SENSOR0": this.Sensor0.Text = newLabel; break;
+				case "SENSOR1": this.Sensor1.Text = newLabel; break;
+				case "SENSOR2": this.Sensor2.Text = newLabel; break;
+				case "SENSOR3": this.Sensor3.Text = newLabel; break;
+				case "SENSOR4": this.Sensor4.Text = newLabel; break;
+				case "SENSOR5": this.Sensor5.Text = newLabel; break;
+				case "SENSOR6": this.Sensor6.Text = newLabel; break;
+				case "SENSOR7": this.Sensor7.Text = newLabel; break;
+				case "OUTPUT0": this.Output0.Text = newLabel; break;
+				case "OUTPUT1": this.Output1.Text = newLabel; break;
+				case "OUTPUT2": this.Output2.Text = newLabel; break;
+				case "OUTPUT3": this.Output3.Text = newLabel; break;
+				case "OUTPUT4": this.Output4.Text = newLabel; break;
+				case "OUTPUT5": this.Output5.Text = newLabel; break;
+				case "OUTPUT6": this.Output6.Text = newLabel; break;
+				case "OUTPUT7": this.Output7.Text = newLabel; break;
+				case "MOTORA": this.MotorAName.Text = newLabel; break;
+				case "MOTORB": this.MotorBName.Text = newLabel; break;
+				case "MOTORC": this.MotorCName.Text = newLabel; break;
+				case "MOTORD": this.MotorDName.Text = newLabel; break;
+			}
+		}
+
 	}
 }

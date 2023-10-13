@@ -105,7 +105,10 @@ namespace SmartBox {
 
 			// Setup with appropriate flags
 			this.writer.Write((byte)1);
-			this.writer.Write((byte)(SetupFlags.EnableCustomCommands));
+			this.writer.Write((byte)(SetupFlags.EnableProcedureLabelChangeChecking));
+
+			// Kick off by reading labels
+			this.ReadLabels();
 
 			running = true;
 
@@ -179,6 +182,12 @@ namespace SmartBox {
 							this.writer.Write((byte)0);
 							this.host.SetTraceFlag(this.reader.ReadByte() != 0);
 							break;
+						case UpdateEvent.Altered:
+							this.writer.Write((byte)0);
+							var altered = this.reader.ReadByte();
+							//if ((altered & (1 << 0)) != 0) ; // Procedure list changed
+							if ((altered & (1 << 1)) != 0) this.ReadLabels();
+							break;
 						default:
 							Console.WriteLine("Unsupported event {0}", evt);
 							break;
@@ -191,7 +200,7 @@ namespace SmartBox {
 					} else {
 						state = this.GetPortState(false);
 					}
-					this.host.Update(state);
+					this.host.UpdateState(state);
 					nextSampleTime = now + samplePortsInterval;
 				} else {
 					this.host.CheckEscapeCondition();
@@ -332,6 +341,24 @@ namespace SmartBox {
 			this.SendRemoteEvent(RemoteEvent.TraceFl);
 			this.writer.Write((byte)(flag ? 1 : 0));
 		}
+
+		public void ReadLabels() {
+			this.host.ResetLabels();
+			this.SendRemoteEvent(RemoteEvent.ReadLabels);
+			string source;
+			while (!string.IsNullOrEmpty(source = this.ReadString())) {
+
+				var s = new List<byte>(8);
+				byte b;
+				while (((b = this.reader.ReadByte()) & 0x7F) != 0) {
+					s.Add(b);
+				}
+				var destination = Encoding.ASCII.GetString(s.ToArray());
+
+				this.host.UpdateLabel(source, destination, b == 128);
+			}
+		}
+
 
 	}
 }

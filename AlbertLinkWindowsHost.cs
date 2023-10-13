@@ -121,7 +121,7 @@ namespace SmartBox {
 			}
 		}
 
-		public void Update(AlbertLinkPortState state) {
+		public void UpdateState(AlbertLinkPortState state) {
 			this.mainWindow?.UpdateState(state);
 		}
 
@@ -133,6 +133,14 @@ namespace SmartBox {
 
 		private void TraceWindow_FormClosing(object sender, FormClosingEventArgs e) {
 			this.link.SetTraceFlag(false);
+		}
+
+		public void ResetLabels() {
+			this.mainWindow?.ResetLabels();
+		}
+
+		public void UpdateLabel(string sourceLabel, string newLabel, bool softLabel) {
+			this.mainWindow?.UpdateLabel(sourceLabel, newLabel, softLabel);
 		}
 	}
 }
