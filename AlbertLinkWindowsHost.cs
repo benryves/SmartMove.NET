@@ -99,8 +99,9 @@ namespace SmartMove {
 			// Create a progress window if need be.
 			if (connectionWindow == null || connectionWindow.IsDisposed) {
 				if (value >= maximum) return;
-				connectionWindow = new ConnectionWindow();
-				connectionWindow.Show(this.mainWindow);
+				this.connectionWindow = new ConnectionWindow();
+				this.connectionWindow.Show(this.mainWindow);
+				if (this.mainWindow != null) this.mainWindow.Enabled = false;
 			}
 
 			this.connectionWindow.ProgressMaximum = maximum;
@@ -109,6 +110,7 @@ namespace SmartMove {
 			if (value >= maximum) {
 				this.connectionWindow.Close();
 				this.connectionWindow.Dispose();
+				if (this.mainWindow != null) this.mainWindow.Enabled = true;
 			}
 		}
 
