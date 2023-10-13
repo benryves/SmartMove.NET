@@ -210,9 +210,8 @@ namespace SmartMove {
 					}
 					this.host.UpdateState(state);
 					nextSampleTime = now + samplePortsInterval;
-				} else {
-					this.host.Idle();
 				}
+				this.host.Idle();
 			}
 		}
 
@@ -332,8 +331,9 @@ namespace SmartMove {
 			this.smartBox.writer.Write((byte)0xFF);
 			this.smartBox.WriteString(procedureName);
 			string code = null;
-			if (this.smartBox.reader.ReadByte() != 0) {
-				code = this.smartBox.ReadString(0xFF);
+			byte status = this.smartBox.reader.ReadByte();
+			if (status != 0) {
+				code = (char)status + this.smartBox.ReadString(0xFF);
 			}
 			return code;
         }
