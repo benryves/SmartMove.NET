@@ -30,7 +30,29 @@
 			this.Monitor = new System.Windows.Forms.Panel();
 			this.MonitorTable = new System.Windows.Forms.TableLayoutPanel();
 			this.MonitorMotors = new System.Windows.Forms.GroupBox();
+			this.MotorsTable = new System.Windows.Forms.TableLayoutPanel();
+			this.MotorA = new System.Windows.Forms.TableLayoutPanel();
+			this.MotorAName = new System.Windows.Forms.Label();
+			this.MotorAValue = new System.Windows.Forms.Label();
+			this.MotorB = new System.Windows.Forms.TableLayoutPanel();
+			this.MotorBName = new System.Windows.Forms.Label();
+			this.MotorBValue = new System.Windows.Forms.Label();
+			this.MotorC = new System.Windows.Forms.TableLayoutPanel();
+			this.MotorCName = new System.Windows.Forms.Label();
+			this.MotorCValue = new System.Windows.Forms.Label();
+			this.MotorD = new System.Windows.Forms.TableLayoutPanel();
+			this.MotorDName = new System.Windows.Forms.Label();
+			this.MotorDValue = new System.Windows.Forms.Label();
 			this.MonitorOutputs = new System.Windows.Forms.GroupBox();
+			this.OutputsTable = new System.Windows.Forms.TableLayoutPanel();
+			this.Output0 = new System.Windows.Forms.CheckBox();
+			this.Output1 = new System.Windows.Forms.CheckBox();
+			this.Output2 = new System.Windows.Forms.CheckBox();
+			this.Output3 = new System.Windows.Forms.CheckBox();
+			this.Output4 = new System.Windows.Forms.CheckBox();
+			this.Output5 = new System.Windows.Forms.CheckBox();
+			this.Output6 = new System.Windows.Forms.CheckBox();
+			this.Output7 = new System.Windows.Forms.CheckBox();
 			this.MonitorSensors = new System.Windows.Forms.GroupBox();
 			this.SensorsTable = new System.Windows.Forms.TableLayoutPanel();
 			this.Sensor0 = new System.Windows.Forms.CheckBox();
@@ -59,33 +81,21 @@
 			this.AnalogueDValue = new System.Windows.Forms.Label();
 			this.AnalogueDProgress = new System.Windows.Forms.ProgressBar();
 			this.AnalogueDName = new System.Windows.Forms.Label();
-			this.OutputsTable = new System.Windows.Forms.TableLayoutPanel();
-			this.Output0 = new System.Windows.Forms.CheckBox();
-			this.Output1 = new System.Windows.Forms.CheckBox();
-			this.Output2 = new System.Windows.Forms.CheckBox();
-			this.Output3 = new System.Windows.Forms.CheckBox();
-			this.Output4 = new System.Windows.Forms.CheckBox();
-			this.Output5 = new System.Windows.Forms.CheckBox();
-			this.Output6 = new System.Windows.Forms.CheckBox();
-			this.Output7 = new System.Windows.Forms.CheckBox();
-			this.MotorsTable = new System.Windows.Forms.TableLayoutPanel();
-			this.MotorD = new System.Windows.Forms.TableLayoutPanel();
-			this.MotorDName = new System.Windows.Forms.Label();
-			this.MotorDValue = new System.Windows.Forms.Label();
-			this.MotorC = new System.Windows.Forms.TableLayoutPanel();
-			this.MotorCName = new System.Windows.Forms.Label();
-			this.MotorCValue = new System.Windows.Forms.Label();
-			this.MotorB = new System.Windows.Forms.TableLayoutPanel();
-			this.MotorBName = new System.Windows.Forms.Label();
-			this.MotorBValue = new System.Windows.Forms.Label();
-			this.MotorA = new System.Windows.Forms.TableLayoutPanel();
-			this.MotorAName = new System.Windows.Forms.Label();
-			this.MotorAValue = new System.Windows.Forms.Label();
+			this.Status = new System.Windows.Forms.StatusStrip();
+			this.RunningStatus = new System.Windows.Forms.ToolStripStatusLabel();
+			this.ClockStatus = new System.Windows.Forms.ToolStripStatusLabel();
+			this.StatusSpacer = new System.Windows.Forms.ToolStripStatusLabel();
 			this.CommandPanel.SuspendLayout();
 			this.Monitor.SuspendLayout();
 			this.MonitorTable.SuspendLayout();
 			this.MonitorMotors.SuspendLayout();
+			this.MotorsTable.SuspendLayout();
+			this.MotorA.SuspendLayout();
+			this.MotorB.SuspendLayout();
+			this.MotorC.SuspendLayout();
+			this.MotorD.SuspendLayout();
 			this.MonitorOutputs.SuspendLayout();
+			this.OutputsTable.SuspendLayout();
 			this.MonitorSensors.SuspendLayout();
 			this.SensorsTable.SuspendLayout();
 			this.MonitorAnalogue.SuspendLayout();
@@ -94,12 +104,7 @@
 			this.AnalogueB.SuspendLayout();
 			this.AnalogueC.SuspendLayout();
 			this.AnalogueD.SuspendLayout();
-			this.OutputsTable.SuspendLayout();
-			this.MotorsTable.SuspendLayout();
-			this.MotorD.SuspendLayout();
-			this.MotorC.SuspendLayout();
-			this.MotorB.SuspendLayout();
-			this.MotorA.SuspendLayout();
+			this.Status.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// PrintOutput
@@ -112,7 +117,7 @@
 			this.PrintOutput.Name = "PrintOutput";
 			this.PrintOutput.ReadOnly = true;
 			this.PrintOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.PrintOutput.Size = new System.Drawing.Size(771, 284);
+			this.PrintOutput.Size = new System.Drawing.Size(771, 262);
 			this.PrintOutput.TabIndex = 1;
 			this.PrintOutput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CommandInput_KeyPress);
 			// 
@@ -122,7 +127,7 @@
 			this.CommandPanel.Controls.Add(this.SendButton);
 			this.CommandPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
 			this.CommandPanel.Enabled = false;
-			this.CommandPanel.Location = new System.Drawing.Point(0, 496);
+			this.CommandPanel.Location = new System.Drawing.Point(0, 474);
 			this.CommandPanel.Name = "CommandPanel";
 			this.CommandPanel.Size = new System.Drawing.Size(771, 20);
 			this.CommandPanel.TabIndex = 2;
@@ -187,6 +192,190 @@
 			this.MonitorMotors.TabStop = false;
 			this.MonitorMotors.Text = "Motors";
 			// 
+			// MotorsTable
+			// 
+			this.MotorsTable.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
+			this.MotorsTable.ColumnCount = 1;
+			this.MotorsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.MotorsTable.Controls.Add(this.MotorA, 0, 3);
+			this.MotorsTable.Controls.Add(this.MotorB, 0, 2);
+			this.MotorsTable.Controls.Add(this.MotorC, 0, 1);
+			this.MotorsTable.Controls.Add(this.MotorD, 0, 0);
+			this.MotorsTable.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.MotorsTable.Location = new System.Drawing.Point(3, 16);
+			this.MotorsTable.Name = "MotorsTable";
+			this.MotorsTable.RowCount = 4;
+			this.MotorsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+			this.MotorsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+			this.MotorsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+			this.MotorsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+			this.MotorsTable.Size = new System.Drawing.Size(143, 187);
+			this.MotorsTable.TabIndex = 0;
+			// 
+			// MotorA
+			// 
+			this.MotorA.ColumnCount = 2;
+			this.MotorA.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+			this.MotorA.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+			this.MotorA.Controls.Add(this.MotorAName, 0, 1);
+			this.MotorA.Controls.Add(this.MotorAValue, 1, 0);
+			this.MotorA.Location = new System.Drawing.Point(5, 143);
+			this.MotorA.Name = "MotorA";
+			this.MotorA.RowCount = 2;
+			this.MotorA.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.MotorA.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.MotorA.Size = new System.Drawing.Size(133, 38);
+			this.MotorA.TabIndex = 3;
+			// 
+			// MotorAName
+			// 
+			this.MotorAName.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.MotorAName.Location = new System.Drawing.Point(3, 19);
+			this.MotorAName.Name = "MotorAName";
+			this.MotorAName.Size = new System.Drawing.Size(87, 19);
+			this.MotorAName.TabIndex = 0;
+			this.MotorAName.Text = "A";
+			this.MotorAName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// MotorAValue
+			// 
+			this.MotorAValue.AutoSize = true;
+			this.MotorAValue.BackColor = System.Drawing.SystemColors.Window;
+			this.MotorAValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.MotorAValue.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.MotorAValue.Font = new System.Drawing.Font("Tahoma", 20.25F, System.Drawing.FontStyle.Bold);
+			this.MotorAValue.ForeColor = System.Drawing.SystemColors.WindowText;
+			this.MotorAValue.Location = new System.Drawing.Point(96, 3);
+			this.MotorAValue.Margin = new System.Windows.Forms.Padding(3);
+			this.MotorAValue.Name = "MotorAValue";
+			this.MotorA.SetRowSpan(this.MotorAValue, 2);
+			this.MotorAValue.Size = new System.Drawing.Size(34, 32);
+			this.MotorAValue.TabIndex = 1;
+			this.MotorAValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// MotorB
+			// 
+			this.MotorB.ColumnCount = 2;
+			this.MotorB.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+			this.MotorB.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+			this.MotorB.Controls.Add(this.MotorBName, 0, 1);
+			this.MotorB.Controls.Add(this.MotorBValue, 1, 0);
+			this.MotorB.Location = new System.Drawing.Point(5, 97);
+			this.MotorB.Name = "MotorB";
+			this.MotorB.RowCount = 2;
+			this.MotorB.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.MotorB.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.MotorB.Size = new System.Drawing.Size(133, 38);
+			this.MotorB.TabIndex = 2;
+			// 
+			// MotorBName
+			// 
+			this.MotorBName.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.MotorBName.Location = new System.Drawing.Point(3, 19);
+			this.MotorBName.Name = "MotorBName";
+			this.MotorBName.Size = new System.Drawing.Size(87, 19);
+			this.MotorBName.TabIndex = 0;
+			this.MotorBName.Text = "B";
+			this.MotorBName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// MotorBValue
+			// 
+			this.MotorBValue.AutoSize = true;
+			this.MotorBValue.BackColor = System.Drawing.SystemColors.Window;
+			this.MotorBValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.MotorBValue.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.MotorBValue.Font = new System.Drawing.Font("Tahoma", 20.25F, System.Drawing.FontStyle.Bold);
+			this.MotorBValue.ForeColor = System.Drawing.SystemColors.WindowText;
+			this.MotorBValue.Location = new System.Drawing.Point(96, 3);
+			this.MotorBValue.Margin = new System.Windows.Forms.Padding(3);
+			this.MotorBValue.Name = "MotorBValue";
+			this.MotorB.SetRowSpan(this.MotorBValue, 2);
+			this.MotorBValue.Size = new System.Drawing.Size(34, 32);
+			this.MotorBValue.TabIndex = 1;
+			this.MotorBValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// MotorC
+			// 
+			this.MotorC.ColumnCount = 2;
+			this.MotorC.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+			this.MotorC.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+			this.MotorC.Controls.Add(this.MotorCName, 0, 1);
+			this.MotorC.Controls.Add(this.MotorCValue, 1, 0);
+			this.MotorC.Location = new System.Drawing.Point(5, 51);
+			this.MotorC.Name = "MotorC";
+			this.MotorC.RowCount = 2;
+			this.MotorC.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.MotorC.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.MotorC.Size = new System.Drawing.Size(133, 38);
+			this.MotorC.TabIndex = 1;
+			// 
+			// MotorCName
+			// 
+			this.MotorCName.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.MotorCName.Location = new System.Drawing.Point(3, 19);
+			this.MotorCName.Name = "MotorCName";
+			this.MotorCName.Size = new System.Drawing.Size(87, 19);
+			this.MotorCName.TabIndex = 0;
+			this.MotorCName.Text = "C";
+			this.MotorCName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// MotorCValue
+			// 
+			this.MotorCValue.AutoSize = true;
+			this.MotorCValue.BackColor = System.Drawing.SystemColors.Window;
+			this.MotorCValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.MotorCValue.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.MotorCValue.Font = new System.Drawing.Font("Tahoma", 20.25F, System.Drawing.FontStyle.Bold);
+			this.MotorCValue.ForeColor = System.Drawing.SystemColors.WindowText;
+			this.MotorCValue.Location = new System.Drawing.Point(96, 3);
+			this.MotorCValue.Margin = new System.Windows.Forms.Padding(3);
+			this.MotorCValue.Name = "MotorCValue";
+			this.MotorC.SetRowSpan(this.MotorCValue, 2);
+			this.MotorCValue.Size = new System.Drawing.Size(34, 32);
+			this.MotorCValue.TabIndex = 1;
+			this.MotorCValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// MotorD
+			// 
+			this.MotorD.ColumnCount = 2;
+			this.MotorD.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
+			this.MotorD.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
+			this.MotorD.Controls.Add(this.MotorDName, 0, 1);
+			this.MotorD.Controls.Add(this.MotorDValue, 1, 0);
+			this.MotorD.Location = new System.Drawing.Point(5, 5);
+			this.MotorD.Name = "MotorD";
+			this.MotorD.RowCount = 2;
+			this.MotorD.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.MotorD.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+			this.MotorD.Size = new System.Drawing.Size(133, 38);
+			this.MotorD.TabIndex = 0;
+			// 
+			// MotorDName
+			// 
+			this.MotorDName.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.MotorDName.Location = new System.Drawing.Point(3, 19);
+			this.MotorDName.Name = "MotorDName";
+			this.MotorDName.Size = new System.Drawing.Size(87, 19);
+			this.MotorDName.TabIndex = 0;
+			this.MotorDName.Text = "D";
+			this.MotorDName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// MotorDValue
+			// 
+			this.MotorDValue.AutoSize = true;
+			this.MotorDValue.BackColor = System.Drawing.SystemColors.Window;
+			this.MotorDValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.MotorDValue.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.MotorDValue.Font = new System.Drawing.Font("Tahoma", 20.25F, System.Drawing.FontStyle.Bold);
+			this.MotorDValue.ForeColor = System.Drawing.SystemColors.WindowText;
+			this.MotorDValue.Location = new System.Drawing.Point(96, 3);
+			this.MotorDValue.Margin = new System.Windows.Forms.Padding(3);
+			this.MotorDValue.Name = "MotorDValue";
+			this.MotorD.SetRowSpan(this.MotorDValue, 2);
+			this.MotorDValue.Size = new System.Drawing.Size(34, 32);
+			this.MotorDValue.TabIndex = 1;
+			this.MotorDValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
 			// MonitorOutputs
 			// 
 			this.MonitorOutputs.Controls.Add(this.OutputsTable);
@@ -197,6 +386,122 @@
 			this.MonitorOutputs.TabIndex = 2;
 			this.MonitorOutputs.TabStop = false;
 			this.MonitorOutputs.Text = "Outputs";
+			// 
+			// OutputsTable
+			// 
+			this.OutputsTable.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
+			this.OutputsTable.ColumnCount = 1;
+			this.OutputsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.OutputsTable.Controls.Add(this.Output0, 0, 7);
+			this.OutputsTable.Controls.Add(this.Output1, 0, 6);
+			this.OutputsTable.Controls.Add(this.Output2, 0, 5);
+			this.OutputsTable.Controls.Add(this.Output3, 0, 4);
+			this.OutputsTable.Controls.Add(this.Output4, 0, 3);
+			this.OutputsTable.Controls.Add(this.Output5, 0, 2);
+			this.OutputsTable.Controls.Add(this.Output6, 0, 1);
+			this.OutputsTable.Controls.Add(this.Output7, 0, 0);
+			this.OutputsTable.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.OutputsTable.Location = new System.Drawing.Point(3, 16);
+			this.OutputsTable.Name = "OutputsTable";
+			this.OutputsTable.RowCount = 8;
+			this.OutputsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+			this.OutputsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+			this.OutputsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+			this.OutputsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+			this.OutputsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+			this.OutputsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+			this.OutputsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+			this.OutputsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+			this.OutputsTable.Size = new System.Drawing.Size(142, 187);
+			this.OutputsTable.TabIndex = 1;
+			// 
+			// Output0
+			// 
+			this.Output0.AutoCheck = false;
+			this.Output0.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.Output0.Location = new System.Drawing.Point(5, 166);
+			this.Output0.Name = "Output0";
+			this.Output0.Size = new System.Drawing.Size(132, 16);
+			this.Output0.TabIndex = 7;
+			this.Output0.Text = "0";
+			this.Output0.UseVisualStyleBackColor = true;
+			// 
+			// Output1
+			// 
+			this.Output1.AutoCheck = false;
+			this.Output1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.Output1.Location = new System.Drawing.Point(5, 143);
+			this.Output1.Name = "Output1";
+			this.Output1.Size = new System.Drawing.Size(132, 15);
+			this.Output1.TabIndex = 6;
+			this.Output1.Text = "1";
+			this.Output1.UseVisualStyleBackColor = true;
+			// 
+			// Output2
+			// 
+			this.Output2.AutoCheck = false;
+			this.Output2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.Output2.Location = new System.Drawing.Point(5, 120);
+			this.Output2.Name = "Output2";
+			this.Output2.Size = new System.Drawing.Size(132, 15);
+			this.Output2.TabIndex = 5;
+			this.Output2.Text = "2";
+			this.Output2.UseVisualStyleBackColor = true;
+			// 
+			// Output3
+			// 
+			this.Output3.AutoCheck = false;
+			this.Output3.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.Output3.Location = new System.Drawing.Point(5, 97);
+			this.Output3.Name = "Output3";
+			this.Output3.Size = new System.Drawing.Size(132, 15);
+			this.Output3.TabIndex = 4;
+			this.Output3.Text = "3";
+			this.Output3.UseVisualStyleBackColor = true;
+			// 
+			// Output4
+			// 
+			this.Output4.AutoCheck = false;
+			this.Output4.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.Output4.Location = new System.Drawing.Point(5, 74);
+			this.Output4.Name = "Output4";
+			this.Output4.Size = new System.Drawing.Size(132, 15);
+			this.Output4.TabIndex = 3;
+			this.Output4.Text = "4";
+			this.Output4.UseVisualStyleBackColor = true;
+			// 
+			// Output5
+			// 
+			this.Output5.AutoCheck = false;
+			this.Output5.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.Output5.Location = new System.Drawing.Point(5, 51);
+			this.Output5.Name = "Output5";
+			this.Output5.Size = new System.Drawing.Size(132, 15);
+			this.Output5.TabIndex = 2;
+			this.Output5.Text = "5";
+			this.Output5.UseVisualStyleBackColor = true;
+			// 
+			// Output6
+			// 
+			this.Output6.AutoCheck = false;
+			this.Output6.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.Output6.Location = new System.Drawing.Point(5, 28);
+			this.Output6.Name = "Output6";
+			this.Output6.Size = new System.Drawing.Size(132, 15);
+			this.Output6.TabIndex = 1;
+			this.Output6.Text = "6";
+			this.Output6.UseVisualStyleBackColor = true;
+			// 
+			// Output7
+			// 
+			this.Output7.AutoCheck = false;
+			this.Output7.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.Output7.Location = new System.Drawing.Point(5, 5);
+			this.Output7.Name = "Output7";
+			this.Output7.Size = new System.Drawing.Size(132, 15);
+			this.Output7.TabIndex = 0;
+			this.Output7.Text = "7";
+			this.Output7.UseVisualStyleBackColor = true;
 			// 
 			// MonitorSensors
 			// 
@@ -548,305 +853,34 @@
 			this.AnalogueDName.Text = "D";
 			this.AnalogueDName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// OutputsTable
+			// Status
 			// 
-			this.OutputsTable.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
-			this.OutputsTable.ColumnCount = 1;
-			this.OutputsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.OutputsTable.Controls.Add(this.Output0, 0, 7);
-			this.OutputsTable.Controls.Add(this.Output1, 0, 6);
-			this.OutputsTable.Controls.Add(this.Output2, 0, 5);
-			this.OutputsTable.Controls.Add(this.Output3, 0, 4);
-			this.OutputsTable.Controls.Add(this.Output4, 0, 3);
-			this.OutputsTable.Controls.Add(this.Output5, 0, 2);
-			this.OutputsTable.Controls.Add(this.Output6, 0, 1);
-			this.OutputsTable.Controls.Add(this.Output7, 0, 0);
-			this.OutputsTable.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.OutputsTable.Location = new System.Drawing.Point(3, 16);
-			this.OutputsTable.Name = "OutputsTable";
-			this.OutputsTable.RowCount = 8;
-			this.OutputsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-			this.OutputsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-			this.OutputsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-			this.OutputsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-			this.OutputsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-			this.OutputsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-			this.OutputsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-			this.OutputsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-			this.OutputsTable.Size = new System.Drawing.Size(142, 187);
-			this.OutputsTable.TabIndex = 1;
+			this.Status.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.RunningStatus,
+            this.StatusSpacer,
+            this.ClockStatus});
+			this.Status.Location = new System.Drawing.Point(0, 494);
+			this.Status.Name = "Status";
+			this.Status.Size = new System.Drawing.Size(771, 22);
+			this.Status.TabIndex = 4;
+			this.Status.Text = "statusStrip1";
 			// 
-			// Output0
+			// RunningStatus
 			// 
-			this.Output0.AutoCheck = false;
-			this.Output0.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.Output0.Location = new System.Drawing.Point(5, 166);
-			this.Output0.Name = "Output0";
-			this.Output0.Size = new System.Drawing.Size(132, 16);
-			this.Output0.TabIndex = 7;
-			this.Output0.Text = "0";
-			this.Output0.UseVisualStyleBackColor = true;
+			this.RunningStatus.Name = "RunningStatus";
+			this.RunningStatus.Size = new System.Drawing.Size(0, 17);
 			// 
-			// Output1
+			// ClockStatus
 			// 
-			this.Output1.AutoCheck = false;
-			this.Output1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.Output1.Location = new System.Drawing.Point(5, 143);
-			this.Output1.Name = "Output1";
-			this.Output1.Size = new System.Drawing.Size(132, 15);
-			this.Output1.TabIndex = 6;
-			this.Output1.Text = "1";
-			this.Output1.UseVisualStyleBackColor = true;
+			this.ClockStatus.Name = "ClockStatus";
+			this.ClockStatus.Size = new System.Drawing.Size(64, 17);
+			this.ClockStatus.Text = "00:00:00.00";
 			// 
-			// Output2
+			// StatusSpacer
 			// 
-			this.Output2.AutoCheck = false;
-			this.Output2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.Output2.Location = new System.Drawing.Point(5, 120);
-			this.Output2.Name = "Output2";
-			this.Output2.Size = new System.Drawing.Size(132, 15);
-			this.Output2.TabIndex = 5;
-			this.Output2.Text = "2";
-			this.Output2.UseVisualStyleBackColor = true;
-			// 
-			// Output3
-			// 
-			this.Output3.AutoCheck = false;
-			this.Output3.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.Output3.Location = new System.Drawing.Point(5, 97);
-			this.Output3.Name = "Output3";
-			this.Output3.Size = new System.Drawing.Size(132, 15);
-			this.Output3.TabIndex = 4;
-			this.Output3.Text = "3";
-			this.Output3.UseVisualStyleBackColor = true;
-			// 
-			// Output4
-			// 
-			this.Output4.AutoCheck = false;
-			this.Output4.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.Output4.Location = new System.Drawing.Point(5, 74);
-			this.Output4.Name = "Output4";
-			this.Output4.Size = new System.Drawing.Size(132, 15);
-			this.Output4.TabIndex = 3;
-			this.Output4.Text = "4";
-			this.Output4.UseVisualStyleBackColor = true;
-			// 
-			// Output5
-			// 
-			this.Output5.AutoCheck = false;
-			this.Output5.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.Output5.Location = new System.Drawing.Point(5, 51);
-			this.Output5.Name = "Output5";
-			this.Output5.Size = new System.Drawing.Size(132, 15);
-			this.Output5.TabIndex = 2;
-			this.Output5.Text = "5";
-			this.Output5.UseVisualStyleBackColor = true;
-			// 
-			// Output6
-			// 
-			this.Output6.AutoCheck = false;
-			this.Output6.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.Output6.Location = new System.Drawing.Point(5, 28);
-			this.Output6.Name = "Output6";
-			this.Output6.Size = new System.Drawing.Size(132, 15);
-			this.Output6.TabIndex = 1;
-			this.Output6.Text = "6";
-			this.Output6.UseVisualStyleBackColor = true;
-			// 
-			// Output7
-			// 
-			this.Output7.AutoCheck = false;
-			this.Output7.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.Output7.Location = new System.Drawing.Point(5, 5);
-			this.Output7.Name = "Output7";
-			this.Output7.Size = new System.Drawing.Size(132, 15);
-			this.Output7.TabIndex = 0;
-			this.Output7.Text = "7";
-			this.Output7.UseVisualStyleBackColor = true;
-			// 
-			// MotorsTable
-			// 
-			this.MotorsTable.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
-			this.MotorsTable.ColumnCount = 1;
-			this.MotorsTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.MotorsTable.Controls.Add(this.MotorA, 0, 3);
-			this.MotorsTable.Controls.Add(this.MotorB, 0, 2);
-			this.MotorsTable.Controls.Add(this.MotorC, 0, 1);
-			this.MotorsTable.Controls.Add(this.MotorD, 0, 0);
-			this.MotorsTable.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.MotorsTable.Location = new System.Drawing.Point(3, 16);
-			this.MotorsTable.Name = "MotorsTable";
-			this.MotorsTable.RowCount = 4;
-			this.MotorsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-			this.MotorsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-			this.MotorsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-			this.MotorsTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-			this.MotorsTable.Size = new System.Drawing.Size(143, 187);
-			this.MotorsTable.TabIndex = 0;
-			// 
-			// MotorD
-			// 
-			this.MotorD.ColumnCount = 2;
-			this.MotorD.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
-			this.MotorD.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-			this.MotorD.Controls.Add(this.MotorDName, 0, 1);
-			this.MotorD.Controls.Add(this.MotorDValue, 1, 0);
-			this.MotorD.Location = new System.Drawing.Point(5, 5);
-			this.MotorD.Name = "MotorD";
-			this.MotorD.RowCount = 2;
-			this.MotorD.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.MotorD.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.MotorD.Size = new System.Drawing.Size(133, 38);
-			this.MotorD.TabIndex = 0;
-			// 
-			// MotorDName
-			// 
-			this.MotorDName.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.MotorDName.Location = new System.Drawing.Point(3, 19);
-			this.MotorDName.Name = "MotorDName";
-			this.MotorDName.Size = new System.Drawing.Size(87, 19);
-			this.MotorDName.TabIndex = 0;
-			this.MotorDName.Text = "D";
-			this.MotorDName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// MotorDValue
-			// 
-			this.MotorDValue.AutoSize = true;
-			this.MotorDValue.BackColor = System.Drawing.SystemColors.Window;
-			this.MotorDValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.MotorDValue.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.MotorDValue.Font = new System.Drawing.Font("Tahoma", 20.25F, System.Drawing.FontStyle.Bold);
-			this.MotorDValue.ForeColor = System.Drawing.SystemColors.WindowText;
-			this.MotorDValue.Location = new System.Drawing.Point(96, 3);
-			this.MotorDValue.Margin = new System.Windows.Forms.Padding(3);
-			this.MotorDValue.Name = "MotorDValue";
-			this.MotorD.SetRowSpan(this.MotorDValue, 2);
-			this.MotorDValue.Size = new System.Drawing.Size(34, 32);
-			this.MotorDValue.TabIndex = 1;
-			this.MotorDValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// MotorC
-			// 
-			this.MotorC.ColumnCount = 2;
-			this.MotorC.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
-			this.MotorC.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-			this.MotorC.Controls.Add(this.MotorCName, 0, 1);
-			this.MotorC.Controls.Add(this.MotorCValue, 1, 0);
-			this.MotorC.Location = new System.Drawing.Point(5, 51);
-			this.MotorC.Name = "MotorC";
-			this.MotorC.RowCount = 2;
-			this.MotorC.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.MotorC.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.MotorC.Size = new System.Drawing.Size(133, 38);
-			this.MotorC.TabIndex = 1;
-			// 
-			// MotorCName
-			// 
-			this.MotorCName.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.MotorCName.Location = new System.Drawing.Point(3, 19);
-			this.MotorCName.Name = "MotorCName";
-			this.MotorCName.Size = new System.Drawing.Size(87, 19);
-			this.MotorCName.TabIndex = 0;
-			this.MotorCName.Text = "C";
-			this.MotorCName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// MotorCValue
-			// 
-			this.MotorCValue.AutoSize = true;
-			this.MotorCValue.BackColor = System.Drawing.SystemColors.Window;
-			this.MotorCValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.MotorCValue.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.MotorCValue.Font = new System.Drawing.Font("Tahoma", 20.25F, System.Drawing.FontStyle.Bold);
-			this.MotorCValue.ForeColor = System.Drawing.SystemColors.WindowText;
-			this.MotorCValue.Location = new System.Drawing.Point(96, 3);
-			this.MotorCValue.Margin = new System.Windows.Forms.Padding(3);
-			this.MotorCValue.Name = "MotorCValue";
-			this.MotorC.SetRowSpan(this.MotorCValue, 2);
-			this.MotorCValue.Size = new System.Drawing.Size(34, 32);
-			this.MotorCValue.TabIndex = 1;
-			this.MotorCValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// MotorB
-			// 
-			this.MotorB.ColumnCount = 2;
-			this.MotorB.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
-			this.MotorB.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-			this.MotorB.Controls.Add(this.MotorBName, 0, 1);
-			this.MotorB.Controls.Add(this.MotorBValue, 1, 0);
-			this.MotorB.Location = new System.Drawing.Point(5, 97);
-			this.MotorB.Name = "MotorB";
-			this.MotorB.RowCount = 2;
-			this.MotorB.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.MotorB.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.MotorB.Size = new System.Drawing.Size(133, 38);
-			this.MotorB.TabIndex = 2;
-			// 
-			// MotorBName
-			// 
-			this.MotorBName.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.MotorBName.Location = new System.Drawing.Point(3, 19);
-			this.MotorBName.Name = "MotorBName";
-			this.MotorBName.Size = new System.Drawing.Size(87, 19);
-			this.MotorBName.TabIndex = 0;
-			this.MotorBName.Text = "B";
-			this.MotorBName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// MotorBValue
-			// 
-			this.MotorBValue.AutoSize = true;
-			this.MotorBValue.BackColor = System.Drawing.SystemColors.Window;
-			this.MotorBValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.MotorBValue.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.MotorBValue.Font = new System.Drawing.Font("Tahoma", 20.25F, System.Drawing.FontStyle.Bold);
-			this.MotorBValue.ForeColor = System.Drawing.SystemColors.WindowText;
-			this.MotorBValue.Location = new System.Drawing.Point(96, 3);
-			this.MotorBValue.Margin = new System.Windows.Forms.Padding(3);
-			this.MotorBValue.Name = "MotorBValue";
-			this.MotorB.SetRowSpan(this.MotorBValue, 2);
-			this.MotorBValue.Size = new System.Drawing.Size(34, 32);
-			this.MotorBValue.TabIndex = 1;
-			this.MotorBValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// MotorA
-			// 
-			this.MotorA.ColumnCount = 2;
-			this.MotorA.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70F));
-			this.MotorA.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-			this.MotorA.Controls.Add(this.MotorAName, 0, 1);
-			this.MotorA.Controls.Add(this.MotorAValue, 1, 0);
-			this.MotorA.Location = new System.Drawing.Point(5, 143);
-			this.MotorA.Name = "MotorA";
-			this.MotorA.RowCount = 2;
-			this.MotorA.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.MotorA.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.MotorA.Size = new System.Drawing.Size(133, 38);
-			this.MotorA.TabIndex = 3;
-			// 
-			// MotorAName
-			// 
-			this.MotorAName.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.MotorAName.Location = new System.Drawing.Point(3, 19);
-			this.MotorAName.Name = "MotorAName";
-			this.MotorAName.Size = new System.Drawing.Size(87, 19);
-			this.MotorAName.TabIndex = 0;
-			this.MotorAName.Text = "A";
-			this.MotorAName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			// 
-			// MotorAValue
-			// 
-			this.MotorAValue.AutoSize = true;
-			this.MotorAValue.BackColor = System.Drawing.SystemColors.Window;
-			this.MotorAValue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.MotorAValue.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.MotorAValue.Font = new System.Drawing.Font("Tahoma", 20.25F, System.Drawing.FontStyle.Bold);
-			this.MotorAValue.ForeColor = System.Drawing.SystemColors.WindowText;
-			this.MotorAValue.Location = new System.Drawing.Point(96, 3);
-			this.MotorAValue.Margin = new System.Windows.Forms.Padding(3);
-			this.MotorAValue.Name = "MotorAValue";
-			this.MotorA.SetRowSpan(this.MotorAValue, 2);
-			this.MotorAValue.Size = new System.Drawing.Size(34, 32);
-			this.MotorAValue.TabIndex = 1;
-			this.MotorAValue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.StatusSpacer.Name = "StatusSpacer";
+			this.StatusSpacer.Size = new System.Drawing.Size(645, 17);
+			this.StatusSpacer.Spring = true;
 			// 
 			// MainWindow
 			// 
@@ -856,6 +890,7 @@
 			this.Controls.Add(this.PrintOutput);
 			this.Controls.Add(this.CommandPanel);
 			this.Controls.Add(this.Monitor);
+			this.Controls.Add(this.Status);
 			this.Name = "MainWindow";
 			this.Activated += new System.EventHandler(this.MainWindow_Activated);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
@@ -864,7 +899,17 @@
 			this.Monitor.ResumeLayout(false);
 			this.MonitorTable.ResumeLayout(false);
 			this.MonitorMotors.ResumeLayout(false);
+			this.MotorsTable.ResumeLayout(false);
+			this.MotorA.ResumeLayout(false);
+			this.MotorA.PerformLayout();
+			this.MotorB.ResumeLayout(false);
+			this.MotorB.PerformLayout();
+			this.MotorC.ResumeLayout(false);
+			this.MotorC.PerformLayout();
+			this.MotorD.ResumeLayout(false);
+			this.MotorD.PerformLayout();
 			this.MonitorOutputs.ResumeLayout(false);
+			this.OutputsTable.ResumeLayout(false);
 			this.MonitorSensors.ResumeLayout(false);
 			this.SensorsTable.ResumeLayout(false);
 			this.MonitorAnalogue.ResumeLayout(false);
@@ -873,16 +918,8 @@
 			this.AnalogueB.ResumeLayout(false);
 			this.AnalogueC.ResumeLayout(false);
 			this.AnalogueD.ResumeLayout(false);
-			this.OutputsTable.ResumeLayout(false);
-			this.MotorsTable.ResumeLayout(false);
-			this.MotorD.ResumeLayout(false);
-			this.MotorD.PerformLayout();
-			this.MotorC.ResumeLayout(false);
-			this.MotorC.PerformLayout();
-			this.MotorB.ResumeLayout(false);
-			this.MotorB.PerformLayout();
-			this.MotorA.ResumeLayout(false);
-			this.MotorA.PerformLayout();
+			this.Status.ResumeLayout(false);
+			this.Status.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -947,5 +984,9 @@
 		private System.Windows.Forms.TableLayoutPanel MotorC;
 		private System.Windows.Forms.Label MotorCName;
 		private System.Windows.Forms.Label MotorCValue;
+		private System.Windows.Forms.StatusStrip Status;
+		private System.Windows.Forms.ToolStripStatusLabel RunningStatus;
+		private System.Windows.Forms.ToolStripStatusLabel ClockStatus;
+		private System.Windows.Forms.ToolStripStatusLabel StatusSpacer;
 	}
 }

@@ -7,6 +7,7 @@ namespace SmartBox {
 
 		public MainWindow() {
 			InitializeComponent();
+			this.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
 			this.Text = Application.ProductName;
 			this.UpdateState(new AlbertLinkPortState());
 		}
@@ -49,7 +50,7 @@ namespace SmartBox {
 
 		private void SendCommand() {
 			if (this.CommandPanel.Enabled) {
-				this.PrintOutput.AppendText(": " + this.CommandInput.Text + Environment.NewLine);
+				this.PrintOutput.AppendText(": " + this.Link.SteadyLine(this.CommandInput.Text, AlbertLink.LabelUse.UseLblsSetting).Replace("\x01", "").Replace("\x02", "") + Environment.NewLine);
 				this.PrintOutput.ScrollToCaret();
 				this.PrintOutput.Focus();
 				this.CommandPanel.Enabled = false;
@@ -191,6 +192,10 @@ namespace SmartBox {
 			this.MotorBValue.Text = motorDirections[(state.Motors >> 2) & 3];
 			this.MotorCValue.Text = motorDirections[(state.Motors >> 4) & 3];
 			this.MotorDValue.Text = motorDirections[(state.Motors >> 6) & 3];
+
+			// Status bar
+			this.RunningStatus.Text = state.RunMode ? "▶" : "";
+			this.ClockStatus.Text = string.Format("{0:D2}:{1:D2}:{2:D2}.{3:D2}", state.ClockHours, state.ClockMinutes, state.ClockSeconds, state.ClockCentiseconds);
 		}
 
 		public void ResetLabels() {
