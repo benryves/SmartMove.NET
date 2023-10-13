@@ -299,6 +299,11 @@ namespace SmartMove {
 			this.SendRemoteEvent(RemoteEvent.Escape);
 		}
 
+		public void Quit() {
+			this.SendRemoteEvent(RemoteEvent.Quit);
+			this.running = false;
+		}
+
 		public void Sleep() {
 			this.SendRemoteEvent(RemoteEvent.Sleep);
 			this.running = false;

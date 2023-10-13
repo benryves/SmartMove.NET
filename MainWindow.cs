@@ -20,7 +20,7 @@ namespace SmartMove {
 		private void MainWindow_FormClosing(object sender, FormClosingEventArgs e) {
 			if (this.Link != null) {
 				e.Cancel = true;
-				this.Link.Sleep();
+				this.Link.Quit();
 			}
 		}
 
@@ -246,6 +246,14 @@ namespace SmartMove {
 					case "MOTORD": this.MotorDName.Text = "D: " + newLabel; break;
 				}
 			}
+		}
+
+		private void QuitToolStripMenuItem_Click(object sender, EventArgs e) {
+			this.Link?.Quit();
+		}
+
+		private void DisconnectToolStripMenuItem_Click(object sender, EventArgs e) {
+			this.Link?.Sleep();
 		}
 	}
 }
