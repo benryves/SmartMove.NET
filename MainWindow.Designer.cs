@@ -83,8 +83,8 @@
 			this.AnalogueDName = new System.Windows.Forms.Label();
 			this.Status = new System.Windows.Forms.StatusStrip();
 			this.RunningStatus = new System.Windows.Forms.ToolStripStatusLabel();
-			this.ClockStatus = new System.Windows.Forms.ToolStripStatusLabel();
 			this.StatusSpacer = new System.Windows.Forms.ToolStripStatusLabel();
+			this.ClockStatus = new System.Windows.Forms.ToolStripStatusLabel();
 			this.CommandPanel.SuspendLayout();
 			this.Monitor.SuspendLayout();
 			this.MonitorTable.SuspendLayout();
@@ -385,7 +385,7 @@
 			this.MonitorOutputs.Size = new System.Drawing.Size(148, 206);
 			this.MonitorOutputs.TabIndex = 2;
 			this.MonitorOutputs.TabStop = false;
-			this.MonitorOutputs.Text = "Outputs";
+			this.MonitorOutputs.Text = "Digital Outputs";
 			// 
 			// OutputsTable
 			// 
@@ -512,7 +512,7 @@
 			this.MonitorSensors.Size = new System.Drawing.Size(148, 206);
 			this.MonitorSensors.TabIndex = 1;
 			this.MonitorSensors.TabStop = false;
-			this.MonitorSensors.Text = "Sensors";
+			this.MonitorSensors.Text = "Digital Sensors";
 			// 
 			// SensorsTable
 			// 
@@ -870,17 +870,17 @@
 			this.RunningStatus.Name = "RunningStatus";
 			this.RunningStatus.Size = new System.Drawing.Size(0, 17);
 			// 
+			// StatusSpacer
+			// 
+			this.StatusSpacer.Name = "StatusSpacer";
+			this.StatusSpacer.Size = new System.Drawing.Size(692, 17);
+			this.StatusSpacer.Spring = true;
+			// 
 			// ClockStatus
 			// 
 			this.ClockStatus.Name = "ClockStatus";
 			this.ClockStatus.Size = new System.Drawing.Size(64, 17);
 			this.ClockStatus.Text = "00:00:00.00";
-			// 
-			// StatusSpacer
-			// 
-			this.StatusSpacer.Name = "StatusSpacer";
-			this.StatusSpacer.Size = new System.Drawing.Size(645, 17);
-			this.StatusSpacer.Spring = true;
 			// 
 			// MainWindow
 			// 

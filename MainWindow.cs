@@ -224,29 +224,28 @@ namespace SmartMove {
 		public void UpdateLabel(string sourceLabel, string newLabel, bool softLabel) {
 			if (!softLabel) {
 				switch (sourceLabel) {
-					case "SENSOR0": this.Sensor0.Text = newLabel; break;
-					case "SENSOR1": this.Sensor1.Text = newLabel; break;
-					case "SENSOR2": this.Sensor2.Text = newLabel; break;
-					case "SENSOR3": this.Sensor3.Text = newLabel; break;
-					case "SENSOR4": this.Sensor4.Text = newLabel; break;
-					case "SENSOR5": this.Sensor5.Text = newLabel; break;
-					case "SENSOR6": this.Sensor6.Text = newLabel; break;
-					case "SENSOR7": this.Sensor7.Text = newLabel; break;
-					case "OUTPUT0": this.Output0.Text = newLabel; break;
-					case "OUTPUT1": this.Output1.Text = newLabel; break;
-					case "OUTPUT2": this.Output2.Text = newLabel; break;
-					case "OUTPUT3": this.Output3.Text = newLabel; break;
-					case "OUTPUT4": this.Output4.Text = newLabel; break;
-					case "OUTPUT5": this.Output5.Text = newLabel; break;
-					case "OUTPUT6": this.Output6.Text = newLabel; break;
-					case "OUTPUT7": this.Output7.Text = newLabel; break;
-					case "MOTORA": this.MotorAName.Text = newLabel; break;
-					case "MOTORB": this.MotorBName.Text = newLabel; break;
-					case "MOTORC": this.MotorCName.Text = newLabel; break;
-					case "MOTORD": this.MotorDName.Text = newLabel; break;
+					case "SENSOR0": this.Sensor0.Text = "0: " + newLabel; break;
+					case "SENSOR1": this.Sensor1.Text = "1: " + newLabel; break;
+					case "SENSOR2": this.Sensor2.Text = "2: " + newLabel; break;
+					case "SENSOR3": this.Sensor3.Text = "3: " + newLabel; break;
+					case "SENSOR4": this.Sensor4.Text = "4: " + newLabel; break;
+					case "SENSOR5": this.Sensor5.Text = "5: " + newLabel; break;
+					case "SENSOR6": this.Sensor6.Text = "6: " + newLabel; break;
+					case "SENSOR7": this.Sensor7.Text = "7: " + newLabel; break;
+					case "OUTPUT0": this.Output0.Text = "0: " + newLabel; break;
+					case "OUTPUT1": this.Output1.Text = "1: " + newLabel; break;
+					case "OUTPUT2": this.Output2.Text = "2: " + newLabel; break;
+					case "OUTPUT3": this.Output3.Text = "3: " + newLabel; break;
+					case "OUTPUT4": this.Output4.Text = "4: " + newLabel; break;
+					case "OUTPUT5": this.Output5.Text = "5: " + newLabel; break;
+					case "OUTPUT6": this.Output6.Text = "6: " + newLabel; break;
+					case "OUTPUT7": this.Output7.Text = "7: " + newLabel; break;
+					case "MOTORA": this.MotorAName.Text = "A: " + newLabel; break;
+					case "MOTORB": this.MotorBName.Text = "B: " + newLabel; break;
+					case "MOTORC": this.MotorCName.Text = "C: " + newLabel; break;
+					case "MOTORD": this.MotorDName.Text = "D: " + newLabel; break;
 				}
 			}
 		}
-
 	}
 }
