@@ -11,8 +11,10 @@ namespace SmartBox {
 	internal class AlbertLinkWindowsHost : IAlbertLinkHost {
 
 		private AlbertLink link;
+
 		private MainWindow mainWindow;
 		private readonly Dictionary<string, EditorWindow> editorWindows = new Dictionary<string, EditorWindow>();
+		private TraceWindow traceWindow;
 
 		private bool focusCommandLine = true;
 
@@ -73,6 +75,7 @@ namespace SmartBox {
 
 		private void Editor_FormClosing(object sender, FormClosingEventArgs e) {
 			if (sender is EditorWindow form) {
+				//TODO: Handle close errors (out of memory etc)
 				Debug.WriteLine(this.link.PutProcedure(form.Procedure, form.Code));
 			}
 		}
@@ -103,11 +106,33 @@ namespace SmartBox {
 		}
 
 		public void SetTraceFlag(bool traceFlag) {
-			throw new NotImplementedException();
+			if (traceFlag) {
+				this.traceWindow = new TraceWindow();
+				this.traceWindow.FormClosing += TraceWindow_FormClosing;
+				this.traceWindow.Show();
+				this.traceWindow.Focus();
+				this.focusCommandLine = false;
+			} else {
+				if (this.traceWindow != null) {
+					this.traceWindow.Close();
+					this.traceWindow.Dispose();
+					this.traceWindow = null;
+				}
+			}
 		}
 
 		public void Update(AlbertLinkPortState state) {
 			this.mainWindow?.UpdateState(state);
+		}
+
+		public void Trace(char value) {
+			if (this.traceWindow != null && !this.traceWindow.IsDisposed) {
+				traceWindow.Print(value);
+			}
+		}
+
+		private void TraceWindow_FormClosing(object sender, FormClosingEventArgs e) {
+			this.link.SetTraceFlag(false);
 		}
 	}
 }

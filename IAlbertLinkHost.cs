@@ -22,6 +22,8 @@ namespace SmartBox {
 
 		void SetTraceFlag(bool traceFlag);
 
+		void Trace(char value);
+
 		void CheckEscapeCondition();
 
 		char GetKey();

@@ -7,6 +7,7 @@ using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml;
 
 namespace SmartBox {
@@ -29,6 +30,17 @@ namespace SmartBox {
 		public byte ClockMinutes;
 		public byte ClockSeconds;
 		public byte ClockCentiseconds;
+	};
+
+	[Flags]
+	public enum SetupFlags : byte {
+		None = 0,
+		NewTraceSystem = 1 << 0,
+		EnableProcedureLabelChangeChecking = 1 << 1,
+		EnableCustomCommands = 1 << 2,
+		EnablePrompt = 1 << 3,
+		ShitComputer = 1 << 4,
+		EnableGetLineCount = 1 << 5,
 	};
 
 	public class AlbertLink : SmartBox {
@@ -91,9 +103,9 @@ namespace SmartBox {
 			this.reader.ReadByte();
 			this.reader.ReadByte();
 
-			// Setup with no flags set
+			// Setup with appropriate flags
 			this.writer.Write((byte)1);
-			this.writer.Write((byte)0);
+			this.writer.Write((byte)(SetupFlags.EnableCustomCommands));
 
 			running = true;
 
@@ -114,9 +126,9 @@ namespace SmartBox {
 								this.writer.Write((byte)0);
 								byte b;
 								while ((b = this.reader.ReadByte()) != 13) {
-									this.host.Print((char)b);
+									this.host.Trace((char)b);
 								}
-								this.host.Print('\r');
+								this.host.Trace('\r');
 							}
 							break;
 						case UpdateEvent.Error:
@@ -315,5 +327,11 @@ namespace SmartBox {
 			this.WriteString(code.Trim() + "\r", 0xFF);
 			return this.reader.ReadByte();
 		}
+
+		public void SetTraceFlag(bool flag) {
+			this.SendRemoteEvent(RemoteEvent.TraceFl);
+			this.writer.Write((byte)(flag ? 1 : 0));
+		}
+
 	}
 }
