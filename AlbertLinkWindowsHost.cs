@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
@@ -24,6 +25,13 @@ namespace SmartMove {
 		public void Initialize(AlbertLink link) {
 			this.link = link;
 			this.mainWindow.Link = link;
+		}
+
+		public void ShowSignOn() {
+			var versionString = string.Format("{0} {1} ({2})\r{3} bytes free\r\r", Application.ProductName, Application.ProductVersion, link.GetVersion(), link.GetFreeMem());
+			foreach (var c in versionString) {
+				this.mainWindow.Print(c);
+			}
 		}
 
 		public void Idle() {

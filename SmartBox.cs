@@ -71,9 +71,9 @@ namespace SmartMove {
 
 		private bool disposedValue;
 
-		protected SerialPort port;
-		protected BinaryReader reader;
-		protected BinaryWriter writer;
+		internal SerialPort port;
+		internal BinaryReader reader;
+		internal BinaryWriter writer;
 
 		public SmartBox(SerialPort port) {
 			this.port = port;
@@ -104,7 +104,7 @@ namespace SmartMove {
 			GC.SuppressFinalize(this);
 		}
 
-		protected string ReadString(byte terminator = 13) {
+		internal string ReadString(byte terminator = 13) {
 			var s = new List<byte>(8);
 			byte b;
 			while ((b = this.reader.ReadByte()) != terminator) {
@@ -113,7 +113,7 @@ namespace SmartMove {
 			return Encoding.ASCII.GetString(s.ToArray());
 		}
 
-		protected void WriteString(string s, byte terminator = 13) {
+		internal void WriteString(string s, byte terminator = 13) {
 			this.writer.Write(Encoding.ASCII.GetBytes(s));
 			this.writer.Write((byte)terminator);
 		}

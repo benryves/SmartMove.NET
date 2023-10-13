@@ -36,8 +36,9 @@ namespace SmartMove {
 		EnableGetLineCount = 1 << 5,
 	};
 
-	public class AlbertLink : SmartBox {
+	public class AlbertLink : IDisposable {
 
+		private readonly SmartBox smartBox;
 		private readonly IAlbertLinkHost host;
 
 		private bool running = false;
@@ -48,12 +49,11 @@ namespace SmartMove {
 		private DateTime lastUpdateSensorsTime = DateTime.MinValue;
 
 		byte[] sensorIDs = new byte[4];
+		
+		private bool disposedValue;
 
-		public AlbertLink(SerialPort port, IAlbertLinkHost host) : base(port) {
-			this.host = host;
-		}
-
-		public AlbertLink(string portName, IAlbertLinkHost host) : base(portName) {
+		public AlbertLink(SmartBox smartBox, IAlbertLinkHost host) {
+			this.smartBox = smartBox;
 			this.host = host;
 		}
 
@@ -63,7 +63,7 @@ namespace SmartMove {
 			this.host.Initialize(this);
 
 			// Is AlbertLink installed?
-			var albertLinkCall = this.GetNameCode("AlbertLink");
+			var albertLinkCall = this.smartBox.GetNameCode("AlbertLink");
 
 			if (albertLinkCall == 0) {
 
@@ -71,7 +71,7 @@ namespace SmartMove {
 				var program = this.host.GetAlbertLinkProgram();
 
 				// No, so we need to load it.
-				ushort lomem = this.ReadLomem(), himem = this.ReadHimem();
+				ushort lomem = this.smartBox.ReadLomem(), himem = this.smartBox.ReadHimem();
 
 				if (program.Length > (himem - lomem) + 1) {
 					throw new OutOfMemoryException();
@@ -83,36 +83,39 @@ namespace SmartMove {
 					this.host.UpdateConnectionProgress(offset, program.Length);
 					this.host.Idle();
 					int length = Math.Min(chunkSize, program.Length - offset);
-					this.writer.Write((byte)SmartBox.Command.DownloadData);
-					this.writer.Write((ushort)(lomem + offset));
-					this.writer.Write((ushort)length);
-					this.port.Write(program, offset, length);
+					this.smartBox.writer.Write((byte)SmartBox.Command.DownloadData);
+					this.smartBox.writer.Write((ushort)(lomem + offset));
+					this.smartBox.writer.Write((ushort)length);
+					this.smartBox.port.Write(program, offset, length);
 				}
 				this.host.UpdateConnectionProgress(program.Length, program.Length);
 				this.host.Idle();
 
 				ushort entrypoint = (ushort)(lomem + program[0] + program[1] * 256);
 
-				this.ExecuteCode(entrypoint, 0, (byte)entrypoint, (byte)(entrypoint / 256));
-				this.reader.ReadByte();
+				this.smartBox.ExecuteCode(entrypoint, 0, (byte)entrypoint, (byte)(entrypoint / 256));
+				this.smartBox.reader.ReadByte();
 
-				albertLinkCall = this.GetNameCode("AlbertLink");
+				albertLinkCall = this.smartBox.GetNameCode("AlbertLink");
 
 			}
 
 			if (albertLinkCall == 0) throw new InvalidOperationException();
 
 			// Invoke AlbertLink
-			this.writer.Write(albertLinkCall);
+			this.smartBox.writer.Write(albertLinkCall);
 
-			this.reader.ReadByte();
-			this.reader.ReadByte();
+			this.smartBox.reader.ReadByte();
+			this.smartBox.reader.ReadByte();
 
 			// Setup with appropriate flags
-			this.writer.Write((byte)1);
-			this.writer.Write((byte)(SetupFlags.EnableProcedureLabelChangeChecking));
+			this.smartBox.writer.Write((byte)1);
+			this.smartBox.writer.Write((byte)(SetupFlags.EnableProcedureLabelChangeChecking));
 
-			// Kick off by reading labels
+			// Show the sign-on message
+			this.host.ShowSignOn();
+
+			// Trigger reading labels
 			this.ReadLabels();
 
 			running = true;
@@ -120,30 +123,30 @@ namespace SmartMove {
 			while (running) {
 				var now = DateTime.Now;
 				UpdateEvent evt;
-				if (this.port.BytesToRead > 0) {
-					switch (evt = (UpdateEvent)this.reader.ReadByte()) {
+				if (this.smartBox.port.BytesToRead > 0) {
+					switch (evt = (UpdateEvent)this.smartBox.reader.ReadByte()) {
 						case UpdateEvent.Print: {
-								this.writer.Write((byte)0);
+								this.smartBox.writer.Write((byte)0);
 								byte b;
-								while ((b = this.reader.ReadByte()) != 0) {
+								while ((b = this.smartBox.reader.ReadByte()) != 0) {
 									this.host.Print((char)b);
 								}
 							}
 							break;
 						case UpdateEvent.Trace: {
-								this.writer.Write((byte)0);
+								this.smartBox.writer.Write((byte)0);
 								byte b;
-								while ((b = this.reader.ReadByte()) != 13) {
+								while ((b = this.smartBox.reader.ReadByte()) != 13) {
 									this.host.Trace((char)b);
 								}
 								this.host.Trace('\r');
 							}
 							break;
 						case UpdateEvent.Error:
-							this.writer.Write((byte)0);
-							var procedure = this.ReadString();
-							var message = this.ReadString();
-							var line = this.ReadString();
+							this.smartBox.writer.Write((byte)0);
+							var procedure = this.smartBox.ReadString();
+							var message = this.smartBox.ReadString();
+							var line = this.smartBox.ReadString();
 							if (!this.host.DisplayError(procedure, message, line)) {
 								if (!string.IsNullOrEmpty(procedure)) {
 									foreach (char e in (procedure + " : ")) this.host.Print(e);
@@ -156,40 +159,40 @@ namespace SmartMove {
 							}
 							break;
 						case UpdateEvent.Cmd:
-							this.writer.Write((byte)0);
+							this.smartBox.writer.Write((byte)0);
 							this.host.EnableCommandMode();
 							break;
 						case UpdateEvent.Build:
-							this.writer.Write((byte)0);
-							this.host.EditProcedure(true, this.ReadString());
+							this.smartBox.writer.Write((byte)0);
+							this.host.EditProcedure(true, this.smartBox.ReadString());
 							break;
 						case UpdateEvent.Edit:
-							this.writer.Write((byte)0);
-							this.host.EditProcedure(false, this.ReadString());
+							this.smartBox.writer.Write((byte)0);
+							this.host.EditProcedure(false, this.smartBox.ReadString());
 							break;
 						case UpdateEvent.Quit:
-							this.writer.Write((byte)0);
+							this.smartBox.writer.Write((byte)0);
 							running = false;
 							this.host.Quit();
 							break;
 						case UpdateEvent.Rtc:
-							this.writer.Write((byte)0);
-							this.writer.Write((byte)now.Hour);
-							this.writer.Write((byte)now.Minute);
-							this.writer.Write((byte)now.Second);
-							this.writer.Write((byte)(now.Millisecond / 10));
+							this.smartBox.writer.Write((byte)0);
+							this.smartBox.writer.Write((byte)now.Hour);
+							this.smartBox.writer.Write((byte)now.Minute);
+							this.smartBox.writer.Write((byte)now.Second);
+							this.smartBox.writer.Write((byte)(now.Millisecond / 10));
 							break;
 						case UpdateEvent.Inkey:
-							this.writer.Write((byte)0);
-							this.writer.Write((byte)this.host.GetKey());
+							this.smartBox.writer.Write((byte)0);
+							this.smartBox.writer.Write((byte)this.host.GetKey());
 							break;
 						case UpdateEvent.TraceFl:
-							this.writer.Write((byte)0);
-							this.host.SetTraceFlag(this.reader.ReadByte() != 0);
+							this.smartBox.writer.Write((byte)0);
+							this.host.SetTraceFlag(this.smartBox.reader.ReadByte() != 0);
 							break;
 						case UpdateEvent.Altered:
-							this.writer.Write((byte)0);
-							var altered = this.reader.ReadByte();
+							this.smartBox.writer.Write((byte)0);
+							var altered = this.smartBox.reader.ReadByte();
 							//if ((altered & (1 << 0)) != 0) ; // Procedure list changed
 							if ((altered & (1 << 1)) != 0) this.ReadLabels();
 							break;
@@ -269,14 +272,14 @@ namespace SmartMove {
 		}
 
 		private void SendRemoteEvent(RemoteEvent evt) {
-			this.writer.Write((byte)evt);
-			while (this.reader.ReadByte() != 0) ;
+			this.smartBox.writer.Write((byte)evt);
+			while (this.smartBox.reader.ReadByte() != 0) ;
 		}
 
 		public void SendCmd(string command) {
 			this.SendRemoteEvent(RemoteEvent.Cmd);
-			this.writer.Write(Encoding.ASCII.GetBytes(command));
-			this.writer.Write((byte)13);
+			this.smartBox.writer.Write(Encoding.ASCII.GetBytes(command));
+			this.smartBox.writer.Write((byte)13);
 		}
 
 		public enum LabelUse : byte {
@@ -287,10 +290,10 @@ namespace SmartMove {
 
 		public string SteadyLine(string line, LabelUse flag) {
 			this.SendRemoteEvent(RemoteEvent.SteadyLine);
-			this.writer.Write((byte)flag);
-			this.writer.Write(Encoding.ASCII.GetBytes(line));
-			this.writer.Write(13);
-			return this.ReadString();
+			this.smartBox.writer.Write((byte)flag);
+			this.smartBox.writer.Write(Encoding.ASCII.GetBytes(line));
+			this.smartBox.writer.Write(13);
+			return this.smartBox.ReadString();
 		}
 
 		public void Escape() {
@@ -304,9 +307,9 @@ namespace SmartMove {
 
 		public AlbertLinkPortState GetPortState(bool updateSensorIDs) {
 			this.SendRemoteEvent(updateSensorIDs ? RemoteEvent.GetPS : RemoteEvent.GetPorts);
-			var portState = this.reader.ReadBytes(12);
+			var portState = this.smartBox.reader.ReadBytes(12);
 			if (updateSensorIDs) {
-				this.sensorIDs = this.reader.ReadBytes(4);
+				this.sensorIDs = this.smartBox.reader.ReadBytes(4);
 			}
 			return new AlbertLinkPortState {
 				RunMode = portState[0] != 0,
@@ -326,36 +329,36 @@ namespace SmartMove {
 
 		public string GetProcedure(string procedureName) {
 			this.SendRemoteEvent(RemoteEvent.Get);
-			this.writer.Write((byte)0xFF);
-			this.WriteString(procedureName);
+			this.smartBox.writer.Write((byte)0xFF);
+			this.smartBox.WriteString(procedureName);
 			string code = null;
-			if (this.reader.ReadByte() != 0) {
-				code = this.ReadString(0xFF);
+			if (this.smartBox.reader.ReadByte() != 0) {
+				code = this.smartBox.ReadString(0xFF);
 			}
 			return code;
         }
 
 		public byte PutProcedure(string procedureName, string code) {
 			this.SendRemoteEvent(RemoteEvent.Put);
-			this.WriteString(procedureName);
-			this.WriteString(code.Trim() + "\r", 0xFF);
-			return this.reader.ReadByte();
+			this.smartBox.WriteString(procedureName);
+			this.smartBox.WriteString(code.Trim() + "\r", 0xFF);
+			return this.smartBox.reader.ReadByte();
 		}
 
 		public void SetTraceFlag(bool flag) {
 			this.SendRemoteEvent(RemoteEvent.TraceFl);
-			this.writer.Write((byte)(flag ? 1 : 0));
+			this.smartBox.writer.Write((byte)(flag ? 1 : 0));
 		}
 
 		public void ReadLabels() {
 			this.host.ResetLabels();
 			this.SendRemoteEvent(RemoteEvent.ReadLabels);
 			string source;
-			while (!string.IsNullOrEmpty(source = this.ReadString())) {
+			while (!string.IsNullOrEmpty(source = this.smartBox.ReadString())) {
 
 				var s = new List<byte>(8);
 				byte b;
-				while (((b = this.reader.ReadByte()) & 0x7F) != 0) {
+				while (((b = this.smartBox.reader.ReadByte()) & 0x7F) != 0) {
 					s.Add(b);
 				}
 				var destination = Encoding.ASCII.GetString(s.ToArray());
@@ -364,6 +367,28 @@ namespace SmartMove {
 			}
 		}
 
+		public string GetVersion() {
+			this.SendRemoteEvent(RemoteEvent.Version);
+			return this.smartBox.ReadString();
+		}
 
+		public ushort GetFreeMem() {
+			this.SendRemoteEvent(RemoteEvent.FreeMem);
+			return this.smartBox.reader.ReadUInt16();
+		}
+
+		protected virtual void Dispose(bool disposing) {
+			if (!disposedValue) {
+				if (disposing) {
+					this.smartBox?.Dispose();
+				}
+				disposedValue = true;
+			}
+		}
+
+		public void Dispose() {
+			Dispose(disposing: true);
+			GC.SuppressFinalize(this);
+		}
 	}
 }

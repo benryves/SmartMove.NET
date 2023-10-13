@@ -6,6 +6,8 @@
 
 		byte[] GetAlbertLinkProgram();
 
+		void ShowSignOn();
+
 		void UpdateConnectionProgress(int value, int maximum);
 
 		void Print(char value);

@@ -6,7 +6,7 @@ namespace SmartMove {
 
 		[STAThread]
 		static void Main() {
-			using (var albertLink = new AlbertLink("COM2", new AlbertLinkWindowsHost())) {
+			using (var albertLink = new AlbertLink(new SmartBox("COM2"), new AlbertLinkWindowsHost())) {
 				albertLink.Run();
 			}
 		}
