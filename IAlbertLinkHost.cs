@@ -28,5 +28,7 @@ namespace SmartBox {
 
 		void EnableCommandMode();
 
+		void Update(AlbertLinkPortState state);
+
 	}
 }

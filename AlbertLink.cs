@@ -33,7 +33,7 @@ namespace SmartBox {
 
 	public class AlbertLink : SmartBox {
 
-		private IAlbertLinkHost host;
+		private readonly IAlbertLinkHost host;
 
 		private bool running = false;
 
@@ -77,8 +77,7 @@ namespace SmartBox {
 				ushort entrypoint = (ushort)(lomem + program[0] + program[1] * 256);
 
 				this.ExecuteCode(entrypoint, 0, (byte)entrypoint, (byte)(entrypoint / 256));
-
-				byte response = this.reader.ReadByte();
+				this.reader.ReadByte();
 
 				albertLinkCall = this.GetNameCode("AlbertLink");
 
@@ -89,30 +88,18 @@ namespace SmartBox {
 			// Invoke AlbertLink
 			this.writer.Write(albertLinkCall);
 
-			var engineNumber = this.reader.ReadByte();
-			var setupFlags = this.reader.ReadByte();
+			this.reader.ReadByte();
+			this.reader.ReadByte();
 
 			// Setup with no flags set
 			this.writer.Write((byte)1);
 			this.writer.Write((byte)0);
 
-			// Get the version
-			this.writer.Write((byte)15);
-			while (this.reader.ReadByte() != 0) ;
-
-			var version = this.ReadString();
-
-			// Get the amount of free memory
-			this.writer.Write((byte)21);
-			while (this.reader.ReadByte() != 0) ;
-
-			var freeMemory = this.reader.ReadUInt16();
-
 			running = true;
 
 			while (running) {
 				var now = DateTime.Now;
-				UpdateEvent evt = UpdateEvent.None;
+				UpdateEvent evt;
 				if (this.port.BytesToRead > 0) {
 					switch (evt = (UpdateEvent)this.reader.ReadByte()) {
 						case UpdateEvent.Print: {
@@ -192,6 +179,7 @@ namespace SmartBox {
 					} else {
 						state = this.GetPortState(false);
 					}
+					this.host.Update(state);
 					nextSampleTime = now + samplePortsInterval;
 				} else {
 					this.host.CheckEscapeCondition();

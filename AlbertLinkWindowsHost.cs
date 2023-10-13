@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace SmartBox {
 
 		private AlbertLink link;
 		private MainWindow mainWindow;
-		private Dictionary<string, EditorWindow> editorWindows = new Dictionary<string, EditorWindow>();
+		private readonly Dictionary<string, EditorWindow> editorWindows = new Dictionary<string, EditorWindow>();
 
 		private bool focusCommandLine = true;
 
@@ -35,12 +36,11 @@ namespace SmartBox {
 		}
 
 		public void EditProcedure(bool build, string procedure) {
-			EditorWindow editor;
 
 			var key = procedure.ToLowerInvariant();
 
 			// Is there an existing window?
-			if (!editorWindows.TryGetValue(key, out editor) || editor.IsDisposed) {
+			if (!editorWindows.TryGetValue(key, out EditorWindow editor) || editor.IsDisposed) {
 
 				// Was it a disposed window?
 				if (editor != null) {
@@ -72,8 +72,7 @@ namespace SmartBox {
 		}
 
 		private void Editor_FormClosing(object sender, FormClosingEventArgs e) {
-			var form = sender as EditorWindow;
-			if (form != null) {
+			if (sender is EditorWindow form) {
 				Debug.WriteLine(this.link.PutProcedure(form.Procedure, form.Code));
 			}
 		}
@@ -84,7 +83,7 @@ namespace SmartBox {
 		}
 
 		public byte[] GetAlbertLinkProgram() {
-			throw new NotImplementedException();
+			return File.ReadAllBytes("AL.COD");
 		}
 
 		public char GetKey() {
@@ -105,6 +104,10 @@ namespace SmartBox {
 
 		public void SetTraceFlag(bool traceFlag) {
 			throw new NotImplementedException();
+		}
+
+		public void Update(AlbertLinkPortState state) {
+			this.mainWindow?.UpdateState(state);
 		}
 	}
 }
