@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace SmartMove {
@@ -45,6 +46,7 @@ namespace SmartMove {
 		private AskType? askType = null;
 
 		public void EnableCommandMode(bool focus = true) {
+			this.getKeyQueue.Clear();
 			this.askType = null;
 			this.CommandPanel.Enabled = true;
 			this.CommandInput.Clear();
@@ -84,16 +86,21 @@ namespace SmartMove {
 		}
 
 		private void CommandInput_KeyPress(object sender, KeyPressEventArgs e) {
-			switch (e.KeyChar) {
-				case (char)0x1B:
-					e.Handled = true;
-					this.CommandPanel.Enabled = false;
-					this.Link?.Escape();
-					break;
-				case '\r':
+			if (e.KeyChar == (char)0x1B) {
+				// Always handle escape
+				e.Handled = true;
+				this.CommandPanel.Enabled = false;
+				this.Link?.Escape();
+			} else if (this.CommandPanel.Enabled) {
+				// If the command panel is enabled, we're typing in a command.
+				if (e.KeyChar == '\r') {
 					e.Handled = true;
 					this.SendCommand();
-					break;
+				}
+			} else {
+				// If the command panel is disabled, a procedure is running so store the value in the queue.
+				e.Handled = true;
+				this.getKeyQueue.Enqueue(e.KeyChar);
 			}
 		}
 
@@ -276,5 +283,16 @@ namespace SmartMove {
 		private void DisconnectToolStripMenuItem_Click(object sender, EventArgs e) {
 			this.Link?.Sleep();
 		}
+
+		private readonly Queue<char> getKeyQueue = new Queue<char>(4);
+
+		public char GetKey() {
+			if (getKeyQueue.Count > 0) {
+				return getKeyQueue.Dequeue();
+			} else {
+				return (char)0;
+			}
+		}
+
 	}
 }

@@ -122,7 +122,11 @@ namespace SmartMove {
 		}
 
 		public char GetKey() {
-			return (char)0;
+			if (this.mainWindow != null) {
+				return this.mainWindow.GetKey();
+			} else { 
+				return (char)0;
+			}
 		}
 
 		public void Print(char value) {
