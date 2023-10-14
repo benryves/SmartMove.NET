@@ -42,20 +42,40 @@ namespace SmartMove {
 			this.PrintOutput.ScrollToCaret();
 		}
 
+		private AskType? askType = null;
+
 		public void EnableCommandMode(bool focus = true) {
+			this.askType = null;
 			this.CommandPanel.Enabled = true;
 			this.CommandInput.Clear();
 			if (focus) this.CommandInput.Focus();
 		}
 
+		public void Ask(AskType type, string prompt) {
+			this.EnableCommandMode();
+			this.askType = type;
+			foreach (var c in prompt) {
+				this.Print(c);
+			}
+		}
+
 		private void SendCommand() {
 			if (this.CommandPanel.Enabled) {
-				this.PrintOutput.AppendText(": " + this.Link.SteadyLine(this.CommandInput.Text, AlbertLink.LabelUse.UseLblsSetting).Replace("\x01", "").Replace("\x02", "") + Environment.NewLine);
-				this.PrintOutput.ScrollToCaret();
-				this.PrintOutput.Focus();
-				this.CommandPanel.Enabled = false;
-				this.Link?.SendCmd(this.CommandInput.Text);
-				this.CommandInput.Clear();
+				if (this.askType.HasValue) {
+					this.PrintOutput.AppendText(this.CommandInput.Text + Environment.NewLine);
+					this.PrintOutput.ScrollToCaret();
+					this.PrintOutput.Focus();
+					this.CommandPanel.Enabled = false;
+					this.Link?.AskBack(this.CommandInput.Text);
+					this.CommandInput.Clear();
+				} else {
+					this.PrintOutput.AppendText(": " + this.Link.SteadyLine(this.CommandInput.Text, AlbertLink.LabelUse.UseLblsSetting).Replace("\x01", "").Replace("\x02", "") + Environment.NewLine);
+					this.PrintOutput.ScrollToCaret();
+					this.PrintOutput.Focus();
+					this.CommandPanel.Enabled = false;
+					this.Link?.SendCmd(this.CommandInput.Text);
+					this.CommandInput.Clear();
+				}
 			}
 		}
 
@@ -67,6 +87,7 @@ namespace SmartMove {
 			switch (e.KeyChar) {
 				case (char)0x1B:
 					e.Handled = true;
+					this.CommandPanel.Enabled = false;
 					this.Link?.Escape();
 					break;
 				case '\r':

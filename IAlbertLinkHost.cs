@@ -1,4 +1,6 @@
-﻿namespace SmartMove {
+﻿using System.Windows.Forms;
+
+namespace SmartMove {
 
 	public interface IAlbertLinkHost {
 
@@ -35,6 +37,8 @@
 		void UpdateLabel(string sourceLabel, string newLabel, bool softLabel);
 
 		byte Control(byte parameter);
+
+		void Ask(AskType type, string prompt);
 
 	}
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO.Ports;
 using System.Text;
+using System.Windows.Forms;
+using static SmartMove.SmartBox;
 
 namespace SmartMove {
 
@@ -34,6 +36,12 @@ namespace SmartMove {
 		EnablePrompt = 1 << 3,
 		ShitComputer = 1 << 4,
 		EnableGetLineCount = 1 << 5,
+	};
+
+	public enum AskType : byte {
+		String = 0,
+		Number = 1,
+		Time = 2,
 	};
 
 	public class AlbertLink : IDisposable {
@@ -200,6 +208,10 @@ namespace SmartMove {
 							this.smartBox.writer.Write((byte)0);
 							this.smartBox.writer.Write(this.host.Control(this.smartBox.reader.ReadByte()));
 							break;
+						case UpdateEvent.Ask:
+							this.smartBox.writer.Write((byte)0);
+							this.host.Ask((AskType)this.smartBox.reader.ReadByte(), this.smartBox.ReadString());
+							break;
 						default:
 							Console.WriteLine("Unsupported event {0}", evt);
 							break;
@@ -282,6 +294,12 @@ namespace SmartMove {
 		public void SendCmd(string command) {
 			this.SendRemoteEvent(RemoteEvent.Cmd);
 			this.smartBox.writer.Write(Encoding.ASCII.GetBytes(command));
+			this.smartBox.writer.Write((byte)13);
+		}
+
+		public void AskBack(string response) {
+			this.SendRemoteEvent(RemoteEvent.AskBack);
+			this.smartBox.writer.Write(Encoding.ASCII.GetBytes(response));
 			this.smartBox.writer.Write((byte)13);
 		}
 

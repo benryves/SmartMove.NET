@@ -179,5 +179,9 @@ namespace SmartMove {
 			controlError = true;
 			return 0;
 		}
+
+		public void Ask(AskType type, string prompt) {
+			this.mainWindow?.Ask(type, prompt);
+		}
 	}
 }
