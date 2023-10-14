@@ -89,6 +89,10 @@
 			this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.DisconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.QuitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.NewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.FileSep1 = new System.Windows.Forms.ToolStripSeparator();
+			this.OpenDialog = new System.Windows.Forms.OpenFileDialog();
 			this.CommandPanel.SuspendLayout();
 			this.Monitor.SuspendLayout();
 			this.MonitorTable.SuspendLayout();
@@ -900,6 +904,9 @@
 			// FileToolStripMenuItem
 			// 
 			this.FileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.NewToolStripMenuItem,
+            this.OpenToolStripMenuItem,
+            this.FileSep1,
             this.DisconnectToolStripMenuItem,
             this.QuitToolStripMenuItem});
 			this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
@@ -921,6 +928,32 @@
 			this.QuitToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
 			this.QuitToolStripMenuItem.Text = "&Quit";
 			this.QuitToolStripMenuItem.Click += new System.EventHandler(this.QuitToolStripMenuItem_Click);
+			// 
+			// NewToolStripMenuItem
+			// 
+			this.NewToolStripMenuItem.Name = "NewToolStripMenuItem";
+			this.NewToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+			this.NewToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+			this.NewToolStripMenuItem.Text = "&New";
+			this.NewToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
+			// 
+			// OpenToolStripMenuItem
+			// 
+			this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
+			this.OpenToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+			this.OpenToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+			this.OpenToolStripMenuItem.Text = "&Open...";
+			this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
+			// 
+			// FileSep1
+			// 
+			this.FileSep1.Name = "FileSep1";
+			this.FileSep1.Size = new System.Drawing.Size(187, 6);
+			// 
+			// OpenDialog
+			// 
+			this.OpenDialog.Filter = "Smart Move Procedures (*.txt)|*.txt|All files (*.*)|*.*";
+			this.OpenDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.OpenDialog_FileOk);
 			// 
 			// MainWindow
 			// 
@@ -1033,5 +1066,9 @@
 		private System.Windows.Forms.ToolStripMenuItem FileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem DisconnectToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem QuitToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem NewToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem OpenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator FileSep1;
+		private System.Windows.Forms.OpenFileDialog OpenDialog;
 	}
 }

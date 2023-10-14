@@ -185,5 +185,9 @@ namespace SmartMove {
 		public void Ask(AskType type, string prompt) {
 			this.mainWindow?.Ask(type, prompt);
 		}
+
+		public void Load(string filename) {
+			this.mainWindow?.LoadFile(filename);
+		}
 	}
 }

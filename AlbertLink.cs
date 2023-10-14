@@ -44,6 +44,13 @@ namespace SmartMove {
 		Time = 2,
 	};
 
+	public enum PutProcedureResult : byte {
+		OK = 0,
+		BadName = 1,
+		NoRoom = 2,
+		BadData = 3,
+	};
+
 	public class AlbertLink : IDisposable {
 
 		private readonly SmartBox smartBox;
@@ -204,6 +211,10 @@ namespace SmartMove {
 							this.smartBox.writer.Write((byte)0);
 							this.host.Ask((AskType)this.smartBox.reader.ReadByte(), this.smartBox.ReadString());
 							break;
+						case UpdateEvent.Load:
+							this.smartBox.writer.Write((byte)0);
+							this.host.Load(this.smartBox.ReadString());
+							break;
 						default:
 							Console.WriteLine("Unsupported event {0}", evt);
 							break;
@@ -357,11 +368,11 @@ namespace SmartMove {
 			return code;
         }
 
-		public byte PutProcedure(string procedureName, string code) {
+		public PutProcedureResult PutProcedure(string procedureName, string code) {
 			this.SendRemoteEvent(RemoteEvent.Put);
 			this.smartBox.WriteString(procedureName);
 			this.smartBox.WriteString(code.Trim() + "\r", 0xFF);
-			return this.smartBox.reader.ReadByte();
+			return (PutProcedureResult)this.smartBox.reader.ReadByte();
 		}
 
 		public void SetTraceFlag(bool flag) {

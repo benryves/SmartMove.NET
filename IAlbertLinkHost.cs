@@ -40,5 +40,7 @@ namespace SmartMove {
 
 		void Ask(AskType type, string prompt);
 
+		void Load(string filename);
+
 	}
 }

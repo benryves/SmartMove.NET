@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
@@ -309,5 +312,84 @@ namespace SmartMove {
 			}
 		}
 
+		public void LoadFile(string filename) {
+			if (string.IsNullOrEmpty(filename)) {
+				this.OpenDialog.ShowDialog();
+			} else {
+				// Append the default .txt extension if required
+				if (!File.Exists(filename) && File.Exists(filename + ".txt")) {
+					filename += ".txt";
+				}
+				// Check if the file exists
+				if (!File.Exists(filename)) {
+					this.Link.Error("File not found");
+				} else {
+					// Try to load the file
+					try {
+						var file = File.ReadAllLines(filename);
+						
+						bool readingProcedureName = true;
+
+						string procedureName = null;
+						List<string> procedureBody = new List<string>();
+
+						foreach (var line in file) {
+							if (line.Length == 0) {
+								readingProcedureName = true;
+								if (!string.IsNullOrEmpty(procedureName) && procedureBody.Count > 0) {
+									switch (this.Link.PutProcedure(procedureName, string.Join("\r", procedureBody.ToArray()))) {
+										case PutProcedureResult.OK:
+											this.Print(string.Format("Loaded procedure '{0}'\r", procedureName));
+											break;
+									}
+									procedureName = null;
+									procedureBody.Clear();
+								}
+							} else if (readingProcedureName) {
+								if (line.Contains("=")) {
+									var labelParts = line.Split('=');
+									var labelName = labelParts[0];
+									var labelValue = labelParts[1];
+									//TODO: Set label
+									Debug.WriteLine("LABEL {0} {1}", labelName, labelValue);
+								} else {
+									procedureName = line;
+									readingProcedureName = false;
+								}
+							} else {
+								procedureBody.Add(line);
+							}
+						}
+
+
+						if (!readingProcedureName && !string.IsNullOrEmpty(procedureName) && procedureBody.Count > 0) {
+							this.Link.PutProcedure(procedureName, string.Join("\r", procedureBody.ToArray()));
+							procedureName = null;
+							procedureBody.Clear();
+						}
+
+					} catch (Exception ex) { 
+						this.Link.Error(ex.Message);
+					}
+				}
+			}
+		}
+
+		private void OpenDialog_FileOk(object sender, CancelEventArgs e) {
+			if (!e.Cancel && sender is OpenFileDialog dialog) {
+				this.LoadFile(dialog.FileName);
+			}
+		}
+
+		private void NewToolStripMenuItem_Click(object sender, EventArgs e) {
+			if (this.CommandPanel.Enabled && !this.askType.HasValue) {
+				this.CommandPanel.Enabled = false;
+				this.Link.SendCmd("NEW");
+			}
+		}
+
+		private void OpenToolStripMenuItem_Click(object sender, EventArgs e) {
+			this.LoadFile("");
+		}
 	}
 }
