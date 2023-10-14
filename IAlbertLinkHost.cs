@@ -34,5 +34,7 @@
 
 		void UpdateLabel(string sourceLabel, string newLabel, bool softLabel);
 
+		byte Control(byte parameter);
+
 	}
 }

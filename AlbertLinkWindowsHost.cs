@@ -16,6 +16,8 @@ namespace SmartMove {
 
 		private bool focusCommandLine = true;
 
+		private bool controlError = false;
+
 		public AlbertLinkWindowsHost() {
 			Application.EnableVisualStyles();
 			this.mainWindow = new MainWindow();
@@ -35,7 +37,12 @@ namespace SmartMove {
 		}
 
 		public void Idle() {
-			Application.DoEvents();
+			if (controlError) {
+				controlError = false;
+				this.link.Error("CONTROL is not supported in this version of Smart Move");
+			} else {
+				Application.DoEvents();
+			}
 		}
 
 		public bool DisplayError(string procedure, string message, string line) {
@@ -168,5 +175,9 @@ namespace SmartMove {
 			this.mainWindow?.UpdateLabel(sourceLabel, newLabel, softLabel);
 		}
 
+		public byte Control(byte parameter) {
+			controlError = true;
+			return 0;
+		}
 	}
 }

@@ -196,6 +196,10 @@ namespace SmartMove {
 							//if ((altered & (1 << 0)) != 0) ; // Procedure list changed
 							if ((altered & (1 << 1)) != 0) this.ReadLabels();
 							break;
+						case UpdateEvent.Control:
+							this.smartBox.writer.Write((byte)0);
+							this.smartBox.writer.Write(this.host.Control(this.smartBox.reader.ReadByte()));
+							break;
 						default:
 							Console.WriteLine("Unsupported event {0}", evt);
 							break;
@@ -380,6 +384,11 @@ namespace SmartMove {
 		public ushort GetFreeMem() {
 			this.SendRemoteEvent(RemoteEvent.FreeMem);
 			return this.smartBox.reader.ReadUInt16();
+		}
+
+		public void Error(string error) {
+			this.SendRemoteEvent(RemoteEvent.Error);
+			this.smartBox.WriteString(error);
 		}
 
 		protected virtual void Dispose(bool disposing) {
