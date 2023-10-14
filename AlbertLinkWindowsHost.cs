@@ -31,9 +31,7 @@ namespace SmartMove {
 
 		public void ShowSignOn() {
 			var versionString = string.Format("{0} {1} ({2})\r{3} bytes free\r\r", Application.ProductName, Application.ProductVersion, link.GetVersion(), link.GetFreeMem());
-			foreach (var c in versionString) {
-				this.mainWindow.Print(c);
-			}
+			this.mainWindow.Print(versionString);
 		}
 
 		public void Idle() {
@@ -129,7 +127,7 @@ namespace SmartMove {
 			}
 		}
 
-		public void Print(char value) {
+		public void Print(string value) {
 			this.mainWindow?.Print(value);
 		}
 
@@ -161,9 +159,9 @@ namespace SmartMove {
 			this.mainWindow?.UpdateState(state);
 		}
 
-		public void Trace(char value) {
+		public void Trace(string value) {
 			if (this.traceWindow != null && !this.traceWindow.IsDisposed) {
-				traceWindow.Print(value);
+				traceWindow.Trace(value);
 			}
 		}
 

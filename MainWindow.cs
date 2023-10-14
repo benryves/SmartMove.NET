@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Windows.Forms;
 
 namespace SmartMove {
@@ -25,21 +26,37 @@ namespace SmartMove {
 			}
 		}
 
-		public void Print(char c) {
-			switch (c) {
-				case (char)1: // Token begin
-				case (char)2: // Token end
-					break;
-				case (char)12: // Clear screen
-					this.PrintOutput.Clear();
-					break;
-				case '\r': // New line
-					this.PrintOutput.AppendText(Environment.NewLine);
-					break;
-				default:
-					this.PrintOutput.AppendText(c.ToString());
-					break;
+		public void Print(string value) {
+
+			StringBuilder parts = new StringBuilder(value.Length);
+
+			foreach (char c in value) {
+				switch (c) {
+					case (char)1: // Token begin
+					case (char)2: // Token end
+						break;
+					case (char)12: // Clear screen
+						if (parts.Length > 0) {
+							this.PrintOutput.AppendText(parts.ToString());
+							parts.Clear();
+						}
+						this.PrintOutput.Clear();
+						break;
+					case '\r': // New line
+						parts.Append(Environment.NewLine);
+						break;
+					default:
+						parts.Append(c);
+						break;
+				}
 			}
+
+			if (parts.Length > 0) {
+				this.PrintOutput.AppendText(parts.ToString());
+				parts.Clear();
+			}
+
+			
 			this.PrintOutput.ScrollToCaret();
 		}
 
@@ -56,9 +73,7 @@ namespace SmartMove {
 		public void Ask(AskType type, string prompt) {
 			this.EnableCommandMode();
 			this.askType = type;
-			foreach (var c in prompt) {
-				this.Print(c);
-			}
+			this.Print(prompt);
 		}
 
 		private void SendCommand() {

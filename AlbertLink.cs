@@ -135,20 +135,12 @@ namespace SmartMove {
 					switch (evt = (UpdateEvent)this.smartBox.reader.ReadByte()) {
 						case UpdateEvent.Print: {
 								this.smartBox.writer.Write((byte)0);
-								byte b;
-								while ((b = this.smartBox.reader.ReadByte()) != 0) {
-									this.host.Print((char)b);
-								}
+								this.host.Print(this.smartBox.ReadString(0));
 							}
 							break;
-						case UpdateEvent.Trace: {
-								this.smartBox.writer.Write((byte)0);
-								byte b;
-								while ((b = this.smartBox.reader.ReadByte()) != 13) {
-									this.host.Trace((char)b);
-								}
-								this.host.Trace('\r');
-							}
+						case UpdateEvent.Trace:
+							this.smartBox.writer.Write((byte)0);
+							this.host.Trace(this.smartBox.ReadString(13));
 							break;
 						case UpdateEvent.Error:
 							this.smartBox.writer.Write((byte)0);
@@ -157,13 +149,13 @@ namespace SmartMove {
 							var line = this.smartBox.ReadString();
 							if (!this.host.DisplayError(procedure, message, line)) {
 								if (!string.IsNullOrEmpty(procedure)) {
-									foreach (char e in (procedure + " : ")) this.host.Print(e);
+									this.host.Print(procedure + " : ");
 								}
-								foreach (char e in (message)) this.host.Print(e);
+								this.host.Print(message);
 								if (!string.IsNullOrEmpty(line)) {
-									foreach (char e in (" (" + line + ")")) this.host.Print(e);
+									this.host.Print(" (" + line + ")");
 								}
-								this.host.Print('\r');
+								this.host.Print("\r");
 							}
 							break;
 						case UpdateEvent.Cmd:

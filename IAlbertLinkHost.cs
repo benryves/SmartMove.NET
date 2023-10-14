@@ -12,7 +12,7 @@ namespace SmartMove {
 
 		void UpdateConnectionProgress(int value, int maximum);
 
-		void Print(char value);
+		void Print(string value);
 
 		bool DisplayError(string procedure, string message, string line);
 
@@ -22,7 +22,7 @@ namespace SmartMove {
 
 		void SetTraceFlag(bool traceFlag);
 
-		void Trace(char value);
+		void Trace(string value);
 
 		void Idle();
 
