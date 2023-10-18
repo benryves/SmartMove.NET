@@ -27,6 +27,17 @@ namespace SmartMove {
 		public byte ClockCentiseconds;
 	};
 
+	public struct AlbertLinkLabel {
+		public string OldName;
+		public string NewName;
+		public bool Soft;
+		public AlbertLinkLabel(string oldName, string newName, bool soft) {
+			this.OldName = oldName;
+			this.NewName = newName;
+			this.Soft = soft;
+		}
+	};
+
 	[Flags]
 	public enum SetupFlags : byte {
 		None = 0,
@@ -49,6 +60,15 @@ namespace SmartMove {
 		BadName = 1,
 		NoRoom = 2,
 		BadData = 3,
+	};
+
+	public enum WriteLabelResult : byte {
+		OK = 0,
+		BadSourceLabel = 1,
+		BadLabel = 2,
+		LabelTooLong = 3,
+		LabelExistsAsProcedure = 4,
+		CannotOverwriteHardWithSoft = 5,
 	};
 
 	public class AlbertLink : IDisposable {
@@ -131,7 +151,7 @@ namespace SmartMove {
 			this.host.ShowSignOn();
 
 			// Trigger reading labels
-			this.ReadLabels();
+			this.host.AlteredLabels();
 
 			running = true;
 
@@ -201,7 +221,7 @@ namespace SmartMove {
 							this.smartBox.writer.Write((byte)0);
 							var altered = this.smartBox.reader.ReadByte();
 							//if ((altered & (1 << 0)) != 0) ; // Procedure list changed
-							if ((altered & (1 << 1)) != 0) this.ReadLabels();
+							if ((altered & (1 << 1)) != 0) this.host.AlteredLabels();
 							break;
 						case UpdateEvent.Control:
 							this.smartBox.writer.Write((byte)0);
@@ -214,6 +234,10 @@ namespace SmartMove {
 						case UpdateEvent.Load:
 							this.smartBox.writer.Write((byte)0);
 							this.host.Load(this.smartBox.ReadString());
+							break;
+						case UpdateEvent.Save:
+							this.smartBox.writer.Write((byte)0);
+							this.host.Save(this.smartBox.ReadString(), this.smartBox.ReadString());
 							break;
 						default:
 							Console.WriteLine("Unsupported event {0}", evt);
@@ -380,8 +404,10 @@ namespace SmartMove {
 			this.smartBox.writer.Write((byte)(flag ? 1 : 0));
 		}
 
-		public void ReadLabels() {
-			this.host.ResetLabels();
+		public AlbertLinkLabel[] ReadLabels() {
+
+			var labels = new List<AlbertLinkLabel>(4);
+
 			this.SendRemoteEvent(RemoteEvent.ReadLabels);
 			string source;
 			while (!string.IsNullOrEmpty(source = this.smartBox.ReadString())) {
@@ -393,8 +419,20 @@ namespace SmartMove {
 				}
 				var destination = Encoding.ASCII.GetString(s.ToArray());
 
-				this.host.UpdateLabel(source, destination, b == 128);
+				labels.Add(new AlbertLinkLabel(source, destination, b == 128));
 			}
+
+			return labels.ToArray();
+		}
+
+		public WriteLabelResult WriteLabel(AlbertLinkLabel label) {
+
+			this.SendRemoteEvent(RemoteEvent.WriteLabel);
+			this.smartBox.WriteString(label.OldName);
+			this.smartBox.WriteString(label.NewName);
+			this.smartBox.writer.Write((byte)(label.Soft ? 1 : 0));
+
+			return (WriteLabelResult)this.smartBox.reader.ReadByte();
 		}
 
 		public string GetVersion() {
@@ -410,6 +448,16 @@ namespace SmartMove {
 		public void Error(string error) {
 			this.SendRemoteEvent(RemoteEvent.Error);
 			this.smartBox.WriteString(error);
+		}
+
+		public string[] List() {
+			var procedures = new List<string>();
+			this.SendRemoteEvent(RemoteEvent.List);
+			string procedure;
+			while (!string.IsNullOrEmpty(procedure = this.smartBox.ReadString())) {
+				procedures.Add(procedure);
+			}
+			return procedures.ToArray();
 		}
 
 		protected virtual void Dispose(bool disposing) {

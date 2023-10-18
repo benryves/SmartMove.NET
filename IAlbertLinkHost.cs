@@ -32,15 +32,15 @@ namespace SmartMove {
 
 		void UpdateState(AlbertLinkPortState state);
 
-		void ResetLabels();
-
-		void UpdateLabel(string sourceLabel, string newLabel, bool softLabel);
+		void AlteredLabels();
 
 		byte Control(byte parameter);
 
 		void Ask(AskType type, string prompt);
 
 		void Load(string filename);
+
+		void Save(string filename, string procedure);
 
 	}
 }

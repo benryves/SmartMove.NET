@@ -87,12 +87,15 @@
 			this.ClockStatus = new System.Windows.Forms.ToolStripStatusLabel();
 			this.Menus = new System.Windows.Forms.MenuStrip();
 			this.FileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.DisconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.QuitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.NewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.FileSep1 = new System.Windows.Forms.ToolStripSeparator();
+			this.DisconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.QuitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.OpenDialog = new System.Windows.Forms.OpenFileDialog();
+			this.SaveDialog = new System.Windows.Forms.SaveFileDialog();
+			this.FileSep2 = new System.Windows.Forms.ToolStripSeparator();
+			this.SaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.CommandPanel.SuspendLayout();
 			this.Monitor.SuspendLayout();
 			this.MonitorTable.SuspendLayout();
@@ -907,27 +910,13 @@
             this.NewToolStripMenuItem,
             this.OpenToolStripMenuItem,
             this.FileSep1,
+            this.SaveToolStripMenuItem,
+            this.FileSep2,
             this.DisconnectToolStripMenuItem,
             this.QuitToolStripMenuItem});
 			this.FileToolStripMenuItem.Name = "FileToolStripMenuItem";
 			this.FileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
 			this.FileToolStripMenuItem.Text = "&File";
-			// 
-			// DisconnectToolStripMenuItem
-			// 
-			this.DisconnectToolStripMenuItem.Name = "DisconnectToolStripMenuItem";
-			this.DisconnectToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F10)));
-			this.DisconnectToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-			this.DisconnectToolStripMenuItem.Text = "&Disconnect";
-			this.DisconnectToolStripMenuItem.Click += new System.EventHandler(this.DisconnectToolStripMenuItem_Click);
-			// 
-			// QuitToolStripMenuItem
-			// 
-			this.QuitToolStripMenuItem.Name = "QuitToolStripMenuItem";
-			this.QuitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-			this.QuitToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-			this.QuitToolStripMenuItem.Text = "&Quit";
-			this.QuitToolStripMenuItem.Click += new System.EventHandler(this.QuitToolStripMenuItem_Click);
 			// 
 			// NewToolStripMenuItem
 			// 
@@ -950,10 +939,44 @@
 			this.FileSep1.Name = "FileSep1";
 			this.FileSep1.Size = new System.Drawing.Size(187, 6);
 			// 
+			// DisconnectToolStripMenuItem
+			// 
+			this.DisconnectToolStripMenuItem.Name = "DisconnectToolStripMenuItem";
+			this.DisconnectToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F10)));
+			this.DisconnectToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+			this.DisconnectToolStripMenuItem.Text = "&Disconnect";
+			this.DisconnectToolStripMenuItem.Click += new System.EventHandler(this.DisconnectToolStripMenuItem_Click);
+			// 
+			// QuitToolStripMenuItem
+			// 
+			this.QuitToolStripMenuItem.Name = "QuitToolStripMenuItem";
+			this.QuitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+			this.QuitToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+			this.QuitToolStripMenuItem.Text = "&Quit";
+			this.QuitToolStripMenuItem.Click += new System.EventHandler(this.QuitToolStripMenuItem_Click);
+			// 
 			// OpenDialog
 			// 
 			this.OpenDialog.Filter = "Smart Move Procedures (*.txt)|*.txt|All files (*.*)|*.*";
 			this.OpenDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.OpenDialog_FileOk);
+			// 
+			// SaveDialog
+			// 
+			this.SaveDialog.Filter = "Smart Move Procedures (*.txt)|*.txt|All files (*.*)|*.*";
+			this.SaveDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.SaveDialog_FileOk);
+			// 
+			// FileSep2
+			// 
+			this.FileSep2.Name = "FileSep2";
+			this.FileSep2.Size = new System.Drawing.Size(187, 6);
+			// 
+			// SaveToolStripMenuItem
+			// 
+			this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
+			this.SaveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+			this.SaveToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+			this.SaveToolStripMenuItem.Text = "&Save";
+			this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
 			// 
 			// MainWindow
 			// 
@@ -1070,5 +1093,8 @@
 		private System.Windows.Forms.ToolStripMenuItem OpenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator FileSep1;
 		private System.Windows.Forms.OpenFileDialog OpenDialog;
+		private System.Windows.Forms.SaveFileDialog SaveDialog;
+		private System.Windows.Forms.ToolStripMenuItem SaveToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator FileSep2;
 	}
 }

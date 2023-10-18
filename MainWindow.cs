@@ -244,7 +244,8 @@ namespace SmartMove {
 			this.ClockStatus.Text = string.Format("{0:D2}:{1:D2}:{2:D2}.{3:D2}", state.ClockHours, state.ClockMinutes, state.ClockSeconds, state.ClockCentiseconds);
 		}
 
-		public void ResetLabels() {
+		public void AlteredLabels() {
+
 			this.Sensor0.Text = "0";
 			this.Sensor1.Text = "1";
 			this.Sensor2.Text = "2";
@@ -265,31 +266,33 @@ namespace SmartMove {
 			this.MotorBName.Text = "B";
 			this.MotorCName.Text = "C";
 			this.MotorDName.Text = "D";
-		}
 
-		public void UpdateLabel(string sourceLabel, string newLabel, bool softLabel) {
-			if (!softLabel) {
-				switch (sourceLabel) {
-					case "SENSOR0": this.Sensor0.Text = "0: " + newLabel; break;
-					case "SENSOR1": this.Sensor1.Text = "1: " + newLabel; break;
-					case "SENSOR2": this.Sensor2.Text = "2: " + newLabel; break;
-					case "SENSOR3": this.Sensor3.Text = "3: " + newLabel; break;
-					case "SENSOR4": this.Sensor4.Text = "4: " + newLabel; break;
-					case "SENSOR5": this.Sensor5.Text = "5: " + newLabel; break;
-					case "SENSOR6": this.Sensor6.Text = "6: " + newLabel; break;
-					case "SENSOR7": this.Sensor7.Text = "7: " + newLabel; break;
-					case "OUTPUT0": this.Output0.Text = "0: " + newLabel; break;
-					case "OUTPUT1": this.Output1.Text = "1: " + newLabel; break;
-					case "OUTPUT2": this.Output2.Text = "2: " + newLabel; break;
-					case "OUTPUT3": this.Output3.Text = "3: " + newLabel; break;
-					case "OUTPUT4": this.Output4.Text = "4: " + newLabel; break;
-					case "OUTPUT5": this.Output5.Text = "5: " + newLabel; break;
-					case "OUTPUT6": this.Output6.Text = "6: " + newLabel; break;
-					case "OUTPUT7": this.Output7.Text = "7: " + newLabel; break;
-					case "MOTORA": this.MotorAName.Text = "A: " + newLabel; break;
-					case "MOTORB": this.MotorBName.Text = "B: " + newLabel; break;
-					case "MOTORC": this.MotorCName.Text = "C: " + newLabel; break;
-					case "MOTORD": this.MotorDName.Text = "D: " + newLabel; break;
+			if (this.Link != null) {
+				foreach (var label in this.Link.ReadLabels()) {
+					if (!label.Soft) {
+						switch (label.OldName) {
+							case "SENSOR0": this.Sensor0.Text = "0: " + label.NewName; break;
+							case "SENSOR1": this.Sensor1.Text = "1: " + label.NewName; break;
+							case "SENSOR2": this.Sensor2.Text = "2: " + label.NewName; break;
+							case "SENSOR3": this.Sensor3.Text = "3: " + label.NewName; break;
+							case "SENSOR4": this.Sensor4.Text = "4: " + label.NewName; break;
+							case "SENSOR5": this.Sensor5.Text = "5: " + label.NewName; break;
+							case "SENSOR6": this.Sensor6.Text = "6: " + label.NewName; break;
+							case "SENSOR7": this.Sensor7.Text = "7: " + label.NewName; break;
+							case "OUTPUT0": this.Output0.Text = "0: " + label.NewName; break;
+							case "OUTPUT1": this.Output1.Text = "1: " + label.NewName; break;
+							case "OUTPUT2": this.Output2.Text = "2: " + label.NewName; break;
+							case "OUTPUT3": this.Output3.Text = "3: " + label.NewName; break;
+							case "OUTPUT4": this.Output4.Text = "4: " + label.NewName; break;
+							case "OUTPUT5": this.Output5.Text = "5: " + label.NewName; break;
+							case "OUTPUT6": this.Output6.Text = "6: " + label.NewName; break;
+							case "OUTPUT7": this.Output7.Text = "7: " + label.NewName; break;
+							case "MOTORA": this.MotorAName.Text = "A: " + label.NewName; break;
+							case "MOTORB": this.MotorBName.Text = "B: " + label.NewName; break;
+							case "MOTORC": this.MotorCName.Text = "C: " + label.NewName; break;
+							case "MOTORD": this.MotorDName.Text = "D: " + label.NewName; break;
+						}
+					}
 				}
 			}
 		}
@@ -350,8 +353,7 @@ namespace SmartMove {
 									var labelParts = line.Split('=');
 									var labelName = labelParts[0];
 									var labelValue = labelParts[1];
-									//TODO: Set label
-									Debug.WriteLine("LABEL {0} {1}", labelName, labelValue);
+									this.Link.WriteLabel(new AlbertLinkLabel(labelName, labelValue, false));
 								} else {
 									procedureName = line;
 									readingProcedureName = false;
@@ -375,6 +377,53 @@ namespace SmartMove {
 			}
 		}
 
+		public void SaveFile(string filename, string procedure) {
+			if (string.IsNullOrEmpty(filename)) {
+				this.SaveDialog.ShowDialog();
+			} else {
+				if (string.IsNullOrEmpty(Path.GetExtension(filename))) {
+					filename += ".txt";
+				}
+				try {
+					using (var saveFile = File.CreateText(filename)) {
+						string[] procedures;
+
+						if (string.IsNullOrEmpty(procedure)) {
+
+							// Save the labels first
+							var labels = this.Link.ReadLabels();
+							if (labels.Length > 0) {
+								foreach (var label in labels) {
+									if (!label.Soft) {
+										saveFile.WriteLine("{0}={1}", label.OldName, label.NewName);
+									}
+								}
+								saveFile.WriteLine();
+							}
+
+							// Get the list of procedures to save.
+							procedures = this.Link.List();
+						} else {
+							// We're only saving one procedure.
+							procedures = new string[] { procedure };
+						}
+						foreach (var procedureToSave in procedures) {
+							saveFile.WriteLine(procedureToSave);
+							foreach (var lineToSave in this.Link.GetProcedure(procedureToSave).Split('\r')) {
+								var trimmedLine = lineToSave.Replace("\x01", "").Replace("\x02", "").Trim();
+								if (!string.IsNullOrEmpty(trimmedLine)) {
+									saveFile.WriteLine(trimmedLine);
+								}
+							}
+							saveFile.WriteLine();
+						}
+					}
+				} catch (Exception ex) {
+					this.Link.Error(ex.Message);
+				}
+			}
+		}
+
 		private void OpenDialog_FileOk(object sender, CancelEventArgs e) {
 			if (!e.Cancel && sender is OpenFileDialog dialog) {
 				this.LoadFile(dialog.FileName);
@@ -390,6 +439,16 @@ namespace SmartMove {
 
 		private void OpenToolStripMenuItem_Click(object sender, EventArgs e) {
 			this.LoadFile("");
+		}
+
+		private void SaveToolStripMenuItem_Click(object sender, EventArgs e) {
+			this.SaveFile("", "");
+		}
+
+		private void SaveDialog_FileOk(object sender, CancelEventArgs e) {
+			if (!e.Cancel && sender is SaveFileDialog dialog) {
+				this.SaveFile(dialog.FileName, "");
+			}
 		}
 	}
 }

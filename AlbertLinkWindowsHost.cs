@@ -169,12 +169,8 @@ namespace SmartMove {
 			this.link.SetTraceFlag(false);
 		}
 
-		public void ResetLabels() {
-			this.mainWindow?.ResetLabels();
-		}
-
-		public void UpdateLabel(string sourceLabel, string newLabel, bool softLabel) {
-			this.mainWindow?.UpdateLabel(sourceLabel, newLabel, softLabel);
+		public void AlteredLabels() {
+			this.mainWindow?.AlteredLabels();
 		}
 
 		public byte Control(byte parameter) {
@@ -188,6 +184,10 @@ namespace SmartMove {
 
 		public void Load(string filename) {
 			this.mainWindow?.LoadFile(filename);
+		}
+
+		public void Save(string filename, string procedure) {
+			this.mainWindow?.SaveFile(filename, procedure);
 		}
 	}
 }
