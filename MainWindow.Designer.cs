@@ -94,10 +94,10 @@
 			this.FileSep2 = new System.Windows.Forms.ToolStripSeparator();
 			this.DisconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.QuitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.OpenDialog = new System.Windows.Forms.OpenFileDialog();
-			this.SaveDialog = new System.Windows.Forms.SaveFileDialog();
 			this.ProceduresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.BuildToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.OpenDialog = new System.Windows.Forms.OpenFileDialog();
+			this.SaveDialog = new System.Windows.Forms.SaveFileDialog();
 			this.CommandPanel.SuspendLayout();
 			this.Monitor.SuspendLayout();
 			this.MonitorTable.SuspendLayout();
@@ -947,7 +947,7 @@
 			this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
 			this.SaveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
 			this.SaveToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-			this.SaveToolStripMenuItem.Text = "&Save";
+			this.SaveToolStripMenuItem.Text = "&Save...";
 			this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
 			// 
 			// FileSep2
@@ -971,16 +971,6 @@
 			this.QuitToolStripMenuItem.Text = "&Quit";
 			this.QuitToolStripMenuItem.Click += new System.EventHandler(this.QuitToolStripMenuItem_Click);
 			// 
-			// OpenDialog
-			// 
-			this.OpenDialog.Filter = "Smart Move Procedures (*.txt)|*.txt|All files (*.*)|*.*";
-			this.OpenDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.OpenDialog_FileOk);
-			// 
-			// SaveDialog
-			// 
-			this.SaveDialog.Filter = "Smart Move Procedures (*.txt)|*.txt|All files (*.*)|*.*";
-			this.SaveDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.SaveDialog_FileOk);
-			// 
 			// ProceduresToolStripMenuItem
 			// 
 			this.ProceduresToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -992,9 +982,19 @@
 			// BuildToolStripMenuItem
 			// 
 			this.BuildToolStripMenuItem.Name = "BuildToolStripMenuItem";
-			this.BuildToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.BuildToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
 			this.BuildToolStripMenuItem.Text = "Build...";
 			this.BuildToolStripMenuItem.Click += new System.EventHandler(this.BuildToolStripMenuItem_Click);
+			// 
+			// OpenDialog
+			// 
+			this.OpenDialog.Filter = "Smart Move Procedures (*.txt)|*.txt|All files (*.*)|*.*";
+			this.OpenDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.OpenDialog_FileOk);
+			// 
+			// SaveDialog
+			// 
+			this.SaveDialog.Filter = "Smart Move Procedures (*.txt)|*.txt|All files (*.*)|*.*";
+			this.SaveDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.SaveDialog_FileOk);
 			// 
 			// MainWindow
 			// 

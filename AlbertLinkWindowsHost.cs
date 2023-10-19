@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Security.Policy;
 using System.Windows.Forms;
 
 namespace SmartMove {
-	internal class AlbertLinkWindowsHost : IAlbertLinkHost {
+	internal class AlbertLinkWindowsHost : IAlbertLinkHost, IDisposable {
 
 		private AlbertLink link;
 
@@ -17,6 +18,7 @@ namespace SmartMove {
 		private bool focusCommandLine = true;
 
 		private bool controlError = false;
+		private bool disposedValue;
 
 		public AlbertLinkWindowsHost() {
 			Application.EnableVisualStyles();
@@ -96,7 +98,7 @@ namespace SmartMove {
 		}
 
 		public byte[] GetAlbertLinkProgram() {
-			return File.ReadAllBytes("AL.COD");
+			return System.IO.File.ReadAllBytes("AL.COD");
 		}
 
 		public void UpdateConnectionProgress(int value, int maximum) {
@@ -188,6 +190,48 @@ namespace SmartMove {
 
 		public void Save(string filename, string procedure) {
 			this.mainWindow?.SaveFile(filename, procedure);
+		}
+
+		private readonly Dictionary<byte, StreamWriter> openFiles = new Dictionary<byte, StreamWriter>(10);
+
+		public bool File(byte channel, string filename) {
+			if (string.IsNullOrEmpty(Path.GetExtension(filename))) filename += ".dat";
+			try {
+				var fh = System.IO.File.CreateText(filename);
+				openFiles.Add(channel, fh);
+				return true;
+			} catch {
+				return false;
+			}
+		}
+
+		public void Close(byte channel) {
+			if (openFiles.TryGetValue(channel, out StreamWriter fh)) {
+				fh.Close();
+				fh.Dispose();
+				openFiles.Remove(channel);
+			}
+		}
+
+		public void Store(byte channel, string data) {
+			if (openFiles.TryGetValue(channel, out StreamWriter fh)) {
+				fh.Write(data.Replace("\r", Environment.NewLine));
+			}
+		}
+
+		protected virtual void Dispose(bool disposing) {
+			if (!disposedValue) {
+				if (disposing) {
+					this.Close(0);
+				}
+				disposedValue = true;
+			}
+		}
+
+		public void Dispose() {
+			// Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+			Dispose(disposing: true);
+			GC.SuppressFinalize(this);
 		}
 	}
 }

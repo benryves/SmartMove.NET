@@ -248,6 +248,18 @@ namespace SmartMove {
 							this.smartBox.writer.Write((byte)0);
 							this.host.Save(this.smartBox.ReadString(), this.smartBox.ReadString());
 							break;
+						case UpdateEvent.File:
+							this.smartBox.writer.Write((byte)0);
+							this.FileBack(this.host.File(this.smartBox.reader.ReadByte(), this.smartBox.ReadString()));
+							break;
+						case UpdateEvent.Close:
+							this.smartBox.writer.Write((byte)0);
+							this.host.Close(this.smartBox.reader.ReadByte());
+							break;
+						case UpdateEvent.Store:
+							this.smartBox.writer.Write((byte)0);
+							this.host.Store(this.smartBox.reader.ReadByte(), this.smartBox.ReadString(0));
+							break;
 						default:
 							Console.WriteLine("Unsupported event {0}", evt);
 							break;
@@ -467,6 +479,11 @@ namespace SmartMove {
 				procedures.Add(procedure);
 			}
 			return procedures.ToArray();
+		}
+
+		public void FileBack(bool success) {
+			this.SendRemoteEvent(RemoteEvent.FileBack);
+			this.smartBox.writer.Write((byte)(success ? 1 : 0));
 		}
 
 		protected virtual void Dispose(bool disposing) {

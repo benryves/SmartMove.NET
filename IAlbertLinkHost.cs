@@ -42,5 +42,11 @@ namespace SmartMove {
 
 		void Save(string filename, string procedure);
 
+		bool File(byte channel, string filename);
+
+		void Close(byte channel);
+
+		void Store(byte channel, string data);
+
 	}
 }
