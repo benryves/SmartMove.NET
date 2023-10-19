@@ -22,6 +22,8 @@ namespace SmartMove {
 			set;
 		}
 
+		private TextInputWindow buildProcedureTextInput = null;
+
 		private void MainWindow_FormClosing(object sender, FormClosingEventArgs e) {
 			if (this.Link != null) {
 				e.Cancel = true;
@@ -244,55 +246,87 @@ namespace SmartMove {
 			this.ClockStatus.Text = string.Format("{0:D2}:{1:D2}:{2:D2}.{3:D2}", state.ClockHours, state.ClockMinutes, state.ClockSeconds, state.ClockCentiseconds);
 		}
 
-		public void AlteredLabels() {
+		public void Altered(AlteredFlags flags) {
 
-			this.Sensor0.Text = "0";
-			this.Sensor1.Text = "1";
-			this.Sensor2.Text = "2";
-			this.Sensor3.Text = "3";
-			this.Sensor4.Text = "4";
-			this.Sensor5.Text = "5";
-			this.Sensor6.Text = "6";
-			this.Sensor7.Text = "7";
-			this.Output0.Text = "0";
-			this.Output1.Text = "1";
-			this.Output2.Text = "2";
-			this.Output3.Text = "3";
-			this.Output4.Text = "4";
-			this.Output5.Text = "5";
-			this.Output6.Text = "6";
-			this.Output7.Text = "7";
-			this.MotorAName.Text = "A";
-			this.MotorBName.Text = "B";
-			this.MotorCName.Text = "C";
-			this.MotorDName.Text = "D";
+			// Has the procedure list changed?
+			if ((flags & AlteredFlags.ProcedureListChanged) != 0) {
 
-			if (this.Link != null) {
-				foreach (var label in this.Link.ReadLabels()) {
-					if (!label.Soft) {
-						switch (label.OldName) {
-							case "SENSOR0": this.Sensor0.Text = "0: " + label.NewName; break;
-							case "SENSOR1": this.Sensor1.Text = "1: " + label.NewName; break;
-							case "SENSOR2": this.Sensor2.Text = "2: " + label.NewName; break;
-							case "SENSOR3": this.Sensor3.Text = "3: " + label.NewName; break;
-							case "SENSOR4": this.Sensor4.Text = "4: " + label.NewName; break;
-							case "SENSOR5": this.Sensor5.Text = "5: " + label.NewName; break;
-							case "SENSOR6": this.Sensor6.Text = "6: " + label.NewName; break;
-							case "SENSOR7": this.Sensor7.Text = "7: " + label.NewName; break;
-							case "OUTPUT0": this.Output0.Text = "0: " + label.NewName; break;
-							case "OUTPUT1": this.Output1.Text = "1: " + label.NewName; break;
-							case "OUTPUT2": this.Output2.Text = "2: " + label.NewName; break;
-							case "OUTPUT3": this.Output3.Text = "3: " + label.NewName; break;
-							case "OUTPUT4": this.Output4.Text = "4: " + label.NewName; break;
-							case "OUTPUT5": this.Output5.Text = "5: " + label.NewName; break;
-							case "OUTPUT6": this.Output6.Text = "6: " + label.NewName; break;
-							case "OUTPUT7": this.Output7.Text = "7: " + label.NewName; break;
-							case "MOTORA": this.MotorAName.Text = "A: " + label.NewName; break;
-							case "MOTORB": this.MotorBName.Text = "B: " + label.NewName; break;
-							case "MOTORC": this.MotorCName.Text = "C: " + label.NewName; break;
-							case "MOTORD": this.MotorDName.Text = "D: " + label.NewName; break;
+				// Remove old procedures
+				while (this.ProceduresToolStripMenuItem.DropDownItems.Count > 1) {
+					this.ProceduresToolStripMenuItem.DropDownItems.RemoveAt(1);
+				}
+
+				foreach (var procedure in this.Link.List()) {
+					if (this.ProceduresToolStripMenuItem.DropDownItems.Count < 2) {
+						this.ProceduresToolStripMenuItem.DropDownItems.Add(new ToolStripSeparator());
+					}
+					var procedureToolStripItem = new ToolStripMenuItem(procedure) {
+						Tag = procedure
+					};
+					procedureToolStripItem.Click += ProcedureToolStripItem_Click;
+					this.ProceduresToolStripMenuItem.DropDown.Items.Add(procedureToolStripItem);
+				}
+			}
+
+			// Have the labels changed?
+			if ((flags & AlteredFlags.LabelsChanged) != 0) {
+
+				this.Sensor0.Text = "0";
+				this.Sensor1.Text = "1";
+				this.Sensor2.Text = "2";
+				this.Sensor3.Text = "3";
+				this.Sensor4.Text = "4";
+				this.Sensor5.Text = "5";
+				this.Sensor6.Text = "6";
+				this.Sensor7.Text = "7";
+				this.Output0.Text = "0";
+				this.Output1.Text = "1";
+				this.Output2.Text = "2";
+				this.Output3.Text = "3";
+				this.Output4.Text = "4";
+				this.Output5.Text = "5";
+				this.Output6.Text = "6";
+				this.Output7.Text = "7";
+				this.MotorAName.Text = "A";
+				this.MotorBName.Text = "B";
+				this.MotorCName.Text = "C";
+				this.MotorDName.Text = "D";
+
+				if (this.Link != null) {
+					foreach (var label in this.Link.ReadLabels()) {
+						if (!label.Soft) {
+							switch (label.OldName) {
+								case "SENSOR0": this.Sensor0.Text = "0: " + label.NewName; break;
+								case "SENSOR1": this.Sensor1.Text = "1: " + label.NewName; break;
+								case "SENSOR2": this.Sensor2.Text = "2: " + label.NewName; break;
+								case "SENSOR3": this.Sensor3.Text = "3: " + label.NewName; break;
+								case "SENSOR4": this.Sensor4.Text = "4: " + label.NewName; break;
+								case "SENSOR5": this.Sensor5.Text = "5: " + label.NewName; break;
+								case "SENSOR6": this.Sensor6.Text = "6: " + label.NewName; break;
+								case "SENSOR7": this.Sensor7.Text = "7: " + label.NewName; break;
+								case "OUTPUT0": this.Output0.Text = "0: " + label.NewName; break;
+								case "OUTPUT1": this.Output1.Text = "1: " + label.NewName; break;
+								case "OUTPUT2": this.Output2.Text = "2: " + label.NewName; break;
+								case "OUTPUT3": this.Output3.Text = "3: " + label.NewName; break;
+								case "OUTPUT4": this.Output4.Text = "4: " + label.NewName; break;
+								case "OUTPUT5": this.Output5.Text = "5: " + label.NewName; break;
+								case "OUTPUT6": this.Output6.Text = "6: " + label.NewName; break;
+								case "OUTPUT7": this.Output7.Text = "7: " + label.NewName; break;
+								case "MOTORA": this.MotorAName.Text = "A: " + label.NewName; break;
+								case "MOTORB": this.MotorBName.Text = "B: " + label.NewName; break;
+								case "MOTORC": this.MotorCName.Text = "C: " + label.NewName; break;
+								case "MOTORD": this.MotorDName.Text = "D: " + label.NewName; break;
+							}
 						}
 					}
+				}
+			}
+		}
+
+		private void ProcedureToolStripItem_Click(object sender, EventArgs e) {
+			if (sender is ToolStripItem procedureToolStripItem) {
+				if (procedureToolStripItem.Tag is string procedure) {
+					this.Link.Host.EditProcedure(false, procedure);
 				}
 			}
 		}
@@ -448,6 +482,27 @@ namespace SmartMove {
 		private void SaveDialog_FileOk(object sender, CancelEventArgs e) {
 			if (!e.Cancel && sender is SaveFileDialog dialog) {
 				this.SaveFile(dialog.FileName, "");
+			}
+		}
+
+		private void BuildToolStripMenuItem_Click(object sender, EventArgs e) {
+			if (this.buildProcedureTextInput == null || this.buildProcedureTextInput.IsDisposed) {
+				this.buildProcedureTextInput = new TextInputWindow {
+					Description = "Enter a name for the new procedure:",
+				};
+				this.buildProcedureTextInput.TextInputField.MaxLength = 15;
+				this.buildProcedureTextInput.FormClosing += BuildProcedureTextInput_FormClosing;
+			}
+			this.buildProcedureTextInput.Show();
+			this.buildProcedureTextInput.Focus();
+			this.buildProcedureTextInput.TextInputField.Focus();
+		}
+
+		private void BuildProcedureTextInput_FormClosing(object sender, FormClosingEventArgs e) {
+			if (sender is TextInputWindow textInput) {
+				if (e.CloseReason == CloseReason.UserClosing && textInput.DialogResult == DialogResult.OK && textInput.TextInputField.Text.Trim().Length > 0) {
+					this.Link.Host.EditProcedure(true, textInput.TextInputField.Text.Trim());
+				}
 			}
 		}
 	}

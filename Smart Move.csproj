@@ -71,6 +71,12 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmartBox.cs" />
+    <Compile Include="TextInputWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TextInputWindow.Designer.cs">
+      <DependentUpon>TextInputWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="TraceWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,6 +96,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TextInputWindow.resx">
+      <DependentUpon>TextInputWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TraceWindow.resx">
       <DependentUpon>TraceWindow.cs</DependentUpon>

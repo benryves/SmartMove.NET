@@ -45,6 +45,7 @@
 			this.ClientSize = new System.Drawing.Size(473, 314);
 			this.Controls.Add(this.EditorInput);
 			this.Name = "EditorWindow";
+			this.ShowIcon = false;
 			this.Text = "Editor";
 			this.ResumeLayout(false);
 			this.PerformLayout();

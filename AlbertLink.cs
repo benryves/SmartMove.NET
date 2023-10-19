@@ -71,10 +71,21 @@ namespace SmartMove {
 		CannotOverwriteHardWithSoft = 5,
 	};
 
+	[Flags]
+	public enum AlteredFlags : byte { 
+		None = 0,
+		ProcedureListChanged = 1 << 0,
+		LabelsChanged = 1 << 1,
+	};
+
 	public class AlbertLink : IDisposable {
 
 		private readonly SmartBox smartBox;
 		private readonly IAlbertLinkHost host;
+
+		public IAlbertLinkHost Host {
+			get { return host; }
+		}
 
 		private bool running = false;
 
@@ -151,7 +162,7 @@ namespace SmartMove {
 			this.host.ShowSignOn();
 
 			// Trigger reading labels
-			this.host.AlteredLabels();
+			this.host.Altered(AlteredFlags.ProcedureListChanged | AlteredFlags.LabelsChanged);
 
 			running = true;
 
@@ -219,9 +230,7 @@ namespace SmartMove {
 							break;
 						case UpdateEvent.Altered:
 							this.smartBox.writer.Write((byte)0);
-							var altered = this.smartBox.reader.ReadByte();
-							//if ((altered & (1 << 0)) != 0) ; // Procedure list changed
-							if ((altered & (1 << 1)) != 0) this.host.AlteredLabels();
+							this.host.Altered((AlteredFlags)this.smartBox.reader.ReadByte());
 							break;
 						case UpdateEvent.Control:
 							this.smartBox.writer.Write((byte)0);

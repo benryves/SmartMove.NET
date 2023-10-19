@@ -90,12 +90,14 @@
 			this.NewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.OpenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.FileSep1 = new System.Windows.Forms.ToolStripSeparator();
+			this.SaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.FileSep2 = new System.Windows.Forms.ToolStripSeparator();
 			this.DisconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.QuitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.OpenDialog = new System.Windows.Forms.OpenFileDialog();
 			this.SaveDialog = new System.Windows.Forms.SaveFileDialog();
-			this.FileSep2 = new System.Windows.Forms.ToolStripSeparator();
-			this.SaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.ProceduresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.BuildToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.CommandPanel.SuspendLayout();
 			this.Monitor.SuspendLayout();
 			this.MonitorTable.SuspendLayout();
@@ -897,7 +899,8 @@
 			// Menus
 			// 
 			this.Menus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.FileToolStripMenuItem});
+            this.FileToolStripMenuItem,
+            this.ProceduresToolStripMenuItem});
 			this.Menus.Location = new System.Drawing.Point(0, 0);
 			this.Menus.Name = "Menus";
 			this.Menus.Size = new System.Drawing.Size(771, 24);
@@ -939,6 +942,19 @@
 			this.FileSep1.Name = "FileSep1";
 			this.FileSep1.Size = new System.Drawing.Size(187, 6);
 			// 
+			// SaveToolStripMenuItem
+			// 
+			this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
+			this.SaveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+			this.SaveToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+			this.SaveToolStripMenuItem.Text = "&Save";
+			this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
+			// 
+			// FileSep2
+			// 
+			this.FileSep2.Name = "FileSep2";
+			this.FileSep2.Size = new System.Drawing.Size(187, 6);
+			// 
 			// DisconnectToolStripMenuItem
 			// 
 			this.DisconnectToolStripMenuItem.Name = "DisconnectToolStripMenuItem";
@@ -965,18 +981,20 @@
 			this.SaveDialog.Filter = "Smart Move Procedures (*.txt)|*.txt|All files (*.*)|*.*";
 			this.SaveDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.SaveDialog_FileOk);
 			// 
-			// FileSep2
+			// ProceduresToolStripMenuItem
 			// 
-			this.FileSep2.Name = "FileSep2";
-			this.FileSep2.Size = new System.Drawing.Size(187, 6);
+			this.ProceduresToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.BuildToolStripMenuItem});
+			this.ProceduresToolStripMenuItem.Name = "ProceduresToolStripMenuItem";
+			this.ProceduresToolStripMenuItem.Size = new System.Drawing.Size(78, 20);
+			this.ProceduresToolStripMenuItem.Text = "&Procedures";
 			// 
-			// SaveToolStripMenuItem
+			// BuildToolStripMenuItem
 			// 
-			this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
-			this.SaveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-			this.SaveToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-			this.SaveToolStripMenuItem.Text = "&Save";
-			this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
+			this.BuildToolStripMenuItem.Name = "BuildToolStripMenuItem";
+			this.BuildToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.BuildToolStripMenuItem.Text = "Build...";
+			this.BuildToolStripMenuItem.Click += new System.EventHandler(this.BuildToolStripMenuItem_Click);
 			// 
 			// MainWindow
 			// 
@@ -1096,5 +1114,7 @@
 		private System.Windows.Forms.SaveFileDialog SaveDialog;
 		private System.Windows.Forms.ToolStripMenuItem SaveToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator FileSep2;
+		private System.Windows.Forms.ToolStripMenuItem ProceduresToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem BuildToolStripMenuItem;
 	}
 }

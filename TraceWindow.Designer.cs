@@ -46,6 +46,7 @@
 			this.ClientSize = new System.Drawing.Size(512, 297);
 			this.Controls.Add(this.TraceOutput);
 			this.Name = "TraceWindow";
+			this.ShowIcon = false;
 			this.Text = "Trace";
 			this.ResumeLayout(false);
 			this.PerformLayout();

@@ -169,8 +169,8 @@ namespace SmartMove {
 			this.link.SetTraceFlag(false);
 		}
 
-		public void AlteredLabels() {
-			this.mainWindow?.AlteredLabels();
+		public void Altered(AlteredFlags flags) {
+			this.mainWindow?.Altered(flags);
 		}
 
 		public byte Control(byte parameter) {

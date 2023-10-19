@@ -13,7 +13,7 @@ namespace SmartMove {
 			get { return this.procedure; }
 			set {
 				this.procedure = value;
-				this.Text = "Procedure: " + value;
+				this.Text = value;
 			}
 		}
 

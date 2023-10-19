@@ -32,7 +32,7 @@ namespace SmartMove {
 
 		void UpdateState(AlbertLinkPortState state);
 
-		void AlteredLabels();
+		void Altered(AlteredFlags flags);
 
 		byte Control(byte parameter);
 
