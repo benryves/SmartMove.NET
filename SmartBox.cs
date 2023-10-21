@@ -71,29 +71,20 @@ namespace SmartMove {
 
 		private bool disposedValue;
 
-		internal SerialPort port;
-		internal BinaryReader reader;
-		internal BinaryWriter writer;
+		internal Port port;
 
-		public SmartBox(SerialPort port) {
+		public SmartBox(Port port) {
 			this.port = port;
-			if (!this.port.IsOpen) this.port.Open();
-			this.reader = new BinaryReader(this.port.BaseStream);
-			this.writer = new BinaryWriter(this.port.BaseStream);
 		}
 
-		public SmartBox(string portName) : this(new SerialPort(portName, 9600, Parity.None, 8, StopBits.One) {
-			Handshake = Handshake.RequestToSend
-		}) { }
+		public SmartBox(string portName) : this(new Port(portName)) {
+		}
 
 		protected virtual void Dispose(bool disposing) {
 			if (!disposedValue) {
 				if (disposing) {
-					if (this.port != null) {
-						this.port.Close();
-						this.port.Dispose();
-						this.port = null;
-					}
+					this.port?.Dispose();
+					this.port = null;
 				}
 				disposedValue = true;
 			}
@@ -104,27 +95,13 @@ namespace SmartMove {
 			GC.SuppressFinalize(this);
 		}
 
-		internal string ReadString(byte terminator = 13) {
-			var s = new List<byte>(8);
-			byte b;
-			while ((b = this.reader.ReadByte()) != terminator) {
-				s.Add(b);
-			}
-			return Encoding.ASCII.GetString(s.ToArray());
-		}
-
-		internal void WriteString(string s, byte terminator = 13) {
-			this.writer.Write(Encoding.ASCII.GetBytes(s));
-			this.writer.Write((byte)terminator);
-		}
-
 		/// <summary>
 		/// Read the operating system version number
 		/// </summary>
 		/// <returns>The OS version number as a decimal.</returns>
 		public decimal GetVersion() {
-			this.writer.Write((byte)Command.Version);
-			return this.reader.ReadUInt16() / 1000m;
+			this.port.Write((byte)Command.Version);
+			return this.port.ReadUInt16() / 1000m;
 		}
 
 		/// <summary>
@@ -133,8 +110,8 @@ namespace SmartMove {
 		/// <param name="hard">Set to <c>true</c> to clear battery-backed RAM.</param>
 		/// <remarks>Before sending anymore codes create a small delay while SmartBox resets various parts of hardware</remarks>
 		public void Reset(bool hard) {
-			this.writer.Write((byte)Command.Reset);
-			this.writer.Write((byte)(hard ? 255 : 254));
+			this.port.Write((byte)Command.Reset);
+			this.port.Write((byte)(hard ? 255 : 254));
 		}
 
 		/// <summary>
@@ -143,10 +120,9 @@ namespace SmartMove {
 		/// <param name="osCallName">OS call name</param>
 		/// <returns>Operating system call number</returns>
 		public byte GetNameCode(string osCallName) {
-			this.writer.Write((byte)Command.NameCode);
-			this.writer.Write((byte[])Encoding.ASCII.GetBytes(osCallName));
-			this.writer.Write((byte)13);
-			return this.reader.ReadByte();
+			this.port.Write((byte)Command.NameCode);
+			this.port.Write(osCallName);
+			return this.port.ReadByte();
 		}
 
 		/// <summary>
@@ -155,9 +131,9 @@ namespace SmartMove {
 		/// <param name="osCallNumber">OS call number</param>
 		/// <returns>OS call name</returns>
 		public string GetCodeName(byte osCallNumber) {
-			this.writer.Write((byte)Command.CodeName);
-			this.writer.Write((byte)osCallNumber);
-			return this.ReadString();
+			this.port.Write((byte)Command.CodeName);
+			this.port.Write((byte)osCallNumber);
+			return this.port.ReadString();
 		}
 
 
@@ -172,14 +148,14 @@ namespace SmartMove {
 		/// <param name="digitalOutputs">Return status of digital outputs</param>
 		/// <param name="motorOutputs">Return status of motor outputs</param>
 		public void MultipleSetup(bool analogueChannel1, bool analogueChannel2, bool analogueChannel3, bool analogueChannel4, bool digitalInputs, bool digitalOutputs, bool motorOutputs) {
-			this.writer.Write((byte)Command.MultipleSetup);
-			this.writer.Write((byte)(analogueChannel1 ? 1 : 0));
-			this.writer.Write((byte)(analogueChannel2 ? 1 : 0));
-			this.writer.Write((byte)(analogueChannel3 ? 1 : 0));
-			this.writer.Write((byte)(analogueChannel4 ? 1 : 0));
-			this.writer.Write((byte)(digitalInputs ? 1 : 0));
-			this.writer.Write((byte)(digitalOutputs ? 1 : 0));
-			this.writer.Write((byte)(motorOutputs ? 1 : 0));
+			this.port.Write((byte)Command.MultipleSetup);
+			this.port.Write((byte)(analogueChannel1 ? 1 : 0));
+			this.port.Write((byte)(analogueChannel2 ? 1 : 0));
+			this.port.Write((byte)(analogueChannel3 ? 1 : 0));
+			this.port.Write((byte)(analogueChannel4 ? 1 : 0));
+			this.port.Write((byte)(digitalInputs ? 1 : 0));
+			this.port.Write((byte)(digitalOutputs ? 1 : 0));
+			this.port.Write((byte)(motorOutputs ? 1 : 0));
 		}
 
 		/// <summary>
@@ -188,8 +164,8 @@ namespace SmartMove {
 		/// <param name="length">The number of readings being returned</param>
 		/// <returns>Bytes as defined by MultipleSetup</returns>
 		public byte[] MultipleRead(int length) {
-			this.writer.Write((byte)Command.MultipleRead);
-			return this.reader.ReadBytes(length);
+			this.port.Write((byte)Command.MultipleRead);
+			return this.port.ReadBytes(length);
 		}
 
 		/// <summary>
@@ -197,8 +173,8 @@ namespace SmartMove {
 		/// </summary>
 		/// <returns>The copyright message and OS details</returns>
 		public string GetCredits() {
-			this.writer.Write((byte)Command.Credits);
-			return this.ReadString(0);
+			this.port.Write((byte)Command.Credits);
+			return this.port.ReadString(0);
 		}
 
 		/// <summary>
@@ -210,8 +186,8 @@ namespace SmartMove {
 		/// Using this call automatically stops all pulsing of motors
 		/// </remarks>
 		public void WriteMotors(byte value) {
-			this.writer.Write((byte)Command.WriteMotors);
-			this.writer.Write((byte)value);
+			this.port.Write((byte)Command.WriteMotors);
+			this.port.Write((byte)value);
 		}
 
 		/// <summary>
@@ -230,8 +206,8 @@ namespace SmartMove {
 		/// </summary>
 		/// <returns>The value returned is the same value as what would be sent to WriteMotors</returns>
 		public byte ReadMotors() {
-			this.writer.Write((byte)Command.ReadMotors);
-			return this.reader.ReadByte();
+			this.port.Write((byte)Command.ReadMotors);
+			return this.port.ReadByte();
 		}
 
 		/// <summary>
@@ -250,28 +226,28 @@ namespace SmartMove {
 		}
 
 		public ushort ReadLomem() {
-			this.writer.Write((byte)Command.ReadLomem);
-			return this.reader.ReadUInt16();
+			this.port.Write((byte)Command.ReadLomem);
+			return this.port.ReadUInt16();
 		}
 
 		public ushort ReadHimem() {
-			this.writer.Write((byte)Command.ReadHimem);
-			return this.reader.ReadUInt16();
+			this.port.Write((byte)Command.ReadHimem);
+			return this.port.ReadUInt16();
 		}
 
 		public void DownloadData(ushort address, byte[] data) {
-			this.writer.Write((byte)Command.DownloadData);
-			this.writer.Write((ushort)address);
-			this.writer.Write((ushort)data.Length);
-			this.writer.Write((byte[])data);
+			this.port.Write((byte)Command.DownloadData);
+			this.port.Write((ushort)address);
+			this.port.Write((ushort)data.Length);
+			this.port.Write((byte[])data);
 		}
 
 		public void ExecuteCode(ushort address, byte a, byte x, byte y) {
-			this.writer.Write((byte)Command.ExecuteCode);
-			this.writer.Write((ushort)address);
-			this.writer.Write((byte)a);
-			this.writer.Write((byte)x);
-			this.writer.Write((byte)y);
+			this.port.Write((byte)Command.ExecuteCode);
+			this.port.Write((ushort)address);
+			this.port.Write((byte)a);
+			this.port.Write((byte)x);
+			this.port.Write((byte)y);
 		}
 
 		/// <summary>
@@ -279,8 +255,8 @@ namespace SmartMove {
 		/// </summary>
 		/// <returns>Byte read from the digital inputs port</returns>
 		public byte ReadInputs() {
-			this.writer.Write((byte)Command.ReadInputs);
-			return this.reader.ReadByte();
+			this.port.Write((byte)Command.ReadInputs);
+			return this.port.ReadByte();
 		}
 
 	}

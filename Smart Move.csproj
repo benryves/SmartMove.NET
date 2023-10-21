@@ -62,6 +62,7 @@
     <Compile Include="MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Port.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ConnectionWindow.cs">
       <SubType>Form</SubType>
