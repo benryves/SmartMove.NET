@@ -25,7 +25,7 @@ namespace SmartMove {
 		private TextInputWindow buildProcedureTextInput = null;
 
 		private void MainWindow_FormClosing(object sender, FormClosingEventArgs e) {
-			if (this.Link != null) {
+			if (e.CloseReason == CloseReason.UserClosing && this.Link != null) {
 				e.Cancel = true;
 				this.Link.Quit();
 			}

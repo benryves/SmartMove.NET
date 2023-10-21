@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.IO.Ports;
 using System.Text;
 using System.Windows.Forms;
@@ -120,7 +121,7 @@ namespace SmartMove {
 				ushort lomem = this.smartBox.ReadLomem(), himem = this.smartBox.ReadHimem();
 
 				if (program.Length > (himem - lomem) + 1) {
-					throw new OutOfMemoryException();
+					return;
 				}
 
 				// Replace this.DownloadData(lomem, program); with loop to allow for progress reports
@@ -146,7 +147,9 @@ namespace SmartMove {
 
 			}
 
-			if (albertLinkCall == 0) throw new InvalidOperationException();
+			if (albertLinkCall == 0) {
+				return;
+			}
 
 			// Invoke AlbertLink
 			this.smartBox.port.Write(albertLinkCall);
@@ -169,7 +172,10 @@ namespace SmartMove {
 			while (running) {
 				var now = DateTime.Now;
 				UpdateEvent evt;
-				if (this.smartBox.port.BytesToRead > 0) {
+				if (this.smartBox.port.BytesToRead < 0) {
+					running = false;
+					break;
+				} else if (this.smartBox.port.BytesToRead > 0) {
 					switch (evt = (UpdateEvent)this.smartBox.port.ReadByte()) {
 						case UpdateEvent.File:
 							this.smartBox.port.Write((byte)0);
