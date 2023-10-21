@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using static System.Windows.Forms.AxHost;
 
 namespace SmartMove {
 
@@ -132,85 +133,32 @@ namespace SmartMove {
 
 		private readonly string[] motorDirections = new string[] { "", "↻", "↺", "" };
 
-		private readonly string[] sensorTypes = new string[] {
-			"No sensor",
-			"Sensor $",
-			"Temp",
-			"No sensor",
-			"No sensor",
-			"Volts",
-			"Temp",
-			"Volts",
-			"Temp",
-			"Sound",
-			"PH",
-			"Sensor $",
-			"Position  ",
-			"Sensor $",
-			"Sensor $",
-			"Sensor $",
-			"Light",
-			"Sensor $",
-			"Sensor $",
-			"Sensor $",
-			"Humidity",
-			"Sound",
-			"Light",
-			"Sound",
-			"Sensor $",
-			"Atmos",
-			"Light",
-			"User",
-			"Adaptor",
-			"Temp",
-			"LGate",
-			"Sensor $",
-			"Temp",
-		};
+		static void UpdateAnalogueSensor(AlbertLinkAnalogueSensor sensor, ProgressBar progress, Label value, Label name, char letter) {
+			if (SmartBox.SensorIsPresent(sensor.ID)) {
+				progress.Value = sensor.ADC;
+				value.Text = sensor.ADC.ToString();
+				var sensorName = SmartBox.GetSensorName(sensor.ID);
+				if (string.IsNullOrEmpty(sensorName)) {
+					name.Text = "Sensor " + letter;
+				} else {
+					name.Text = sensorName;
+				}
+			} else {
+				progress.Value = 0;
+				value.Text = "";
+				name.Text = "No sensor";
+			}
+		}
 
 		public void UpdateState(AlbertLinkPortState state) {
 
 			// Update analogue sensors
 
-			if (state.SensorA.ID == 0) {
-				this.AnalogueAProgress.Value = 0;
-				this.AnalogueAValue.Text = "";
-				this.AnalogueAName.Text = sensorTypes[0];
-			} else {
-				this.AnalogueAProgress.Value = state.SensorA.ADC;
-				this.AnalogueAValue.Text = state.SensorA.ADC.ToString();
-				this.AnalogueAName.Text = sensorTypes[state.SensorA.ID - 1].Replace('$', 'A');
-			}
+			UpdateAnalogueSensor(state.SensorA, this.AnalogueAProgress, this.AnalogueAValue, this.AnalogueAName, 'A');
+			UpdateAnalogueSensor(state.SensorB, this.AnalogueBProgress, this.AnalogueBValue, this.AnalogueBName, 'B');
+			UpdateAnalogueSensor(state.SensorC, this.AnalogueCProgress, this.AnalogueCValue, this.AnalogueCName, 'C');
+			UpdateAnalogueSensor(state.SensorD, this.AnalogueDProgress, this.AnalogueDValue, this.AnalogueDName, 'D');
 
-			if (state.SensorB.ID == 0) {
-				this.AnalogueBProgress.Value = 0;
-				this.AnalogueBValue.Text = "";
-				this.AnalogueBName.Text = sensorTypes[0];
-			} else {
-				this.AnalogueBProgress.Value = state.SensorB.ADC;
-				this.AnalogueBValue.Text = state.SensorB.ADC.ToString();
-				this.AnalogueBName.Text = sensorTypes[state.SensorB.ID - 1].Replace('$', 'B'); ;
-			}
-
-			if (state.SensorC.ID == 0) {
-				this.AnalogueCProgress.Value = 0;
-				this.AnalogueCValue.Text = "";
-				this.AnalogueCName.Text = sensorTypes[0];
-			} else {
-				this.AnalogueCProgress.Value = state.SensorC.ADC;
-				this.AnalogueCValue.Text = state.SensorC.ADC.ToString();
-				this.AnalogueCName.Text = sensorTypes[state.SensorC.ID - 1].Replace('$', 'C'); ;
-			}
-
-			if (state.SensorD.ID == 0) {
-				this.AnalogueDProgress.Value = 0;
-				this.AnalogueDValue.Text = "";
-				this.AnalogueDName.Text = sensorTypes[0];
-			} else {
-				this.AnalogueDProgress.Value = state.SensorD.ADC;
-				this.AnalogueDValue.Text = state.SensorD.ADC.ToString();
-				this.AnalogueDName.Text = sensorTypes[state.SensorD.ID - 1].Replace('$', 'D'); ;
-			}
 
 			// Update digital sensors
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.IO.Ports;
 using System.Text;
@@ -95,7 +96,7 @@ namespace SmartMove {
 		private DateTime nextSampleTime = DateTime.Now;
 		private DateTime lastUpdateSensorsTime = DateTime.MinValue;
 
-		byte[] sensorIDs = new byte[4];
+		private readonly byte[] sensorIDs = new byte[4];
 		
 		private bool disposedValue;
 
@@ -392,7 +393,20 @@ namespace SmartMove {
 			this.SendRemoteEvent(updateSensorIDs ? RemoteEvent.GetPS : RemoteEvent.GetPorts);
 			var portState = this.smartBox.port.ReadBytes(12);
 			if (updateSensorIDs) {
-				this.sensorIDs = this.smartBox.port.ReadBytes(4);
+				// Check to see if the sensors have changed.
+				var newSensorIDs = this.smartBox.port.ReadBytes(4);
+				for (int sensor = 0; sensor < this.sensorIDs.Length; ++sensor) {
+					if (newSensorIDs[sensor] != this.sensorIDs[sensor]) {
+						this.sensorIDs[sensor] = newSensorIDs[sensor];
+						var oldSensorName = "SENSOR" + (char)((int)'A' + sensor);
+						var newSensorName = SmartBox.GetSensorName(newSensorIDs[sensor]);
+						if (string.IsNullOrEmpty(newSensorName)) {
+							this.WriteLabel(new AlbertLinkLabel(oldSensorName, null, true));
+						} else {
+							this.WriteLabel(new AlbertLinkLabel(oldSensorName, newSensorName.ToUpperInvariant(), true));
+						}
+					}
+				}
 			}
 			return new AlbertLinkPortState {
 				RunMode = portState[0] != 0,
@@ -460,7 +474,7 @@ namespace SmartMove {
 			this.SendRemoteEvent(RemoteEvent.WriteLabel);
 			this.smartBox.port.Write((string)label.OldName);
 			this.smartBox.port.Write((string)label.NewName);
-			this.smartBox.port.Write((byte)(label.Soft ? 1 : 0));
+			this.smartBox.port.Write((byte)(label.Soft ? 0x80 : 0x00));
 
 			return (WriteLabelResult)this.smartBox.port.ReadByte();
 		}

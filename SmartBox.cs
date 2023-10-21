@@ -259,5 +259,59 @@ namespace SmartMove {
 			return this.port.ReadByte();
 		}
 
+		private readonly static string[] sensorNames = new string[] {
+			null,
+			null,
+			string.Empty,
+			"Temp",
+			null,
+			null,
+			"Volts",
+			"Temp",
+			"Volts",
+			"Temp",
+			"Sound",
+			"PH",
+			string.Empty,
+			"Position",
+			string.Empty,
+			string.Empty,
+			string.Empty,
+			"Light",
+			string.Empty,
+			string.Empty,
+			string.Empty,
+			"Humidity",
+			"Sound",
+			"Light",
+			"Sound",
+			string.Empty,
+			"Atmos",
+			"Light",
+			"User",
+			"Adaptor",
+			"Temp",
+			"LGate",
+			string.Empty,
+			"Temp",
+		};
+
+		public static bool SensorIsPresent(byte id) {
+			if (id < sensorNames.Length) {
+				return sensorNames[id] != null;
+			} else {
+				return false;
+			}
+		}
+
+		public static string GetSensorName(byte id) {
+			if (id < sensorNames.Length) {
+				return sensorNames[id];
+			} else {
+				return null;
+			}
+		}
+		
+
 	}
 }

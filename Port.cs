@@ -131,7 +131,7 @@ namespace SmartMove {
 		/// <param name="value">The value to write.</param>
 		/// <param name="terminator">The optional terminator value (defaults to CR).</param>
 		public void Write(string value, byte terminator = 13) {
-			while (this.port.IsOpen) {
+			while (value != null && this.port.IsOpen) {
 				try {
 					this.writer.Write(Encoding.ASCII.GetBytes(value));
 					break;
