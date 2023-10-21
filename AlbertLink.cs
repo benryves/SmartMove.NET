@@ -171,14 +171,25 @@ namespace SmartMove {
 				UpdateEvent evt;
 				if (this.smartBox.port.BytesToRead > 0) {
 					switch (evt = (UpdateEvent)this.smartBox.reader.ReadByte()) {
-						case UpdateEvent.Print: {
-								this.smartBox.writer.Write((byte)0);
-								this.host.Print(this.smartBox.ReadString(0));
-							}
+						case UpdateEvent.File:
+							this.smartBox.writer.Write((byte)0);
+							this.FileBack(this.host.File(this.smartBox.reader.ReadByte(), this.smartBox.ReadString()));
+							break;
+						case UpdateEvent.Close:
+							this.smartBox.writer.Write((byte)0);
+							this.host.Close(this.smartBox.reader.ReadByte());
+							break;
+						case UpdateEvent.Store:
+							this.smartBox.writer.Write((byte)0);
+							this.host.Store(this.smartBox.reader.ReadByte(), this.smartBox.ReadString(0));
 							break;
 						case UpdateEvent.Trace:
 							this.smartBox.writer.Write((byte)0);
 							this.host.Trace(this.smartBox.ReadString(13));
+							break;
+						case UpdateEvent.Print:
+							this.smartBox.writer.Write((byte)0);
+							this.host.Print(this.smartBox.ReadString(0));
 							break;
 						case UpdateEvent.Error:
 							this.smartBox.writer.Write((byte)0);
@@ -195,6 +206,14 @@ namespace SmartMove {
 								}
 								this.host.Print("\r");
 							}
+							break;
+						case UpdateEvent.Ask:
+							this.smartBox.writer.Write((byte)0);
+							this.host.Ask((AskType)this.smartBox.reader.ReadByte(), this.smartBox.ReadString());
+							break;
+						case UpdateEvent.Inkey:
+							this.smartBox.writer.Write((byte)0);
+							this.smartBox.writer.Write((byte)this.host.GetKey());
 							break;
 						case UpdateEvent.Cmd:
 							this.smartBox.writer.Write((byte)0);
@@ -213,32 +232,9 @@ namespace SmartMove {
 							running = false;
 							this.host.Quit();
 							break;
-						case UpdateEvent.Rtc:
-							this.smartBox.writer.Write((byte)0);
-							this.smartBox.writer.Write((byte)now.Hour);
-							this.smartBox.writer.Write((byte)now.Minute);
-							this.smartBox.writer.Write((byte)now.Second);
-							this.smartBox.writer.Write((byte)(now.Millisecond / 10));
-							break;
-						case UpdateEvent.Inkey:
-							this.smartBox.writer.Write((byte)0);
-							this.smartBox.writer.Write((byte)this.host.GetKey());
-							break;
 						case UpdateEvent.TraceFl:
 							this.smartBox.writer.Write((byte)0);
 							this.host.SetTraceFlag(this.smartBox.reader.ReadByte() != 0);
-							break;
-						case UpdateEvent.Altered:
-							this.smartBox.writer.Write((byte)0);
-							this.host.Altered((AlteredFlags)this.smartBox.reader.ReadByte());
-							break;
-						case UpdateEvent.Control:
-							this.smartBox.writer.Write((byte)0);
-							this.smartBox.writer.Write(this.host.Control(this.smartBox.reader.ReadByte()));
-							break;
-						case UpdateEvent.Ask:
-							this.smartBox.writer.Write((byte)0);
-							this.host.Ask((AskType)this.smartBox.reader.ReadByte(), this.smartBox.ReadString());
 							break;
 						case UpdateEvent.Load:
 							this.smartBox.writer.Write((byte)0);
@@ -248,17 +244,24 @@ namespace SmartMove {
 							this.smartBox.writer.Write((byte)0);
 							this.host.Save(this.smartBox.ReadString(), this.smartBox.ReadString());
 							break;
-						case UpdateEvent.File:
+						case UpdateEvent.Control:
 							this.smartBox.writer.Write((byte)0);
-							this.FileBack(this.host.File(this.smartBox.reader.ReadByte(), this.smartBox.ReadString()));
+							this.smartBox.writer.Write(this.host.Control(this.smartBox.reader.ReadByte()));
 							break;
-						case UpdateEvent.Close:
+						case UpdateEvent.Rtc:
 							this.smartBox.writer.Write((byte)0);
-							this.host.Close(this.smartBox.reader.ReadByte());
+							this.smartBox.writer.Write((byte)now.Hour);
+							this.smartBox.writer.Write((byte)now.Minute);
+							this.smartBox.writer.Write((byte)now.Second);
+							this.smartBox.writer.Write((byte)(now.Millisecond / 10));
 							break;
-						case UpdateEvent.Store:
+						case UpdateEvent.Printer:
 							this.smartBox.writer.Write((byte)0);
-							this.host.Store(this.smartBox.reader.ReadByte(), this.smartBox.ReadString(0));
+							this.host.Print(this.smartBox.ReadString(0));
+							break;
+						case UpdateEvent.Altered:
+							this.smartBox.writer.Write((byte)0);
+							this.host.Altered((AlteredFlags)this.smartBox.reader.ReadByte());
 							break;
 						default:
 							Console.WriteLine("Unsupported event {0}", evt);

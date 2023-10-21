@@ -48,5 +48,7 @@ namespace SmartMove {
 
 		void Store(byte channel, string data);
 
+		void Printer(string value);
+
 	}
 }

@@ -18,6 +18,8 @@ namespace SmartMove {
 		private bool focusCommandLine = true;
 
 		private bool controlError = false;
+		private bool customFnError = false;
+
 		private bool disposedValue;
 
 		public AlbertLinkWindowsHost() {
@@ -40,6 +42,9 @@ namespace SmartMove {
 			if (controlError) {
 				controlError = false;
 				this.link.Error("CONTROL is not supported in this version of Smart Move");
+			} else if (customFnError) {
+				customFnError = false;
+				this.link.Error("Bad expression");
 			} else {
 				Application.DoEvents();
 			}
@@ -130,6 +135,10 @@ namespace SmartMove {
 		}
 
 		public void Print(string value) {
+			this.mainWindow?.Print(value);
+		}
+
+		public void Printer(string value) {
 			this.mainWindow?.Print(value);
 		}
 
@@ -233,5 +242,6 @@ namespace SmartMove {
 			Dispose(disposing: true);
 			GC.SuppressFinalize(this);
 		}
+
 	}
 }
