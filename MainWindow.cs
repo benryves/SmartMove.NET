@@ -107,12 +107,7 @@ namespace SmartMove {
 		}
 
 		private void CommandInput_KeyPress(object sender, KeyPressEventArgs e) {
-			if (e.KeyChar == (char)0x1B) {
-				// Always handle escape
-				e.Handled = true;
-				this.CommandPanel.Enabled = false;
-				this.Link?.Escape();
-			} else if (this.CommandPanel.Enabled) {
+			if (this.CommandPanel.Enabled) {
 				// If the command panel is enabled, we're typing in a command.
 				if (e.KeyChar == '\r') {
 					e.Handled = true;
@@ -192,7 +187,13 @@ namespace SmartMove {
 			// Status bar
 			this.RunningStatus.Text = state.RunMode ? "▶" : "";
 			this.ClockStatus.Text = string.Format("{0:D2}:{1:D2}:{2:D2}.{3:D2}", state.ClockHours, state.ClockMinutes, state.ClockSeconds, state.ClockCentiseconds);
+
+			// Menu state
+			this.RunToolStripMenuItem.Enabled = !state.RunMode;
+			this.StopToolStripMenuItem.Enabled = state.RunMode;
 		}
+
+		const int ProceduresMenuDefaultItemCount = 4;
 
 		public void Altered(AlteredFlags flags) {
 
@@ -200,20 +201,30 @@ namespace SmartMove {
 			if ((flags & AlteredFlags.ProcedureListChanged) != 0) {
 
 				// Remove old procedures
-				while (this.ProceduresToolStripMenuItem.DropDownItems.Count > 1) {
-					this.ProceduresToolStripMenuItem.DropDownItems.RemoveAt(1);
+				while (this.ProceduresToolStripMenuItem.DropDownItems.Count > ProceduresMenuDefaultItemCount) {
+					this.ProceduresToolStripMenuItem.DropDownItems.RemoveAt(ProceduresMenuDefaultItemCount);
 				}
+				this.RunToolStripMenuItem.DropDownItems.Clear();
 
 				foreach (var procedure in this.Link.List()) {
-					if (this.ProceduresToolStripMenuItem.DropDownItems.Count < 2) {
+					if (this.ProceduresToolStripMenuItem.DropDownItems.Count <= ProceduresMenuDefaultItemCount) {
 						this.ProceduresToolStripMenuItem.DropDownItems.Add(new ToolStripSeparator());
 					}
 					var procedureToolStripItem = new ToolStripMenuItem(procedure) {
 						Tag = procedure
 					};
 					procedureToolStripItem.Click += ProcedureToolStripItem_Click;
-					this.ProceduresToolStripMenuItem.DropDown.Items.Add(procedureToolStripItem);
+					this.ProceduresToolStripMenuItem.DropDownItems.Add(procedureToolStripItem);
+
+					var runProcedureToolStripItem = new ToolStripMenuItem(procedure) {
+						Tag = procedure
+					};
+					runProcedureToolStripItem.Click += RunProcedureToolStripItem_Click; ;
+					this.RunToolStripMenuItem.DropDownItems.Add(runProcedureToolStripItem);
+
 				}
+
+				this.RunToolStripMenuItem.Enabled = this.RunToolStripMenuItem.DropDownItems.Count > 0;
 			}
 
 			// Have the labels changed?
@@ -285,6 +296,14 @@ namespace SmartMove {
 
 		private void DisconnectToolStripMenuItem_Click(object sender, EventArgs e) {
 			this.Link?.Sleep();
+		}
+		private void RunProcedureToolStripItem_Click(object sender, EventArgs e) {
+			if (sender is ToolStripItem procedureToolStripItem) {
+				if (procedureToolStripItem.Tag is string procedure && this.CommandPanel.Enabled) {
+					this.CommandPanel.Enabled = false;
+					this.Link.SendCmd(procedure);
+				}
+			}
 		}
 
 		private readonly Queue<char> getKeyQueue = new Queue<char>(4);
@@ -462,5 +481,22 @@ namespace SmartMove {
 				this.Link.SetPort(outputCheckbox.Checked ? (byte)0 : mask, (byte)(~mask));
 			}
         }
+
+		private void StopToolStripMenuItem_Click(object sender, EventArgs e) {
+			this.Link?.Escape();
+		}
+
+		protected override bool IsInputKey(Keys keyData) {
+			if (keyData == Keys.Escape) return true;
+			return base.IsInputKey(keyData);
+		}
+
+		private void MainWindow_KeyPress(object sender, KeyPressEventArgs e) {
+			if (e.KeyChar == (char)0x1B) {
+				e.Handled = true;
+				this.CommandPanel.Enabled = false;
+				this.Link?.Escape();
+			}
+		}
 	}
 }

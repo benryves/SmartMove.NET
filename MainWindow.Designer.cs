@@ -96,6 +96,9 @@
 			this.QuitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ProceduresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.BuildToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.ProceduresSep1 = new System.Windows.Forms.ToolStripSeparator();
+			this.RunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.StopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.OpenDialog = new System.Windows.Forms.OpenFileDialog();
 			this.SaveDialog = new System.Windows.Forms.SaveFileDialog();
 			this.CommandPanel.SuspendLayout();
@@ -982,6 +985,9 @@
 			// ProceduresToolStripMenuItem
 			// 
 			this.ProceduresToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.RunToolStripMenuItem,
+            this.StopToolStripMenuItem,
+            this.ProceduresSep1,
             this.BuildToolStripMenuItem});
 			this.ProceduresToolStripMenuItem.Name = "ProceduresToolStripMenuItem";
 			this.ProceduresToolStripMenuItem.Size = new System.Drawing.Size(78, 20);
@@ -990,9 +996,28 @@
 			// BuildToolStripMenuItem
 			// 
 			this.BuildToolStripMenuItem.Name = "BuildToolStripMenuItem";
-			this.BuildToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
-			this.BuildToolStripMenuItem.Text = "Build...";
+			this.BuildToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.BuildToolStripMenuItem.Text = "&Build...";
 			this.BuildToolStripMenuItem.Click += new System.EventHandler(this.BuildToolStripMenuItem_Click);
+			// 
+			// ProceduresSep1
+			// 
+			this.ProceduresSep1.Name = "ProceduresSep1";
+			this.ProceduresSep1.Size = new System.Drawing.Size(177, 6);
+			// 
+			// RunToolStripMenuItem
+			// 
+			this.RunToolStripMenuItem.Name = "RunToolStripMenuItem";
+			this.RunToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.RunToolStripMenuItem.Text = "&Run";
+			// 
+			// StopToolStripMenuItem
+			// 
+			this.StopToolStripMenuItem.Name = "StopToolStripMenuItem";
+			this.StopToolStripMenuItem.ShortcutKeyDisplayString = "Escape";
+			this.StopToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.StopToolStripMenuItem.Text = "&Stop";
+			this.StopToolStripMenuItem.Click += new System.EventHandler(this.StopToolStripMenuItem_Click);
 			// 
 			// OpenDialog
 			// 
@@ -1014,11 +1039,13 @@
 			this.Controls.Add(this.Monitor);
 			this.Controls.Add(this.Status);
 			this.Controls.Add(this.Menus);
+			this.KeyPreview = true;
 			this.MainMenuStrip = this.Menus;
 			this.MinimumSize = new System.Drawing.Size(700, 380);
 			this.Name = "MainWindow";
 			this.Activated += new System.EventHandler(this.MainWindow_Activated);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
+			this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainWindow_KeyPress);
 			this.CommandPanel.ResumeLayout(false);
 			this.CommandPanel.PerformLayout();
 			this.Monitor.ResumeLayout(false);
@@ -1124,5 +1151,8 @@
 		private System.Windows.Forms.ToolStripSeparator FileSep2;
 		private System.Windows.Forms.ToolStripMenuItem ProceduresToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem BuildToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator ProceduresSep1;
+		private System.Windows.Forms.ToolStripMenuItem RunToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem StopToolStripMenuItem;
 	}
 }
