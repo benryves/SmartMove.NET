@@ -72,12 +72,10 @@ namespace SmartMove {
 				this.editorWindows.Add(key, editor);
 				editor.FormClosing += Editor_FormClosing;
 
-				// If we're editing an existing procedure, fetch and display the old code.
-				if (!build) {
-					var code = this.link.GetProcedure(procedure);
-					if (code != null) {
-						editor.Code = code;
-					}
+				// Fetch the code.
+				var code = this.link.GetProcedure(procedure);
+				if (code != null) {
+					editor.Code = code;
 				}
 
 				editor.Show();
