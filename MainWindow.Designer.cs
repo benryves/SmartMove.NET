@@ -439,6 +439,7 @@
 			this.Output0.TabIndex = 7;
 			this.Output0.Text = "0";
 			this.Output0.UseVisualStyleBackColor = true;
+			this.Output0.Click += new System.EventHandler(this.Output_Click);
 			// 
 			// Output1
 			// 
@@ -450,6 +451,7 @@
 			this.Output1.TabIndex = 6;
 			this.Output1.Text = "1";
 			this.Output1.UseVisualStyleBackColor = true;
+			this.Output1.Click += new System.EventHandler(this.Output_Click);
 			// 
 			// Output2
 			// 
@@ -461,6 +463,7 @@
 			this.Output2.TabIndex = 5;
 			this.Output2.Text = "2";
 			this.Output2.UseVisualStyleBackColor = true;
+			this.Output2.Click += new System.EventHandler(this.Output_Click);
 			// 
 			// Output3
 			// 
@@ -472,6 +475,7 @@
 			this.Output3.TabIndex = 4;
 			this.Output3.Text = "3";
 			this.Output3.UseVisualStyleBackColor = true;
+			this.Output3.Click += new System.EventHandler(this.Output_Click);
 			// 
 			// Output4
 			// 
@@ -483,6 +487,7 @@
 			this.Output4.TabIndex = 3;
 			this.Output4.Text = "4";
 			this.Output4.UseVisualStyleBackColor = true;
+			this.Output4.Click += new System.EventHandler(this.Output_Click);
 			// 
 			// Output5
 			// 
@@ -494,6 +499,7 @@
 			this.Output5.TabIndex = 2;
 			this.Output5.Text = "5";
 			this.Output5.UseVisualStyleBackColor = true;
+			this.Output5.Click += new System.EventHandler(this.Output_Click);
 			// 
 			// Output6
 			// 
@@ -505,6 +511,7 @@
 			this.Output6.TabIndex = 1;
 			this.Output6.Text = "6";
 			this.Output6.UseVisualStyleBackColor = true;
+			this.Output6.Click += new System.EventHandler(this.Output_Click);
 			// 
 			// Output7
 			// 
@@ -516,6 +523,7 @@
 			this.Output7.TabIndex = 0;
 			this.Output7.Text = "7";
 			this.Output7.UseVisualStyleBackColor = true;
+			this.Output7.Click += new System.EventHandler(this.Output_Click);
 			// 
 			// MonitorSensors
 			// 

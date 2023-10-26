@@ -509,6 +509,12 @@ namespace SmartMove {
 			this.smartBox.port.Write((byte)(success ? 1 : 0));
 		}
 
+		public void SetPort(byte value, byte mask) {
+			this.SendRemoteEvent(RemoteEvent.SetPort);
+			this.smartBox.port.Write((byte)value);
+			this.smartBox.port.Write((byte)mask);
+		}
+
 		protected virtual void Dispose(bool disposing) {
 			if (!disposedValue) {
 				if (disposing) {

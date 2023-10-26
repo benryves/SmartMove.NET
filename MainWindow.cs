@@ -453,5 +453,14 @@ namespace SmartMove {
 				}
 			}
 		}
+
+
+		private void Output_Click(object sender, EventArgs e) {
+			if (sender is CheckBox outputCheckbox) {
+				int outputIndex = int.Parse(outputCheckbox.Name[outputCheckbox.Name.Length - 1].ToString());
+				var mask = (byte)(1 << outputIndex);
+				this.Link.SetPort(outputCheckbox.Checked ? (byte)0 : mask, (byte)(~mask));
+			}
+        }
 	}
 }
