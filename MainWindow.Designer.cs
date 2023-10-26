@@ -95,10 +95,10 @@
 			this.DisconnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.QuitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ProceduresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.BuildToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.ProceduresSep1 = new System.Windows.Forms.ToolStripSeparator();
 			this.RunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.StopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.ProceduresSep1 = new System.Windows.Forms.ToolStripSeparator();
+			this.BuildToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.OpenDialog = new System.Windows.Forms.OpenFileDialog();
 			this.SaveDialog = new System.Windows.Forms.SaveFileDialog();
 			this.CommandPanel.SuspendLayout();
@@ -993,31 +993,31 @@
 			this.ProceduresToolStripMenuItem.Size = new System.Drawing.Size(78, 20);
 			this.ProceduresToolStripMenuItem.Text = "&Procedures";
 			// 
-			// BuildToolStripMenuItem
-			// 
-			this.BuildToolStripMenuItem.Name = "BuildToolStripMenuItem";
-			this.BuildToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.BuildToolStripMenuItem.Text = "&Build...";
-			this.BuildToolStripMenuItem.Click += new System.EventHandler(this.BuildToolStripMenuItem_Click);
-			// 
-			// ProceduresSep1
-			// 
-			this.ProceduresSep1.Name = "ProceduresSep1";
-			this.ProceduresSep1.Size = new System.Drawing.Size(177, 6);
-			// 
 			// RunToolStripMenuItem
 			// 
 			this.RunToolStripMenuItem.Name = "RunToolStripMenuItem";
-			this.RunToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.RunToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
 			this.RunToolStripMenuItem.Text = "&Run";
 			// 
 			// StopToolStripMenuItem
 			// 
 			this.StopToolStripMenuItem.Name = "StopToolStripMenuItem";
 			this.StopToolStripMenuItem.ShortcutKeyDisplayString = "Escape";
-			this.StopToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.StopToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
 			this.StopToolStripMenuItem.Text = "&Stop";
 			this.StopToolStripMenuItem.Click += new System.EventHandler(this.StopToolStripMenuItem_Click);
+			// 
+			// ProceduresSep1
+			// 
+			this.ProceduresSep1.Name = "ProceduresSep1";
+			this.ProceduresSep1.Size = new System.Drawing.Size(138, 6);
+			// 
+			// BuildToolStripMenuItem
+			// 
+			this.BuildToolStripMenuItem.Name = "BuildToolStripMenuItem";
+			this.BuildToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+			this.BuildToolStripMenuItem.Text = "&Build...";
+			this.BuildToolStripMenuItem.Click += new System.EventHandler(this.BuildToolStripMenuItem_Click);
 			// 
 			// OpenDialog
 			// 

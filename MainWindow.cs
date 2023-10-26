@@ -128,20 +128,13 @@ namespace SmartMove {
 
 		private readonly string[] motorDirections = new string[] { "", "↻", "↺", "" };
 
-		static void UpdateAnalogueSensor(AlbertLinkAnalogueSensor sensor, ProgressBar progress, Label value, Label name, char letter) {
+		static void UpdateAnalogueSensor(AlbertLinkAnalogueSensor sensor, ProgressBar progress, Label value) {
 			if (SmartBox.SensorIsPresent(sensor.ID)) {
 				progress.Value = sensor.ADC;
 				value.Text = sensor.ADC.ToString();
-				var sensorName = SmartBox.GetSensorName(sensor.ID);
-				if (string.IsNullOrEmpty(sensorName)) {
-					name.Text = "Sensor " + letter;
-				} else {
-					name.Text = sensorName;
-				}
 			} else {
 				progress.Value = 0;
 				value.Text = "";
-				name.Text = "No sensor";
 			}
 		}
 
@@ -149,10 +142,10 @@ namespace SmartMove {
 
 			// Update analogue sensors
 
-			UpdateAnalogueSensor(state.SensorA, this.AnalogueAProgress, this.AnalogueAValue, this.AnalogueAName, 'A');
-			UpdateAnalogueSensor(state.SensorB, this.AnalogueBProgress, this.AnalogueBValue, this.AnalogueBName, 'B');
-			UpdateAnalogueSensor(state.SensorC, this.AnalogueCProgress, this.AnalogueCValue, this.AnalogueCName, 'C');
-			UpdateAnalogueSensor(state.SensorD, this.AnalogueDProgress, this.AnalogueDValue, this.AnalogueDName, 'D');
+			UpdateAnalogueSensor(state.SensorA, this.AnalogueAProgress, this.AnalogueAValue);
+			UpdateAnalogueSensor(state.SensorB, this.AnalogueBProgress, this.AnalogueBValue);
+			UpdateAnalogueSensor(state.SensorC, this.AnalogueCProgress, this.AnalogueCValue);
+			UpdateAnalogueSensor(state.SensorD, this.AnalogueDProgress, this.AnalogueDValue);
 
 
 			// Update digital sensors
@@ -230,6 +223,10 @@ namespace SmartMove {
 			// Have the labels changed?
 			if ((flags & AlteredFlags.LabelsChanged) != 0) {
 
+				this.AnalogueAName.Text = "A";
+				this.AnalogueBName.Text = "B";
+				this.AnalogueCName.Text = "C";
+				this.AnalogueDName.Text = "D";
 				this.Sensor0.Text = "0";
 				this.Sensor1.Text = "1";
 				this.Sensor2.Text = "2";
@@ -253,29 +250,31 @@ namespace SmartMove {
 
 				if (this.Link != null) {
 					foreach (var label in this.Link.ReadLabels()) {
-						if (!label.Soft) {
-							switch (label.OldName) {
-								case "SENSOR0": this.Sensor0.Text = "0: " + label.NewName; break;
-								case "SENSOR1": this.Sensor1.Text = "1: " + label.NewName; break;
-								case "SENSOR2": this.Sensor2.Text = "2: " + label.NewName; break;
-								case "SENSOR3": this.Sensor3.Text = "3: " + label.NewName; break;
-								case "SENSOR4": this.Sensor4.Text = "4: " + label.NewName; break;
-								case "SENSOR5": this.Sensor5.Text = "5: " + label.NewName; break;
-								case "SENSOR6": this.Sensor6.Text = "6: " + label.NewName; break;
-								case "SENSOR7": this.Sensor7.Text = "7: " + label.NewName; break;
-								case "OUTPUT0": this.Output0.Text = "0: " + label.NewName; break;
-								case "OUTPUT1": this.Output1.Text = "1: " + label.NewName; break;
-								case "OUTPUT2": this.Output2.Text = "2: " + label.NewName; break;
-								case "OUTPUT3": this.Output3.Text = "3: " + label.NewName; break;
-								case "OUTPUT4": this.Output4.Text = "4: " + label.NewName; break;
-								case "OUTPUT5": this.Output5.Text = "5: " + label.NewName; break;
-								case "OUTPUT6": this.Output6.Text = "6: " + label.NewName; break;
-								case "OUTPUT7": this.Output7.Text = "7: " + label.NewName; break;
-								case "MOTORA": this.MotorAName.Text = "A: " + label.NewName; break;
-								case "MOTORB": this.MotorBName.Text = "B: " + label.NewName; break;
-								case "MOTORC": this.MotorCName.Text = "C: " + label.NewName; break;
-								case "MOTORD": this.MotorDName.Text = "D: " + label.NewName; break;
-							}
+						switch (label.OldName) {
+							case "SENSORA": this.AnalogueAName.Text = "A: " + label.NewName; break;
+							case "SENSORB": this.AnalogueBName.Text = "B: " + label.NewName; break;
+							case "SENSORC": this.AnalogueCName.Text = "C: " + label.NewName; break;
+							case "SENSORD": this.AnalogueDName.Text = "D: " + label.NewName; break;
+							case "SENSOR0": this.Sensor0.Text = "0: " + label.NewName; break;
+							case "SENSOR1": this.Sensor1.Text = "1: " + label.NewName; break;
+							case "SENSOR2": this.Sensor2.Text = "2: " + label.NewName; break;
+							case "SENSOR3": this.Sensor3.Text = "3: " + label.NewName; break;
+							case "SENSOR4": this.Sensor4.Text = "4: " + label.NewName; break;
+							case "SENSOR5": this.Sensor5.Text = "5: " + label.NewName; break;
+							case "SENSOR6": this.Sensor6.Text = "6: " + label.NewName; break;
+							case "SENSOR7": this.Sensor7.Text = "7: " + label.NewName; break;
+							case "OUTPUT0": this.Output0.Text = "0: " + label.NewName; break;
+							case "OUTPUT1": this.Output1.Text = "1: " + label.NewName; break;
+							case "OUTPUT2": this.Output2.Text = "2: " + label.NewName; break;
+							case "OUTPUT3": this.Output3.Text = "3: " + label.NewName; break;
+							case "OUTPUT4": this.Output4.Text = "4: " + label.NewName; break;
+							case "OUTPUT5": this.Output5.Text = "5: " + label.NewName; break;
+							case "OUTPUT6": this.Output6.Text = "6: " + label.NewName; break;
+							case "OUTPUT7": this.Output7.Text = "7: " + label.NewName; break;
+							case "MOTORA": this.MotorAName.Text = "A: " + label.NewName; break;
+							case "MOTORB": this.MotorBName.Text = "B: " + label.NewName; break;
+							case "MOTORC": this.MotorCName.Text = "C: " + label.NewName; break;
+							case "MOTORD": this.MotorDName.Text = "D: " + label.NewName; break;
 						}
 					}
 				}
