@@ -13,6 +13,7 @@ namespace SmartMove {
 
 		public MainWindow() {
 			InitializeComponent();
+			this.Altered(AlteredFlags.LabelsChanged);
 			this.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
 			this.Text = Application.ProductName;
 			this.UpdateState(new AlbertLinkPortState());
