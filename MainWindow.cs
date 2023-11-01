@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using static System.Windows.Forms.AxHost;
 
 namespace SmartMove {
 
@@ -45,7 +43,7 @@ namespace SmartMove {
 					case (char)12: // Clear screen
 						if (parts.Length > 0) {
 							this.PrintOutput.AppendText(parts.ToString());
-							parts.Clear();
+							parts.Length = 0;
 						}
 						this.PrintOutput.Clear();
 						break;
@@ -60,7 +58,7 @@ namespace SmartMove {
 
 			if (parts.Length > 0) {
 				this.PrintOutput.AppendText(parts.ToString());
-				parts.Clear();
+				parts.Length = 0;
 			}
 
 			

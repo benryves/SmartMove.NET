@@ -213,8 +213,6 @@ namespace SmartMove {
 			if (!disposedValue) {
 				if (disposing) {
 					this.port?.Dispose();
-					this.reader?.Dispose();
-					this.writer?.Dispose();
 				}
 				disposedValue = true;
 			}

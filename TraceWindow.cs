@@ -20,7 +20,7 @@ namespace SmartMove {
 						case (char)12: // Clear screen
 							if (parts.Length > 0) {
 								this.TraceOutput.AppendText(parts.ToString());
-								parts.Clear();
+								parts.Length = 0;
 							}
 							this.TraceOutput.Clear();
 							break;
@@ -35,7 +35,7 @@ namespace SmartMove {
 
 				if (parts.Length > 0) {
 					this.TraceOutput.AppendText(parts.ToString());
-					parts.Clear();
+					parts.Length = 0;
 				}
 				this.TraceOutput.AppendText(Environment.NewLine);
 			}

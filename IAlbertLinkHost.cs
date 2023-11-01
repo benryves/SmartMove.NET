@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-namespace SmartMove {
+﻿namespace SmartMove {
 
 	public interface IAlbertLinkHost {
 

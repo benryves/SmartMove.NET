@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
-using System.IO.Ports;
 using System.Text;
-using System.Windows.Forms;
-using static SmartMove.SmartBox;
 
 namespace SmartMove {
 
