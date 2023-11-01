@@ -123,7 +123,9 @@
 			this.Name = "SerialPortWindow";
 			this.Padding = new System.Windows.Forms.Padding(8);
 			this.ShowIcon = false;
-			this.Text = "Serial Port";
+			this.ShowInTaskbar = false;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+			this.Text = "Smart Box Serial Port";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SerialPortWindow_FormClosing);
 			this.FieldTable.ResumeLayout(false);
 			this.DialogButtonTable.ResumeLayout(false);

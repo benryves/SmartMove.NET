@@ -121,6 +121,8 @@
 			this.Name = "TextInputWindow";
 			this.Padding = new System.Windows.Forms.Padding(8);
 			this.ShowIcon = false;
+			this.ShowInTaskbar = false;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Text Input";
 			this.FieldTable.ResumeLayout(false);
 			this.FieldTable.PerformLayout();

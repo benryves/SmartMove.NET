@@ -453,6 +453,7 @@ namespace SmartMove {
 		private void BuildToolStripMenuItem_Click(object sender, EventArgs e) {
 			if (this.buildProcedureTextInput == null || this.buildProcedureTextInput.IsDisposed) {
 				this.buildProcedureTextInput = new TextInputWindow {
+					Text = "Build Procedure",
 					Description = "Enter a name for the new procedure:",
 				};
 				this.buildProcedureTextInput.TextInputField.MaxLength = 15;
