@@ -23,7 +23,6 @@ namespace SmartMove {
 		private bool disposedValue;
 
 		public AlbertLinkWindowsHost() {
-			Application.EnableVisualStyles();
 			this.mainWindow = new MainWindow();
 			this.mainWindow.Show();
 		}
