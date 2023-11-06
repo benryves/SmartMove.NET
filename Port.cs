@@ -8,7 +8,7 @@ using System.Windows.Forms;
 namespace SmartMove {
 
 	/// <summary>
-	/// Provides low-level access to the Smart Box via a serial port.
+	/// Provides low-level access to the SmartBox via a serial port.
 	/// </summary>
 	public class Port : IDisposable {
 
@@ -19,9 +19,9 @@ namespace SmartMove {
 		private bool disposedValue;
 
 		/// <summary>
-		/// Creates an instance of the Smart Box port from a SerialPort instance.
+		/// Creates an instance of the SmartBox port from a SerialPort instance.
 		/// </summary>
-		/// <param name="port">The serial port to use to access the Smart Box.</param>
+		/// <param name="port">The serial port to use to access the SmartBox.</param>
 		public Port(SerialPort port) {
 			this.port = port;
 			if (!this.port.IsOpen) this.port.Open();
@@ -30,9 +30,9 @@ namespace SmartMove {
 		}
 
 		/// <summary>
-		/// Creates an instance of the Smart Box port from a serial port name.
+		/// Creates an instance of the SmartBox port from a serial port name.
 		/// </summary>
-		/// <param name="portName">The name of the serial port to use to access the Smart Box.</param>
+		/// <param name="portName">The name of the serial port to use to access the SmartBox.</param>
 		public Port(string portName) : this(new SerialPort(portName, 9600, Parity.None, 8, StopBits.One) {
 			Handshake = Handshake.RequestToSend,
 			ReadTimeout = 1000,
@@ -52,7 +52,7 @@ namespace SmartMove {
 		/// Handles the timeout situation by displaying a suitable error message.
 		/// </summary>
 		private void HandleTimeout() {
-			switch (MessageBox.Show("Please check Smart Box and the connecting lead.", "Smart Box is not responding", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2)) {
+			switch (MessageBox.Show("SmartBox is not responding." + Environment.NewLine + "Please check SmartBox and the connecting lead.", "SmartBox error on " + this.port.PortName, MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2)) {
 				case DialogResult.Cancel:
 					this.port.Close();
 					Application.Exit();

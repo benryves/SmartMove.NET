@@ -73,7 +73,7 @@
 			this.Name = "ConnectionWindow";
 			this.Padding = new System.Windows.Forms.Padding(21);
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "Connecting to Smart Box";
+			this.Text = "Downloading SmartMove code to SmartBox";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ConnectionWindow_FormClosing);
 			this.Load += new System.EventHandler(this.ConnectionWindow_Load);
 			this.tableLayoutPanel1.ResumeLayout(false);

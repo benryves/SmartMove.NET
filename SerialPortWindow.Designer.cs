@@ -40,7 +40,7 @@
 			this.DescriptionField.Name = "DescriptionField";
 			this.DescriptionField.Size = new System.Drawing.Size(333, 32);
 			this.DescriptionField.TabIndex = 0;
-			this.DescriptionField.Text = "Please select the Smart Box serial port:";
+			this.DescriptionField.Text = "Please select the SmartBox serial port:";
 			// 
 			// FieldTable
 			// 
@@ -125,7 +125,7 @@
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "Smart Box Serial Port";
+			this.Text = "SmartBox Serial Port";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SerialPortWindow_FormClosing);
 			this.FieldTable.ResumeLayout(false);
 			this.DialogButtonTable.ResumeLayout(false);

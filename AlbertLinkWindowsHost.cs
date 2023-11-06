@@ -40,7 +40,7 @@ namespace SmartMove {
 		public void Idle() {
 			if (controlError) {
 				controlError = false;
-				this.link.Error("CONTROL is not supported in this version of Smart Move");
+				this.link.Error("CONTROL is not supported in this version of SmartMove");
 			} else if (customFnError) {
 				customFnError = false;
 				this.link.Error("Bad expression");

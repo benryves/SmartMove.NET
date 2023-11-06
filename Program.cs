@@ -37,7 +37,7 @@ namespace SmartMove {
 				// Bail out if we're no longer running.
 				if (!running) break;
 
-				// Try to get the version number from the Smart Box.
+				// Try to get the version number from the SmartBox.
 				if (canOpenSerialPort) {
 					using (var smartBox = new SmartBox(serialPortName)) {
 						if (smartBox.GetVersion() == 0) {

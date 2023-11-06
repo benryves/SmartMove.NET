@@ -1021,12 +1021,12 @@
 			// 
 			// OpenDialog
 			// 
-			this.OpenDialog.Filter = "Smart Move Procedures (*.txt)|*.txt|All files (*.*)|*.*";
+			this.OpenDialog.Filter = "SmartMove Procedures (*.txt)|*.txt|All files (*.*)|*.*";
 			this.OpenDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.OpenDialog_FileOk);
 			// 
 			// SaveDialog
 			// 
-			this.SaveDialog.Filter = "Smart Move Procedures (*.txt)|*.txt|All files (*.*)|*.*";
+			this.SaveDialog.Filter = "SmartMove Procedures (*.txt)|*.txt|All files (*.*)|*.*";
 			this.SaveDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.SaveDialog_FileOk);
 			// 
 			// MainWindow
