@@ -45,6 +45,9 @@
   <ItemGroup>
     <Compile Include="AlbertLink.cs" />
     <Compile Include="AlbertLinkWindowsHost.cs" />
+    <Compile Include="AnalogueIndicatorBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="EditorWindow.cs">
       <SubType>Form</SubType>
     </Compile>
